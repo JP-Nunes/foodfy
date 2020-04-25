@@ -1,7 +1,7 @@
 {% extends "layout.njk" %}
 
 {% block content %}
-<div class="show-container">
+<div class="container show">
    <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
 
    <div class="presentation">
@@ -12,7 +12,7 @@
    <div class="recipe">
    
       <div class="ingredients">
-         <h3>Ingredientes:</h3>
+         <h3>Ingredientes: <a class="hide">Esconder</a></h3>
          <ul>
             {% for ingredient in recipe.ingredients %}
             <li>{{ ingredient }}</li>
@@ -21,7 +21,7 @@
       </div>
 
       <div class="preparation">
-         <h3>Modo de preparo:</h3>
+         <h3>Modo de preparo: <a class="hide">Esconder</a></h3>
          <ul>
             {% for step in recipe.preparation %}
             <li>{{ step }}</li>
@@ -30,13 +30,10 @@
       </div>
 
       <div class="information">
-         <h3>Informações adicionais:</h3>
+         <h3>Informações adicionais: <a class="hide">Esconder</a></h3>
          <p>{{ recipe.information }}</p>
       </div>
-
    </div>
 </div>
-
-
 
 {% endblock %}

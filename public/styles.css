@@ -16,8 +16,12 @@ body {
    background-color: #f9f9f9;
    display: flex;
    flex-direction: column;
-   max-width: 940px;
    width: 100%;
+}
+
+.container {
+   max-width: 940px;
+   width: 940px;
 
    margin: 0 auto;
 }
@@ -25,9 +29,18 @@ body {
 /* HEADER */
 
 header {
-   margin: 30px 0;
+   margin-top: 30px;
+   margin-bottom: 30px;
+
+   padding-left: 0;
+   margin-left: 0;
+   
    justify-content: center;
    position: relative;
+}
+
+header > a:nth-child(1) {
+   padding-left: 0;
 }
 
 header img {
@@ -40,11 +53,28 @@ header a {
    padding-left: 30px;
 }
 
+/* FOOTER */
+
+footer {
+   padding: 31px 0;
+   width: 100%;
+
+   background: #eeeeee;
+
+   text-align: center;
+}
+
+footer p {
+   margin-top: auto;
+   font-size: 14px;
+   color: #999999;
+}
+
 /** INDEX **/
 
 /* presentation card */
 
-.presentation-container {
+.presentation-card {
    background-color: #FBDFDB;
    
    position: relative;
@@ -58,19 +88,19 @@ header a {
    margin-bottom: 50px;
 }
 
-.presentation-container .presentation-message {
+.presentation-card .presentation-message {
    margin-left: 60px;
 
 }
 
-.presentation-container .presentation-message h1 {
+.presentation-card .presentation-message h1 {
    font-size: 32px;
    color: #111111;
 
    margin-top: 115px;
 }
 
-.presentation-container .presentation-message p {
+.presentation-card .presentation-message p {
    font-size: 18px;
    line-height: 28px;
    opacity: 0.7;
@@ -78,7 +108,7 @@ header a {
    margin-top: 10px;
 }
 
-.presentation-container img {
+.presentation-card img {
    width: 216px;
    height: 300px;
 
@@ -100,6 +130,8 @@ header a {
    display: grid;
    grid-template-columns: repeat(3, 1fr);
    grid-gap: 20px;
+
+   margin-bottom: 50px;
 }
 
 .most-accessed .cards .card img {
@@ -130,20 +162,20 @@ header a {
 
 /* presentation */
 
-.show-container img {
+.container.show img {
    border-radius: 15px;
    margin-bottom: 50px;
 }
 
-.show-container .presentation {
+.show .presentation {
    text-align: center;
 }
 
-.show-container .presentation h1 {
+.show .presentation h1 {
    font-size: 36px;
 }
 
-.show-container .presentation h3 {
+.show .presentation h3 {
    font-size: 20px;
    font-weight: normal;
    color: #777777;
@@ -157,6 +189,15 @@ header a {
    font-size: 24px;
 
    margin-bottom: 20px;
+}
+
+.recipe .hide {
+   color: #999999;
+   font-size: 12px;
+   font-weight: normal;
+   cursor: pointer;
+
+   margin-left: 8px;
 }
 
 .recipe li {
