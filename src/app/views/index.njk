@@ -17,7 +17,9 @@
       <ul>
          {% for recipe in recipes %}
          <li class="card">
+            <a href="/recipes/{{ recipe.id }}">
             <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+            </a>
             <a href="/recipes/{{ recipe.id }}">{{ recipe.title }}</a>
             <p>por: {{ recipe.author }}</p>
          </li>
