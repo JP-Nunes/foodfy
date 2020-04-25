@@ -4,9 +4,8 @@ const routes = express.Router()
 
 routes.get('/', (req, res) => {
    const recipes = [...data]
-   const recipeIndex = req.params.index
 
-   return res.render('index', { recipes, recipeIndex })
+   return res.render('index', { recipes })
 })
 
 routes.get('/recipes/:index', (req, res) => {
