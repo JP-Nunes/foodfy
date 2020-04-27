@@ -1,3 +1,5 @@
+const data = require('../../data')
+
 module.exports = {
    index(req, res) {
       res.send('to be implemented')
@@ -6,7 +8,13 @@ module.exports = {
       res.send('to be implemented')
    },
    show(req, res) {
-      res.send('to be implemented')
+      const recipes = [...data]
+      const recipeIndex = req.params.id
+      const recipe = recipes[recipeIndex]
+
+      console.log(recipe)
+
+      return res.render('recipes/show', { recipe })
    },
    edit(req, res) {
       res.send('to be implemented')

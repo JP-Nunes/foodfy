@@ -1,5 +1,5 @@
 const express = require('express')
-const data = require('./data') 
+const data = require('./data')
 const routes = express.Router()
 
 const AdminController = require('./app/controllers/AdminController')
@@ -7,14 +7,7 @@ const AdminController = require('./app/controllers/AdminController')
 routes.get('/', (req, res) => {
    const recipes = [...data]
 
-   return res.render('index', { recipes })
-})
-routes.get('/recipes/:id', (req, res) => {
-   const recipes = [...data]
-   const recipeIndex = req.params.index
-   const recipe = recipes[recipeIndex]
-
-   return res.render('recipes/show', { recipe })
+   return res.render('home/index', { recipes })
 })
 
 routes.get('/admin/recipes', AdminController.index)
