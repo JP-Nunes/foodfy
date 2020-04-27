@@ -10,10 +10,10 @@
    </div>
 
    <div class="recipe">
-   
       <div class="ingredients">
-         <h3>Ingredientes: <a class="hide">Esconder</a></h3>
-         <ul>
+         <h3>Ingredientes:</h3>
+         <a id="ingredient-clickable" class="clickable">Esconder</a>
+         <ul id="ingredient-content">
             {% for ingredient in recipe.ingredients %}
             <li>{{ ingredient }}</li>
             {% endfor %}
@@ -21,8 +21,9 @@
       </div>
 
       <div class="preparation">
-         <h3>Modo de preparo: <a class="hide">Esconder</a></h3>
-         <ul>
+         <h3>Modo de preparo:</h3>
+         <a id="preparation-clickable" class="clickable">Esconder</a>
+         <ul id="preparation-content">
             {% for step in recipe.preparation %}
             <li>{{ step }}</li>
             {% endfor %}
@@ -30,10 +31,59 @@
       </div>
 
       <div class="information">
-         <h3>Informações adicionais: <a class="hide">Esconder</a></h3>
-         <p>{{ recipe.information }}</p>
+         <h3>Informações adicionais:</h3>
+         <a id="information-clickable" class="clickable">Esconder</a>
+         <p id="information-content">{{ recipe.information }}</p>
       </div>
    </div>
 </div>
+
+<script>
+   const ingredientClickable = document.getElementById('ingredient-clickable')
+   const preparationClickable = document.getElementById('preparation-clickable')
+   const informationClickable = document.getElementById('information-clickable')
+
+   ingredientClickable.addEventListener('click', hideIngredient, false)
+   preparationClickable.addEventListener('click', hidePreparation, false)
+   informationClickable.addEventListener('click', hideInformation, false)
+
+   function hideIngredient() {
+      const content = document.getElementById('ingredient-content')
+
+
+      if(content.classList.value == 'hide') {
+         ingredientClickable.innerHTML = 'Esconder'
+         content.classList.remove('hide')
+      } else {
+         ingredientClickable.innerHTML = 'Mostrar'
+         content.classList.add('hide')
+      }
+   }
+
+   function hidePreparation() {
+      const content = document.getElementById('preparation-content')
+
+      if(content.classList.value == 'hide') {
+         preparationClickable.innerHTML = 'Esconder'
+         content.classList.remove('hide')
+      } else {
+         preparationClickable.innerHTML = 'Mostrar'
+         content.classList.add('hide')
+      }
+   }
+
+   function hideInformation() {
+      const content = document.getElementById('information-content')
+
+      if(content.classList.value == 'hide') {
+         informationClickable.innerHTML = 'Esconder'
+         content.classList.remove('hide')
+      } else {
+         informationClickable.innerHTML = 'Mostrar'
+         content.classList.add('hide')
+      }
+
+   }
+</script>
 
 {% endblock %}

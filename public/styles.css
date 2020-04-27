@@ -184,14 +184,15 @@ footer p {
 }
 
 /* recipe */
-
 .recipe h3 {
    font-size: 24px;
 
    margin-bottom: 20px;
+
+   display: inline;
 }
 
-.recipe .hide {
+.clickable {
    color: #999999;
    font-size: 12px;
    font-weight: normal;
@@ -223,4 +224,12 @@ footer p {
 
 .recipe .information {
    margin-bottom: 50px;
+}
+
+/* hide element */
+
+.hide {
+   opacity: 0;
+   height: 0;
+   margin-bottom: 150px;
 }
