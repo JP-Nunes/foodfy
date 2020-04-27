@@ -4,7 +4,7 @@
 
 {% include "parts/header.njk" %}
 
-<div class="container recipes-list">
+<div class="container recipes-container">
    <h2>Gerenciar receitas</h2>
 
    <ul id="recipe-list">
@@ -12,8 +12,11 @@
       
       <li class="recipe-card">
          <img src="{{ recipe.image }}" alt="">
-         <p>por: {{ recipe.author }}</p>
-         <a href="#">Visualizar</a>
+         <div class="card-info">
+            <h3>{{ recipe.title }}</h3>
+            <p>por: {{ recipe.author }}</p>
+            <a href="#">Visualizar</a>
+         </div>
       </li>
       
       {% endfor %}

@@ -10,12 +10,18 @@
    border: none;
 }
 
+html, body {
+   height: 100%;
+}
+
 body {
    font-family: 'Roboto', sans-serif;
-
+   
    background-color: #f9f9f9;
+   
    display: flex;
    flex-direction: column;
+   
    width: 100%;
 }
 
@@ -23,34 +29,24 @@ body {
    max-width: 940px;
    width: 940px;
 
+   flex: 1 0 auto;
    margin: 0 auto;
 }
 
-/* HEADER */
+/* GENERAL HEADER */
 
-header {
-   margin-top: 30px;
-   margin-bottom: 30px;
+#general-header {
+   background-color: #0f0e0e;
 
-   padding-left: 0;
-   margin-left: 0;
+   padding: 40px 0;
+   margin-bottom: 50px;
    
-   justify-content: center;
    position: relative;
 }
 
-header > a:nth-child(1) {
-   padding-left: 0;
-}
-
-header img {
-   margin-right: 123px;
+#general-header img {
+   margin-left: 231px;
    vertical-align: middle;
-}
-
-header a {
-   color: #111111;
-   padding-left: 30px;
 }
 
 /* FOOTER */
@@ -62,6 +58,7 @@ footer {
    background: #eeeeee;
 
    text-align: center;
+   flex-shrink: 0;
 }
 
 footer p {
@@ -70,9 +67,31 @@ footer p {
    color: #999999;
 }
 
-/** INDEX **/
+/** HOME **/
 
 /* presentation card */
+
+.container #home-header {
+   padding-top: 30px;
+   margin-bottom: 30px;
+   
+   justify-content: center;
+   position: relative;
+}
+
+.container #home-header > a:nth-child(1) {
+   padding-left: 0;
+}
+
+.container #home-header img {
+   margin-right: 123px;
+   vertical-align: middle;
+}
+
+.container #home-header a {
+   color: #111111;
+   padding-left: 30px;
+}
 
 .presentation-card {
    background-color: #FBDFDB;
@@ -187,8 +206,6 @@ footer p {
 .recipe h3 {
    font-size: 24px;
 
-   margin-bottom: 20px;
-
    display: inline;
 }
 
@@ -232,4 +249,50 @@ footer p {
    opacity: 0;
    height: 0;
    margin-bottom: 150px;
+}
+
+/** RECIPES INDEX **/
+
+.recipes-container h2 {
+   font-size: 24px;
+   color: #111111;
+
+   margin-bottom: 30px;
+}
+
+#recipe-list {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+}
+
+#recipe-list .recipe-card {
+   display: grid;
+   grid-template-columns: 172px 1fr;
+   grid-column-gap: 20px;
+   
+   margin-bottom: 20px;
+}
+
+#recipe-list .recipe-card img {
+   width: 172px;
+   height: 80px;
+
+   border-radius: 8.5px;
+}
+
+#recipe-list .recipe-card .card-info h3 {
+   font-size: 18px;
+   font-weight: normal;
+}
+
+#recipe-list .recipe-card .card-info p {
+   font-size: 14px;
+   color: #777777;
+
+   margin-bottom: 10px;
+}
+
+#recipe-list .recipe-card .card-info a {
+   font-size: 14px;
+   color: #6558c3;
 }
