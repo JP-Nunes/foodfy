@@ -9,20 +9,9 @@
    {% endblock %}
 </head>
 <body>
-   <div class="container">
-      <header>
-         <a href="/">
-            <img src="/images/logo.png" alt="">
-         </a>
-         <a href="#">Sobre</a>
-         <a href="#">Receitas</a>
-      </header>
-   </div>
 
    {% block content %}{% endblock %}
 
-   <footer>
-      <p>Todos os direitos reservado à FoodFy</p>
-   </footer>
+   {% include "parts/footer.njk" %}
 </body>
 </html>
