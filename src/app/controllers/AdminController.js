@@ -7,7 +7,7 @@ module.exports = {
       res.render('recipes/index', { recipes })
    },
    create(req, res) {
-      res.send('to be implemented')
+      res.render('recipes/create')
    },
    show(req, res) {
       const recipes = [...data]
