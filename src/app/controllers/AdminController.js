@@ -20,7 +20,9 @@ module.exports = {
       res.send('to be implemented')
    },
    post(req, res) {
-      res.send('to be implemented')
+      const recipe = req.body
+
+      res.send(recipe)
    },
    put(req, res) {
       res.send('to be implemented')
