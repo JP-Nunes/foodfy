@@ -1,6 +1,9 @@
 {% extends "layout.njk" %}
 
 {% block content %}
+
+{% include "parts/header.njk" %}
+
 <div class="container show">
    <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
 
@@ -37,6 +40,8 @@
       </div>
    </div>
 </div>
+
+{% endblock %}
 
 <script>
    const ingredientClickable = document.getElementById('ingredient-clickable')
@@ -85,5 +90,3 @@
 
    }
 </script>
-
-{% endblock %}
