@@ -11,18 +11,16 @@
       {% for recipe in recipes %}
       
       <li class="recipe-card">
-         <img src="{{ recipe.image }}" alt="">
+         <img src="{{recipe.image}}" alt="">
          <div class="card-info">
             <h3>{{ recipe.title }}</h3>
             <p>por: {{ recipe.author }}</p>
-            <a href="#">Visualizar</a>
+            <a href="recipes/{{recipe.id}}">Visualizar</a>
          </div>
       </li>
       
       {% endfor %}
    </ul>
 </div>
-
-
 
 {% endblock %}
