@@ -4,7 +4,7 @@
 
 {% include "parts/header.njk" %}
 
-<div class="container recipes-container">
+<div class="container create-container">
    <h2>Criando receita</h2>
 
    <form class="card" method="POST" action="/admin/recipes">
@@ -21,24 +21,30 @@
 
       <div class="item">
          <div class="item-title">Ingredientes</div>
-         <div>
-            <input 
-               type="text"
-               name="ingredients"
-               placeholder="200g de mussarela, 3 ovos"
-            >
+         <div id="ingredients">
+            <div class="ingredient">
+               <input 
+                  type="text"
+                  name="ingredients[]"
+                  placeholder="200g de mussarela"
+               >
+            </div>
          </div>
+         <div class="add" id="add-ingredient">Adicionar ingrediente</div>
       </div>
 
       <div class="item">
          <div class="item-title">Modo de preparo</div>
-         <div>
-            <input 
-               type="text"
-               name="method"
-               placeholder="Primeiro, corte a mussarela em cubinhos..."
-            >
+         <div id="steps">
+            <div class="step">
+               <input 
+                  type="text"
+                  name="steps[]"
+                  placeholder="Primeiro, corte a mussarela em cubinhos..."
+               >
+            </div>
          </div>
+         <div class="add" id="add-step">Adicionar passo</div>
       </div>
 
       <div class="item">
@@ -47,7 +53,45 @@
             <textarea name="aditional_info" cols="30" rows="10"></textarea>
          </div>
       </div>
+
+      <button type="submit">Salvar</button>
    </form>
 </div>
+
+
+<script>
+   const ingredientClicker = document.querySelector('#add-ingredient')
+   const stepClicker = document.querySelector('#add-step')
+   
+   ingredientClicker.addEventListener('click', addIngredient)
+   stepClicker.addEventListener('click', addStep)
+
+   function addIngredient() {
+
+      const ingredients = document.querySelector('#ingredients');
+      const fieldContainer = document.querySelectorAll('.ingredient');
+
+      const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
+
+      if(newField.children[0].value == '') return false
+
+      newField.children[0].value == ''
+      ingredients.appendChild(newField)
+   }
+
+   function addStep() {
+
+      const steps = document.querySelector('#steps');
+      const fieldContainer = document.querySelectorAll('.step');
+
+      const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
+
+      if(newField.children[0].value == '') return false
+
+      newField.children[0].value == ''
+      steps.appendChild(newField)
+   }
+
+</script>
 
 {% endblock %}
