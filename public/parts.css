@@ -1,0 +1,33 @@
+/* GENERAL HEADER */
+
+#general-header {
+   background-color: #0f0e0e;
+
+   padding: 40px 0;
+   margin-bottom: 50px;
+   
+   position: relative;
+}
+
+#general-header img {
+   margin-left: 231px;
+   vertical-align: middle;
+}
+
+/* FOOTER */
+
+footer {
+   padding: 31px 0;
+   width: 100%;
+
+   background: #eeeeee;
+
+   text-align: center;
+   flex-shrink: 0;
+}
+
+footer p {
+   margin-top: auto;
+   font-size: 14px;
+   color: #999999;
+}
