@@ -1,0 +1,53 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "parts/header.njk" %}
+
+<div class="container recipes-container">
+   <h2>Criando receita</h2>
+
+   <form class="card" method="POST" action="/admin/recipes">
+      <div class="item">
+         <div class="item-title">Imagem da receita</div>
+         <div>
+            <input 
+               type="url"
+               name="recipe_img"
+               placeholder="http://"
+            >
+         </div>
+      </div>
+
+      <div class="item">
+         <div class="item-title">Ingredientes</div>
+         <div>
+            <input 
+               type="text"
+               name="ingredients"
+               placeholder="200g de mussarela, 3 ovos"
+            >
+         </div>
+      </div>
+
+      <div class="item">
+         <div class="item-title">Modo de preparo</div>
+         <div>
+            <input 
+               type="text"
+               name="method"
+               placeholder="Primeiro, corte a mussarela em cubinhos..."
+            >
+         </div>
+      </div>
+
+      <div class="item">
+         <div class="item-title">Informações adicionais</div>
+         <div>
+            <textarea name="aditional_info" cols="30" rows="10"></textarea>
+         </div>
+      </div>
+   </form>
+</div>
+
+{% endblock %}
