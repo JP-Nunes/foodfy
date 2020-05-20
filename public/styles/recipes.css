@@ -118,13 +118,13 @@
    margin-bottom: 150px;
 }
 
-/** RECIPE CREATE **/
+/** RECIPE FIELDS **/
 
-.create-container {
+.fields-container {
    position: relative;
 }
 
-.create-container h2 {
+.fields-container h2 {
    font-size: 24px;
    font-weight: bold;
 
@@ -175,6 +175,10 @@
    border: 1px solid #DDDDDD;
    border-radius: 4px;
    margin-bottom: 50px;
+
+   font-size: 16px;
+   color: rgb(110, 110, 110) ;
+   font-family: 'Roboto', sans-serif;
 }
 
 .card button {
@@ -193,6 +197,30 @@
 }
 
 .card button:hover {
+   opacity: 0.8;
+   cursor: pointer;
+
+   transition: all 500ms;
+}
+
+/* edit button delete */
+
+.card #delete-button {
+   background: #DC4747;
+   border-radius: 4px;
+
+   height: 37px;
+   width: 139px;
+
+   font-size: 16px;
+   color: #FFFFFF;
+
+   position: absolute;
+   top: 0;
+   right: 149px;
+}
+
+.card #delete-button:hover {
    opacity: 0.8;
    cursor: pointer;
 

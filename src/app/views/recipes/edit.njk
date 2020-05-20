@@ -1,0 +1,57 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "parts/header.njk" %}
+
+<div class="container fields-container">
+   <h2>Editando receita</h2>
+
+   <form class="card" method="POST" action="/admin/recipes?_method=PUT">
+      
+      {% include "recipes/fields.njk" %}
+
+      <form id="form-delete" method="POST" action="/admin/recipes?_method=DELETE">
+         <input type="hidden" name="id" value={{recipe.id}}>
+         <button id="delete-button" type="submit">Deletar</button>
+      </form>
+   </form>
+</div>
+
+
+<script>
+   const ingredientClicker = document.querySelector('#add-ingredient')
+   const stepClicker = document.querySelector('#add-step')
+   
+   ingredientClicker.addEventListener('click', addIngredient)
+   stepClicker.addEventListener('click', addStep)
+
+   function addIngredient() {
+
+      const ingredients = document.querySelector('#ingredients');
+      const fieldContainer = document.querySelectorAll('.ingredient');
+
+      const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
+
+      if(newField.children[0].value == '') return false
+
+      newField.children[0].value == ''
+      ingredients.appendChild(newField)
+   }
+
+   function addStep() {
+
+      const steps = document.querySelector('#steps');
+      const fieldContainer = document.querySelectorAll('.step');
+
+      const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
+
+      if(newField.children[0].value == '') return false
+
+      newField.children[0].value == ''
+      steps.appendChild(newField)
+   }
+
+</script>
+
+{% endblock %}
