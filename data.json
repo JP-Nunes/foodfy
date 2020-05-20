@@ -1,0 +1,24 @@
+{
+  "recipes": [
+    {
+      "recipe_img": "http://www.www.www",
+      "ingredients": [
+        "200g de mussarela"
+      ],
+      "steps": [
+        "Primeiro, corte em cubos"
+      ],
+      "aditional_info": "blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá. "
+    },
+    {
+      "recipe_img": "http://www.www.www",
+      "ingredients": [
+        "200g de mortadela"
+      ],
+      "steps": [
+        "Primeiro, corte em cubos"
+      ],
+      "aditional_info": "blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá. \r\nblá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá, blá. "
+    }
+  ]
+}
