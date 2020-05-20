@@ -1,13 +1,16 @@
+const fs = require('fs')
+
 const data = require('../../data')
+const dataJson = require('../../../data.json')
 
 module.exports = {
    index(req, res) {
       recipes = [...data]
 
-      res.render('recipes/index', { recipes })
+      return res.render('recipes/index', { recipes })
    },
    create(req, res) {
-      res.render('recipes/create')
+      return res.render('recipes/create')
    },
    show(req, res) {
       const recipes = [...data]
@@ -17,17 +20,33 @@ module.exports = {
       return res.render('recipes/show', { recipe })
    },
    edit(req, res) {
-      res.send('to be implemented')
+      const recipes = [...data]
+      const recipeIndex = req.params.id
+      const recipe = recipes[recipeIndex]
+
+      return res.render('recipes/edit', { recipe })
    },
    post(req, res) {
-      const recipe = req.body
+      const keys = Object.keys(req.body)
 
-      res.send(recipe)
+      for(key of keys) {
+         if(req.body[key] == 'null') {
+            res.send('Please, fill all fields')
+         }
+      }
+
+      dataJson.recipes.push(req.body)
+
+      fs.writeFile('data.json', JSON.stringify(dataJson, null, 2), err => { 
+         if(err) return res.send("Error") 
+      })
+
+      return res.send(recipe)
    },
    put(req, res) {
-      res.send('to be implemented')
+      return res.send('to be implemented')
    },
    delete(req, res) {
-      res.send('to be implemented')
+      return res.send('to be implemented')
    }
 }
