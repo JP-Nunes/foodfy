@@ -1,0 +1,50 @@
+<div class="item">
+   <div class="item-title">Imagem da receita</div>
+   <div>
+      <input 
+         type="url"
+         name="recipe_img"
+         value="{{recipe.image}}"
+         placeholder="http://"
+      >
+   </div>
+</div>
+
+<div class="item">
+   <div class="item-title">Ingredientes</div>
+   <div id="ingredients">
+      <div class="ingredient">
+         <input 
+            type="text"
+            name="ingredients[]"
+            value="{{recipe.ingredients}}"
+            placeholder="200g de mussarela"
+         >
+      </div>
+   </div>
+   <div class="add" id="add-ingredient">Adicionar ingrediente</div>
+</div>
+
+<div class="item">
+   <div class="item-title">Modo de preparo</div>
+   <div id="steps">
+      <div class="step">
+         <input 
+            type="text"
+            name="steps[]"
+            value="{{recipe.preparation}}"
+            placeholder="Primeiro, corte a mussarela em cubinhos..."
+         >
+      </div>
+   </div>
+   <div class="add" id="add-step">Adicionar passo</div>
+</div>
+
+<div class="item">
+   <div class="item-title">Informações adicionais</div>
+   <div>
+      <textarea name="aditional_info" cols="30" rows="10">{{recipe.information}}</textarea>
+   </div>
+</div>
+
+<button type="submit">Salvar</button>
