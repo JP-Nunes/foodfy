@@ -3,9 +3,22 @@
    <div>
       <input 
          type="url"
-         name="recipe_img"
+         name="image"
          value="{{recipe.image}}"
          placeholder="http://"
+      >
+   </div>
+</div>
+
+<div class="item">
+   <div class="item-title">Nome da receita</div>
+   <div>
+      <input 
+         id="title-input"
+         type="text"
+         name="title"
+         value="{{recipe.title}}"
+         placeholder="Cheese sandwich"
       >
    </div>
 </div>
@@ -43,7 +56,7 @@
 <div class="item">
    <div class="item-title">Informações adicionais</div>
    <div>
-      <textarea name="aditional_info" cols="30" rows="10">{{recipe.information}}</textarea>
+      <textarea name="aditional_info" cols="30" rows="10">{{recipe.aditional_info}}</textarea>
    </div>
 </div>
 
