@@ -1,0 +1,17 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "parts/header.njk" %}
+
+<div class="container fields-container">
+   <h2>Novo Chef</h2>
+
+   <form class="card" method="POST" action="/chefs">
+      
+      {% include "chefs/fields.njk" %}
+      
+   </form>
+</div>
+
+{% endblock %}

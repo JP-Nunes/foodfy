@@ -8,7 +8,7 @@ module.exports = {
       return res.send('To be implemented')
    },
    create(req, res) {
-      return res.send('To be implemented')
+      return res.render('chefs/create')
    },
    show(req, res) {
       return res.send('To be implemented')
