@@ -11,11 +11,10 @@
       
       {% include "recipes/fields.njk" %}
       
+   </form>
+   <form class="card" id="form-delete" method="POST" action="/admin/recipes?_method=DELETE">
       <input type="hidden" name="id" value={{recipe.id}}>
-
-      <form id="form-delete" method="POST" action="/admin/recipes?_method=DELETE">
-         <button id="delete-button" type="submit">Deletar</button>
-      </form>
+      <button id="delete-button" type="submit">Deletar</button>
    </form>
 </div>
 

@@ -52,10 +52,10 @@ module.exports = {
          }
       }
 
-      console.log(req.body.id)
-
-      const { id } = req.body
+      const id = req.body.id
       let index = 0
+
+      console.log(req.body.id)
 
       const foundRecipe = dataJson.recipes.find((recipe, foundIndex) => {
          if(id == recipe.id) {
@@ -82,6 +82,20 @@ module.exports = {
       return res.redirect(`recipes/${id}`)
    },
    delete(req, res) {
-      return res.send('to be implemented')
+      const { id } = req.body
+
+      const filteredRecipes = dataJson.recipes.filter(recipe => {
+         if(recipe.id != id) {
+            return true
+         }
+      })
+
+      dataJson.recipes = filteredRecipes
+
+      fs.writeFile('data.json', JSON.stringify(dataJson, null, 2), err => { 
+         if(err) return res.send("Error") 
+      })
+
+      return res.redirect(`recipes/`)
    }
 }

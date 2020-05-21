@@ -1,16 +1,3 @@
 {
-  "recipes": [
-    {
-      "id": "0",
-      "image": "https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/launchbase/receitas/burger.png",
-      "title": "Duplo bacon burger",
-      "ingredients": [
-        "200g de mussarela"
-      ],
-      "steps": [
-        ""
-      ],
-      "aditional_info": "jfkjmghyfghjkhgh"
-    }
-  ]
+  "recipes": []
 }
