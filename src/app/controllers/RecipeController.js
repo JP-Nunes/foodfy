@@ -41,7 +41,7 @@ module.exports = {
          if(err) return res.send("Error") 
       })
 
-      return res.redirect('/admin/recipes')
+      return res.redirect('/recipes')
    },
    put(req, res) {
       const keys = Object.keys(req.body)
@@ -96,6 +96,6 @@ module.exports = {
          if(err) return res.send("Error") 
       })
 
-      return res.redirect(`recipes/`)
+      return res.redirect('/recipes')
    }
 }
