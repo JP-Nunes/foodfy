@@ -20,7 +20,7 @@ module.exports = {
       return res.render('recipes/show', { recipe })
    },
    edit(req, res) {
-      const recipes = [...data]
+      const recipes = [...dataJson.recipes]
       const recipeIndex = req.params.id
       const recipe = recipes[recipeIndex]
 
@@ -41,10 +41,45 @@ module.exports = {
          if(err) return res.send("Error") 
       })
 
-      return res.send(recipe)
+      return res.redirect('/admin/recipes')
    },
    put(req, res) {
-      return res.send('to be implemented')
+      const keys = Object.keys(req.body)
+
+      for(key of keys) {
+         if(req.body[key] == 'null') {
+            res.send('Please, fill all fields')
+         }
+      }
+
+      console.log(req.body.id)
+
+      const { id } = req.body
+      let index = 0
+
+      const foundRecipe = dataJson.recipes.find((recipe, foundIndex) => {
+         if(id == recipe.id) {
+            index = foundIndex
+            return true
+         }
+      })
+
+      if(!foundRecipe) {
+         return res.send('Recipe not found')
+      }
+      
+      const recipe = {
+         ...foundRecipe,
+         ...req.body
+      }
+
+      dataJson.recipes[index] = recipe
+   
+      fs.writeFile('data.json', JSON.stringify(dataJson, null, 2), err => { 
+         if(err) return res.send("Error") 
+      })
+
+      return res.redirect(`recipes/${id}`)
    },
    delete(req, res) {
       return res.send('to be implemented')
