@@ -1,0 +1,45 @@
+/** CHEFS INDEX **/
+.chefs-container h1 {
+   font-size: 24px;
+
+   margin-bottom: 30px;
+}
+
+#chefs {
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+}
+
+#chefs .chef{
+   display: grid;
+   grid-template-columns: 65px 1fr;
+   grid-column-gap: 20px;
+
+   align-items: center;
+
+   margin-bottom: 30px;
+}
+
+#chefs .chef span {
+   width: 64px;
+   height: 64px;
+
+   background-position: center;
+   background-size: cover;
+
+   border-radius: 50%;
+   box-shadow: 3px 1px 6px -4px black;
+}
+
+#chefs .chef  h4 {
+   font-size: 18px;
+   font-weight: normal;
+
+   margin-bottom: 10px;
+}
+
+#chefs .chef  a {
+   font-size: 14px;
+   font-weight: bold;
+   color: #6558C3;
+}

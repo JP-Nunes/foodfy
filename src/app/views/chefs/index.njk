@@ -1,0 +1,26 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "parts/header.njk" %}
+
+<div class="container chefs-container">
+   <h1>Gerenciar Chefs</h1>
+   
+   <ul id="chefs">
+      {% for chef in chefs %}
+      
+      <li class="chef">
+         <span style="background-image: url({{chef.image}})"></span>
+         <div class="info">
+            <h4>{{chef.name}}</h4>
+            <a href="chefs/{{chef.id}}">Visualizar</a>
+         </div>
+      </li>
+
+      {% endfor %}
+   </ul>
+
+</div>
+
+{% endblock %}
