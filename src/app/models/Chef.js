@@ -22,7 +22,7 @@ module.exports = {
       ]
 
       db.query(query, values, (error, results) => {
-         if(error) return results.send('Database Error!')
+         if(error) return res.send('Database Error!')
 
          callback(results.rows[0])
       })
