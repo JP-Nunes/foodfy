@@ -2,7 +2,11 @@ const Chef = require('../models/Chef')
 
 module.exports = {
    index(req, res) {
-      return res.send('To be implemented')
+      const chefs = Chef.all((chefs) => {
+         
+         return res.render('chefs/index', { chefs })
+      })
+      
    },
    create(req, res) {
       return res.render('chefs/create')

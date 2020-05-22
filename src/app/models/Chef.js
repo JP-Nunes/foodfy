@@ -2,6 +2,13 @@ const db = require('../../config/db')
 const { date } = require('../../lib/utils')
 
 module.exports = {
+   all(callback) {
+      db.query(`SELECT * FROM chefs ORDER BY name ASC`, (error, results) => {
+         if(error) return results.send('Database Error!')
+
+         callback(results.rows)
+      })
+   },
    post(data, callback) {
       const query = `
          INSERT INTO chefs (
