@@ -1,7 +1,4 @@
-const fs = require('fs')
-
-const data = require('../../data')
-const dataJson = require('../../../data.json')
+const Chef = require('../models/Chef')
 
 module.exports = {
    index(req, res) {
@@ -11,13 +8,23 @@ module.exports = {
       return res.render('chefs/create')
    },
    show(req, res) {
-      return res.send('To be implemented')
+      return res.render('chefs/show')
    },
    edit(req, res) {
       return res.send('To be implemented')
    },
    post(req, res) {
-      return res.send('To be implemented')
+      const keys = Object.keys(req.body)
+
+      for(key of keys) {
+         if(req.body[key] == '') {
+            return res.send('Please, fill all fields')
+         }
+      }
+
+      Chef.post(req.body, function(chef) {
+         return res.redirect(`chefs/${chef.id}`)
+      })
    },
    put(req, res) {
       return res.send('To be implemented')
