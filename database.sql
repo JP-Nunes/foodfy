@@ -13,7 +13,7 @@ CREATE TABLE "recipes" (
 
 CREATE TABLE "chefs" (
   "id" SERIAL PRIMARY KEY,
-  "title" text NOT NULL,
+  "name" text NOT NULL,
   "image" text NOT NULL,
   "created_at" timestamp DEFAULT (now())
 );
