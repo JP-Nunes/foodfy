@@ -1,0 +1,25 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "parts/header.njk" %}
+
+<div class="container chef-container">
+   <div class="top-content">
+      <h2>Chef: Fulano</h2>
+      <button>Editar</button>
+   </div>
+   <div class="chef-presentation">
+      <img src="../../assets/images/chef.png" alt="Imagem do chef">
+      <h1>Chef</h1>
+      <p>1 receita</p>
+   </div>
+   <div class="chef-recipes">
+      <img src="../../assets/images/logo.png" alt="Imagem da receita">
+      <h4>Lasanha mac n'cheese</h4>
+      <p>por: Chef</p>
+      <a href="#">Visualizar</a>
+   </div>
+</div>
+
+{% endblock %}
