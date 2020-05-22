@@ -1,3 +1,4 @@
+-- Creating database and tables
 CREATE DATABASE foodfy;
 
 CREATE TABLE "recipes" (
@@ -7,7 +8,7 @@ CREATE TABLE "recipes" (
   "title" text NOT NULL,
   "ingredients" text[] NOT NULL,
   "preparation" text[] NOT NULL,
-  "information" text NOT NULL,
+  "information" text,
   "created_at" timestamp DEFAULT (now())
 );
 
@@ -17,3 +18,9 @@ CREATE TABLE "chefs" (
   "image" text NOT NULL,
   "created_at" timestamp DEFAULT (now())
 );
+
+-- Joining tables
+
+SELECT * FROM chefs
+LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
+ORDER BY chefs.id
