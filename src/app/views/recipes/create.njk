@@ -7,9 +7,11 @@
 <div class="container fields-container">
    <h2>Criando receita</h2>
 
-   <form class="card" method="POST" action="/admin/recipes">
+   <form class="card" method="POST" action="/recipes">
       
       {% include "recipes/fields.njk" %}
+
+      <button class="button" type="submit">Salvar</button>
       
    </form>
 </div>

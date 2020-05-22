@@ -5,17 +5,22 @@
 {% include "parts/header.njk" %}
 
 <div class="container fields-container">
+
    <h2>Editando receita</h2>
 
    <form class="card" method="POST" action="/admin/recipes?_method=PUT">
       
       {% include "recipes/fields.njk" %}
+
+      <button class="button" type="submit">Salvar</button>
       
    </form>
+
    <form class="card" id="form-delete" method="POST" action="/admin/recipes?_method=DELETE">
       <input type="hidden" name="id" value={{recipe.id}}>
-      <button id="delete-button" type="submit">Deletar</button>
+      <button class="delete-button" type="submit">Deletar</button>
    </form>
+
 </div>
 
 
