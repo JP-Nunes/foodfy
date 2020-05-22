@@ -24,6 +24,28 @@
 </div>
 
 <div class="item">
+   <div class="item-title">Chef</div>
+   <div>
+      <select name="chef_id">
+         
+         <option style="display:none">
+
+         {% for chef in chefsNameAndId %}
+            
+            <option
+               value={{chef.id}} 
+               {% if recipes.chef_id == chefs.id %} selected {% endif %}
+            >
+            {{chef.name}}
+            </option>
+         
+         {% endfor %}
+
+      </select>
+   </div>
+</div>
+
+<div class="item">
    <div class="item-title">Ingredientes</div>
    <div id="ingredients">
       <div class="ingredient">
@@ -44,7 +66,7 @@
       <div class="step">
          <input 
             type="text"
-            name="steps[]"
+            name="preparation[]"
             value="{{recipe.preparation}}"
             placeholder="Primeiro, corte a mussarela em cubinhos..."
          >
@@ -56,8 +78,6 @@
 <div class="item">
    <div class="item-title">Informações adicionais</div>
    <div>
-      <textarea name="aditional_info" cols="30" rows="10">{{recipe.aditional_info}}</textarea>
+      <textarea name="information" cols="30" rows="10">{{recipe.aditional_info}}</textarea>
    </div>
 </div>
-
-<button type="submit">Salvar</button>
