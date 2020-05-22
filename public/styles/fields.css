@@ -18,7 +18,8 @@
    margin-bottom: 10px;
 }
 
-.item input {
+.item input,
+.item select {
    height: 49px;
    width: 100%;
 
@@ -28,7 +29,11 @@
 
    font-size: 16px;
    padding-left: 10px;
-   color: rgb(110, 110, 110) ;
+   color: rgb(39, 38, 38) ;
+}
+
+.item select {
+   margin-bottom: 30px;
 }
 
 .item:first-child {
@@ -61,52 +66,6 @@
    margin-bottom: 50px;
 
    font-size: 16px;
-   color: rgb(110, 110, 110) ;
+   color: rgb(39, 38, 38) ;
    font-family: 'Roboto', sans-serif;
-}
-
-.card button {
-   background: #6558C3;
-   border-radius: 4px;
-
-   height: 37px;
-   width: 139px;
-
-   font-size: 16px;
-   color: #FFFFFF;
-
-   position: absolute;
-   top: 0;
-   right: 0;
-}
-
-.card button:hover {
-   opacity: 0.8;
-   cursor: pointer;
-
-   transition: all 500ms;
-}
-
-/* edit button delete */
-
-.card #delete-button {
-   background: #DC4747;
-   border-radius: 4px;
-
-   height: 37px;
-   width: 139px;
-
-   font-size: 16px;
-   color: #FFFFFF;
-
-   position: absolute;
-   top: 0;
-   right: 149px;
-}
-
-.card #delete-button:hover {
-   opacity: 0.8;
-   cursor: pointer;
-
-   transition: all 500ms;
 }

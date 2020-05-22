@@ -32,3 +32,51 @@ body {
    flex: 1 0 auto;
    margin: 0 230px;
 }
+
+/* button */
+
+.button {
+   background: #6558C3;
+   border-radius: 4px;
+
+   height: 37px;
+   width: 139px;
+
+   font-size: 16px;
+   color: #FFFFFF;
+
+   position: absolute;
+   top: 0;
+   right: 0;
+}
+
+.button:hover {
+   opacity: 0.8;
+   cursor: pointer;
+
+   transition: all 500ms;
+}
+
+/* delete button */
+
+.delete-button {
+   background: #DC4747;
+   border-radius: 4px;
+
+   height: 37px;
+   width: 139px;
+
+   font-size: 16px;
+   color: #FFFFFF;
+
+   position: absolute;
+   top: 0;
+   right: 149px;
+}
+
+.delete-button:hover {
+   opacity: 0.8;
+   cursor: pointer;
+
+   transition: all 500ms;
+}
