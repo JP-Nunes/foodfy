@@ -1,3 +1,5 @@
+const Recipe = require('../models/Recipe')
+
 const fs = require('fs')
 
 const data = require('../../data')
@@ -10,14 +12,17 @@ module.exports = {
       return res.render('recipes/index', { recipes })
    },
    create(req, res) {
-      return res.render('recipes/create')
+      Recipe.nameAndId(data => {
+
+         return res.render('recipes/create', { chefsNameAndId: data })
+      })
+
    },
    show(req, res) {
-      const recipes = [...data]
-      const recipeIndex = req.params.id
-      const recipe = recipes[recipeIndex]
+      Recipe.find(req.params.id, recipe => {
 
-      return res.render('recipes/show', { recipe })
+         return res.render('recipes/show', { recipe })
+      })
    },
    edit(req, res) {
       const recipes = [...dataJson.recipes]
@@ -35,13 +40,11 @@ module.exports = {
          }
       }
 
-      dataJson.recipes.push(req.body)
-
-      fs.writeFile('data.json', JSON.stringify(dataJson, null, 2), err => { 
-         if(err) return res.send("Error") 
+      Recipe.post(req.body, (recipe) => { 
+         
+         return res.redirect(`/recipes/${recipe.id}`)
       })
 
-      return res.redirect('/recipes')
    },
    put(req, res) {
       const keys = Object.keys(req.body)
