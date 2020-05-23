@@ -9,6 +9,26 @@ module.exports = {
          callback(results.rows)
       })
    },
+   find(id, callback) {
+      db.query(`SELECT * FROM chefs WHERE id = $1`, [id], (error, results) => {
+         if(error) return console.log(error)
+
+         callback(results.rows[0])
+      })
+   },
+   findChefRecipes(id, callback) {
+      console.log(id)
+      
+      db.query(`
+         SELECT image, title, id FROM recipes
+         WHERE chef_id = $1`, [id], (error, results) => {
+            if(error) return console.log(error)
+
+            console.log(results)
+
+            callback(results.rows)
+         })
+   },
    post(data, callback) {
       const query = `
          INSERT INTO chefs (

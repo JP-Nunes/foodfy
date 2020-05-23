@@ -6,19 +6,27 @@
 
 <div class="container chef-container">
    <div class="top-content">
-      <h2>Chef: Fulano</h2>
-      <button>Editar</button>
+      <h2>Chef: {{chef.name}}</h2>
+      <button class="button">Editar</button>
    </div>
    <div class="chef-presentation">
-      <img src="../../assets/images/chef.png" alt="Imagem do chef">
-      <h1>Chef</h1>
-      <p>1 receita</p>
+      <img src="{{chef.image}}" alt="Imagem do chef">
+      <h1>Chef {{chef.name}}</h1>
+      <p>{{chef.recipes_quantity}} receita</p>
    </div>
    <div class="chef-recipes">
-      <img src="../../assets/images/logo.png" alt="Imagem da receita">
-      <h4>Lasanha mac n'cheese</h4>
-      <p>por: Chef</p>
-      <a href="#">Visualizar</a>
+      
+      {% for recipe in chefRecipesData %}
+      
+      <div class="chef-recipe">
+         <img src="{{recipe.image}}" alt="Imagem da receita {{recipe.name}}">
+         <h4>{{recipe.title}}</h4>
+         <p>por: {{chef.name}}</p>
+         <a href="recipes/{{recipe.id}}">Visualizar</a>
+      </div>
+      
+      {% endfor %}
+   
    </div>
 </div>
 
