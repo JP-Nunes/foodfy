@@ -53,5 +53,33 @@ module.exports = {
 
          callback(results.rows[0])
       })
+   },
+   put(data, callback) {
+      const query = `
+         UPDATE recipes SET
+
+            image=($1), title=($2), chef_id=($3), 
+            ingredients=($4), preparation=($5), information=($6)
+
+         WHERE id = $7
+      `
+
+      const values = [
+         data.image, data.title, data.chef_id, data.ingredients, 
+         data.preparation, data.information, data.id
+      ]
+      
+      db.query(query, values, (error) => {
+         if(error) return console.log(error)
+
+         callback()
+      })
+   },
+   delete(id, callback) {
+      db.query(`DELETE FROM recipes WHERE id = $1`, [id], (error) => {
+         if(error) return console.log(error)
+
+         callback()
+      })
    }
 }

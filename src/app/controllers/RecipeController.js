@@ -26,11 +26,14 @@ module.exports = {
       })
    },
    edit(req, res) {
-      const recipes = [...dataJson.recipes]
-      const recipeIndex = req.params.id
-      const recipe = recipes[recipeIndex]
+      Recipe.find(req.params.id, recipe => {
+         if(!recipe) return res.send('Recipe not found')
 
-      return res.render('recipes/edit', { recipe })
+         Recipe.nameAndId(data => {
+
+            return res.render('recipes/edit', { recipe, chefsNameAndId: data })
+         })
+      })
    },
    post(req, res) {
       const keys = Object.keys(req.body)
@@ -48,58 +51,19 @@ module.exports = {
 
    },
    put(req, res) {
-      const keys = Object.keys(req.body)
+      Recipe.put(req.body, () => {
 
-      for(key of keys) {
-         if(req.body[key] == 'null') {
-            res.send('Please, fill all fields')
-         }
-      }
-
-      const id = req.body.id
-      let index = 0
-
-      console.log(req.body.id)
-
-      const foundRecipe = dataJson.recipes.find((recipe, foundIndex) => {
-         if(id == recipe.id) {
-            index = foundIndex
-            return true
-         }
+         return res.redirect(`recipes/${req.body.id}`)
       })
 
-      if(!foundRecipe) {
-         return res.send('Recipe not found')
-      }
-      
-      const recipe = {
-         ...foundRecipe,
-         ...req.body
-      }
 
-      dataJson.recipes[index] = recipe
-   
-      fs.writeFile('data.json', JSON.stringify(dataJson, null, 2), err => { 
-         if(err) return res.send("Error") 
-      })
-
-      return res.redirect(`recipes/${id}`)
    },
    delete(req, res) {
-      const { id } = req.body
+      Recipe.delete(req.body.id, () => {
 
-      const filteredRecipes = dataJson.recipes.filter(recipe => {
-         if(recipe.id != id) {
-            return true
-         }
+         return res.redirect('recipes')
       })
 
-      dataJson.recipes = filteredRecipes
-
-      fs.writeFile('data.json', JSON.stringify(dataJson, null, 2), err => { 
-         if(err) return res.send("Error") 
-      })
-
-      return res.redirect('/recipes')
+      
    }
 }
