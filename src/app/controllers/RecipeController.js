@@ -7,9 +7,10 @@ const dataJson = require('../../../data.json')
 
 module.exports = {
    index(req, res) {
-      recipes = [...data]
+      Recipe.all(recipes => {
 
-      return res.render('recipes/index', { recipes })
+         return res.render('recipes/index', { recipes })
+      })      
    },
    create(req, res) {
       Recipe.nameAndId(data => {
