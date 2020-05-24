@@ -22,7 +22,10 @@ module.exports = {
       })
    },
    edit(req, res) {
-      return res.send('To be implemented')
+      Chef.find(req.params.id, chef => {
+
+         return res.render('chefs/edit', { chef })
+      })
    },
    post(req, res) {
       const keys = Object.keys(req.body)
@@ -38,7 +41,10 @@ module.exports = {
       })
    },
    put(req, res) {
-      return res.send('To be implemented')
+      Chef.put(req.body, () => {
+
+         return res.redirect(`chefs/${req.body.id}`)
+      })
    },
    delete(req, res) {
       return res.send('To be implemented')
