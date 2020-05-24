@@ -7,22 +7,38 @@
 <div class="container chef-container">
    <div class="top-content">
       <h2>Chef: {{chef.name}}</h2>
-      <button class="button">Editar</button>
+      <a href="/chefs/{{chef.id}}/edit">
+         <button class="button">Editar</button>
+      </a>
    </div>
    <div class="chef-presentation">
-      <img src="{{chef.image}}" alt="Imagem do chef">
-      <h1>Chef {{chef.name}}</h1>
-      <p>{{chef.recipes_quantity}} receita</p>
+      <span 
+         style="background-image: url({{chef.image}})"
+         alt="Imagem do chef {{chef.name}}">
+      </span>
+      <h1>{{chef.name}}</h1>
+      {% if chef.total_recipes > 0 %}
+      <p>
+         {{chef.total_recipes}} receita{% if chef.total_recipes > 1 %}s{% endif %}
+      </p>
+      {% endif %}
    </div>
    <div class="chef-recipes">
+
+      <h2>Receitas</h2>
       
       {% for recipe in chefRecipesData %}
       
       <div class="chef-recipe">
-         <img src="{{recipe.image}}" alt="Imagem da receita {{recipe.name}}">
-         <h4>{{recipe.title}}</h4>
-         <p>por: {{chef.name}}</p>
-         <a href="recipes/{{recipe.id}}">Visualizar</a>
+         <span 
+            style="background-image: url({{recipe.image}})"
+            alt="Imagem do chef {{recipe.title}}">
+         </span>
+         <div id="chef_recipe-info">
+            <h4>{{recipe.title}}</h4>
+            <p>por: {{chef.name}}</p>
+            <a href="/recipes/{{recipe.id}}">Visualizar</a>
+         </div>
       </div>
       
       {% endfor %}
