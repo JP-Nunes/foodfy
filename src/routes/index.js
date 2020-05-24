@@ -1,3 +1,5 @@
+const Recipe = require('../app/models/Recipe')
+
 const express = require('express')
 const routes = express.Router()
 
@@ -8,9 +10,10 @@ routes.use('/recipes', recipes)
 routes.use('/chefs', chefs)
 
 routes.get('/', (req, res) => {
-   const recipes = [...data]
+   Recipe.all(recipes => {
 
-   return res.render('home/index', { recipes })
+      return res.render('home/index', { recipes })
+   })
 })
 
 module.exports = routes
