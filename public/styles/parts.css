@@ -1,6 +1,6 @@
-/* GENERAL HEADER */
+/** GENERAL HEADER **/
 
-#general-header {
+header {
    background-color: #0f0e0e;
 
    padding: 40px 0;
@@ -9,12 +9,48 @@
    position: relative;
 }
 
-#general-header img {
-   margin-left: 231px;
+header .logo {
+   position: absolute;
+   top: 27px;
+   left: 231px;
+}
+
+header img {
    vertical-align: middle;
 }
 
-/* FOOTER */
+/* links */
+
+header .links {
+   position: absolute;
+   top: 29px;
+   left: 372px;
+   display: inline;
+
+}
+
+header .links ul li {
+   display: inline;
+   padding-left: 30px;
+
+   font-size: 15px;
+   font-weight: bold;
+   text-transform: uppercase;
+}
+
+header .links ul li:first-child {
+   padding-left: 0;
+}
+
+header .links ul li a {
+   color: #999999;
+}
+
+header .links ul li a:hover {
+   color: white;
+}
+
+/** FOOTER **/
 
 footer {
    padding: 31px 0;
