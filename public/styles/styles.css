@@ -31,11 +31,13 @@ body {
 
    flex: 1 0 auto;
    margin: 0 230px;
+
+   position: relative;
 }
 
 /* button */
 
-.button {
+.button, a .button {
    background: #6558C3;
    border-radius: 4px;
 
@@ -46,11 +48,11 @@ body {
    color: #FFFFFF;
 
    position: absolute;
-   top: 0;
+   top: -5px;
    right: 0;
 }
 
-.button:hover {
+.button:hover, a .button:hover {
    opacity: 0.8;
    cursor: pointer;
 
@@ -70,7 +72,7 @@ body {
    color: #FFFFFF;
 
    position: absolute;
-   top: 0;
+   top: -5px;
    right: 149px;
 }
 

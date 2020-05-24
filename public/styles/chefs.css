@@ -1,4 +1,5 @@
-/** CHEFS INDEX **/
+/** CHEF'S INDEX **/
+
 .chefs-container h1 {
    font-size: 24px;
 
@@ -39,6 +40,95 @@
 }
 
 #chefs .chef  a {
+   font-size: 14px;
+   font-weight: bold;
+   color: #6558C3;
+}
+
+/** CHEF'S SHOW **/
+
+.top-content h2 {
+   font-size: 24px;
+
+   margin-bottom: 51px;
+}
+
+.chef-presentation span {
+   display: block;
+
+   width: 200px;
+   height: 200px;
+
+   background-size: cover;
+   background-position: center;
+
+   border-radius: 50%;
+   margin: 0 auto;
+}
+
+.chef-presentation h1 {
+   margin-top: 30px;
+   margin-bottom: 4px;
+
+   font-size: 36px;
+   text-align: center;
+}
+
+.chef-presentation p {
+   font-size: 20px;
+   color: #777777;
+   text-align: center;
+}
+
+.chef-recipes {
+   display: grid;
+   grid-template-columns: repeat(2);
+}
+
+.chef-recipes .chef-recipe {
+   display: grid;
+   grid-template-columns: 172px 1fr;
+
+   margin-bottom: 150px;
+}
+
+.chef-recipes .chef-recipe div {
+   margin-left: 20px;
+   
+   max-height: 80px;
+
+   display: grid;
+   grid-template-rows: auto;
+}
+
+.chef-recipes h2 {
+   font-size: 24px;
+
+   margin-top: 50px;
+   margin-bottom: 30px;
+}
+
+.chef-recipes span {
+   width: 172px;
+   height: 80px;
+
+   background-position: center;
+   background-size: contain;
+
+   border-radius: 8px;
+}
+
+.chef-recipes h4 {
+   font-size: 18px;
+   font-weight: normal;
+}
+
+.chef-recipes p {
+   font-size: 14px;
+   color: #777777;
+}
+
+.chef-recipes a {
    font-size: 14px;
    font-weight: bold;
    color: #6558C3;
