@@ -1,10 +1,5 @@
 const Recipe = require('../models/Recipe')
 
-const fs = require('fs')
-
-const data = require('../../data')
-const dataJson = require('../../../data.json')
-
 module.exports = {
    index(req, res) {
       Recipe.all(recipes => {

@@ -1,5 +1,4 @@
 const express = require('express')
-const data = require('../data')
 const routes = express.Router()
 
 const recipes = require('./recipes')
