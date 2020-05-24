@@ -47,6 +47,9 @@ module.exports = {
       })
    },
    delete(req, res) {
-      return res.send('To be implemented')
+      Chef.delete(req.body.id, () => {
+
+         return res.redirect('/chefs')
+      })
    }
 }
