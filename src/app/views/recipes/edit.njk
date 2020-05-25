@@ -2,13 +2,13 @@
 
 {% block content %}
 
-{% include "parts/header.njk" %}
+{% include "parts/admin-header.njk" %}
 
 <div class="container fields-container">
 
    <h2>Editando receita</h2>
 
-   <form class="card" method="POST" action="/recipes?_method=PUT">
+   <form class="card" method="POST" action="/admin/recipes?_method=PUT">
       
       {% include "recipes/fields.njk" %}
 
@@ -17,7 +17,7 @@
       
    </form>
 
-   <form class="card" id="form-delete" method="POST" action="/recipes?_method=DELETE">
+   <form class="card" id="form-delete" method="POST" action="/admin/recipes?_method=DELETE">
       <input type="hidden" name="id" value={{recipe.id}}>
       <button class="delete-button" type="submit">Deletar</button>
    </form>

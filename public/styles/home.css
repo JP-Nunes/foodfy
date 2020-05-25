@@ -2,31 +2,6 @@
 
 /* presentation card */
 
-.container #home-header {
-   padding-top: 30px;
-   padding-bottom: 0;
-   margin-bottom: 30px;
-   
-   justify-content: center;
-   position: relative;
-
-   background-color: #f9f9f9;
-}
-
-.container #home-header > a:nth-child(1) {
-   padding-left: 0;
-}
-
-.container #home-header img {
-   margin-right: 123px;
-   vertical-align: middle;
-}
-
-.container #home-header a {
-   color: #111111;
-   padding-left: 30px;
-}
-
 .presentation-card {
    background-color: #FBDFDB;
    

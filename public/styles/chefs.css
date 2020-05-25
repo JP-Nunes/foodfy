@@ -35,14 +35,21 @@
 #chefs .chef  h4 {
    font-size: 18px;
    font-weight: normal;
-
-   margin-bottom: 10px;
 }
 
 #chefs .chef  a {
    font-size: 14px;
    font-weight: bold;
    color: #6558C3;
+   
+   margin-top: 10px;
+}
+
+#chefs .chef  p {
+   font-size: 14px;
+   color: #666666;
+   
+   margin-top: 5px;
 }
 
 /** CHEF'S SHOW **/
@@ -113,7 +120,7 @@
    height: 80px;
 
    background-position: center;
-   background-size: contain;
+   background-size: cover;
 
    border-radius: 8px;
 }

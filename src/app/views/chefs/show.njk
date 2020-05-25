@@ -2,12 +2,12 @@
 
 {% block content %}
 
-{% include "parts/header.njk" %}
+{% include "parts/admin-header.njk" %}
 
 <div class="container chef-container">
    <div class="top-content">
       <h2>Chef: {{chef.name}}</h2>
-      <a href="/chefs/{{chef.id}}/edit">
+      <a href="/admin/chefs/{{chef.id}}/edit">
          <button class="button">Editar</button>
       </a>
    </div>
@@ -37,7 +37,7 @@
          <div id="chef_recipe-info">
             <h4>{{recipe.title}}</h4>
             <p>por: {{chef.name}}</p>
-            <a href="/recipes/{{recipe.id}}">Visualizar</a>
+            <a href="/admin/recipes/{{recipe.id}}">Visualizar</a>
          </div>
       </div>
       

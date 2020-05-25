@@ -3,7 +3,12 @@ const { date } = require('../../lib/utils')
 
 module.exports = {
    all(callback) {
-      db.query(`SELECT * FROM chefs ORDER BY name ASC`, (error, results) => {
+      db.query(`
+         SELECT chefs.*, count(recipes) as total_recipes 
+         FROM chefs 
+         LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
+         GROUP BY chefs.id
+         ORDER BY name ASC`, (error, results) => {
          if(error) return results.send('Database Error!')
 
          callback(results.rows)

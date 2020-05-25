@@ -3,14 +3,8 @@
 {% block content %}
 
 <div class="container">
-   <header id="home-header">
-      <a href="/">
-         <img src="/images/logo-home.png" alt="">
-      </a>
-      <a href="#">Sobre</a>
-      <a href="/recipes">Receitas</a>
-      <a href="/chefs">Chefs</a>
-   </header>
+   
+   {% include "parts/home-header.njk" %}
    
    <section class="presentation-card">
       <div class="presentation-message">

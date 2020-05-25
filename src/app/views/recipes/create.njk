@@ -2,12 +2,12 @@
 
 {% block content %}
 
-{% include "parts/header.njk" %}
+{% include "parts/admin-header.njk" %}
 
 <div class="container fields-container">
    <h2>Criando receita</h2>
 
-   <form class="card" method="POST" action="/recipes">
+   <form class="card" method="POST" action="/admin/recipes">
       
       {% include "recipes/fields.njk" %}
 

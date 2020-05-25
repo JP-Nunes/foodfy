@@ -1,27 +1,61 @@
-/** GENERAL HEADER **/
+/** HOME HEADER **/
 
-header {
+
+#home-header {
+   padding: 65px 0;
+}
+
+#home-header .logo {
+   position: absolute;
+   top: 36.1px;
+}
+
+/* menu */
+
+#home-header .menu {
+   position: absolute;
+   top: 38px;
+   left: 213px;
+}
+
+#home-header .menu ul li {
+   display: inline;
+}
+
+#home-header .menu ul li a {
+   padding-left: 30px;
+   
+   font-size: 15px;
+   color: black;
+}
+
+#home-header ul li:first-child a {
+   padding-left: 0;
+}
+
+#home-header .menu ul li a:hover {
+   font-weight: bold;
+}
+
+/** ADMIN HEADER **/
+
+#admin-header {
    background-color: #0f0e0e;
 
    padding: 40px 0;
-   margin-bottom: 55px;
-   
-   position: relative;
+   margin-bottom: 55px;   
 }
 
-header .logo {
+#admin-header .logo{
    position: absolute;
-   top: 27px;
+
    left: 231px;
+   top: 25px;
 }
 
-header img {
-   vertical-align: middle;
-}
+/* menu */
 
-/* links */
-
-header .links {
+#admin-header .menu {
    position: absolute;
    top: 29px;
    left: 372px;
@@ -29,7 +63,7 @@ header .links {
 
 }
 
-header .links ul li {
+#admin-header .menu ul li {
    display: inline;
    padding-left: 30px;
 
@@ -38,16 +72,23 @@ header .links ul li {
    text-transform: uppercase;
 }
 
-header .links ul li:first-child {
+#admin-header .links ul li:first-child {
    padding-left: 0;
 }
 
-header .links ul li a {
+#admin-header .links ul li a {
    color: #999999;
 }
 
-header .links ul li a:hover {
-   color: white;
+#admin-header .links ul li a:hover {
+   filter: brightness(150%);
+}
+
+/** headers menu active **/
+
+header .menu ul li a.active {
+   font-weight: bold;
+   filter: brightness(150%);
 }
 
 /** FOOTER **/
