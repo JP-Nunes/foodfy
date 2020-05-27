@@ -25,6 +25,20 @@ module.exports = {
          callback(results.rows[0])
       })
    },
+   filtered(filter, callback) {
+      db.query(`
+      SELECT recipes.*, chefs.name as chef_name
+      FROM recipes
+      LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
+      WHERE recipes.title ILIKE '%${filter}%'
+      GROUP BY chefs.name, recipes.id
+      ORDER BY recipes.title ASC
+      `, (error, results) => {
+         if(error) return console.log(error)
+         
+         callback(results.rows)
+      })
+   },
    nameAndId(callback) {
       db.query(`SELECT name, id FROM chefs`, (error, results) => {
          if(error) return results.send('Database Error')
