@@ -14,7 +14,12 @@ module.exports = {
       
       Recipe.paginate(params, recipes => {
 
-         return res.render('recipes/index', { recipes })
+         const pagination = {
+            page,
+            total: Math.ceil(recipes[0].total / limit)
+         }
+
+         return res.render('admin/recipes/index', { recipes, pagination })
       })     
    },
    create(req, res) {

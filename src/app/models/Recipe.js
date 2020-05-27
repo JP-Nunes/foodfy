@@ -100,14 +100,15 @@ module.exports = {
       const { limit, offset } = params
 
       const query = `
-         SELECT recipes.*, chefs.name as chef_name
+         SELECT recipes.*, (SELECT count(*) FROM recipes) AS total, 
+         chefs.name as chef_name
          FROM recipes
          LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
          GROUP BY recipes.id, chefs.name
          LIMIT $1 OFFSET $2
       `
       db.query(query, [limit, offset], (error, results) => {
-         if(error) console.log(error)
+         if(error) throw `Database error ${(error)}`
 
          callback(results.rows)
       })

@@ -13,7 +13,7 @@ module.exports = {
 
       page = page || 1
       limit = limit || 4
-      const offset = (page - 1) * limit
+      let offset = (page - 1) * limit
 
       const params = {
          limit, offset
@@ -21,8 +21,15 @@ module.exports = {
       
       Recipe.paginate(params, recipes => {
 
-         return res.render('home/recipes', { recipes })
-      })
+         const pagination = {
+            page,
+            total: Math.ceil(recipes[0].total / limit)
+         }
+
+         console.log(pagination.total)
+
+         return res.render('home/recipes', { recipes, pagination })
+      })  
    },
    chefs(req, res) {
       Chef.all(chefs => {
