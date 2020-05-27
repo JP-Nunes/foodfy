@@ -1,4 +1,4 @@
-const Controller = require('../app/controllers/Controller')
+const HomeController = require('../app/controllers/HomeController')
 
 const express = require('express')
 const routes = express.Router()
@@ -9,8 +9,9 @@ const chefs = require('./chefs')
 routes.use('/admin/recipes', recipes)
 routes.use('/admin/chefs', chefs)
 
-routes.get('/home', Controller.index)
-routes.get('/recipes', Controller.recipes)
-routes.get('/chefs', Controller.chefs)
+routes.get('/home', HomeController.index)
+routes.get('/recipes', HomeController.recipes)
+routes.get('/chefs', HomeController.chefs)
+routes.get('/search', HomeController.searchRecipes)
 
 module.exports = routes
