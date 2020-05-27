@@ -2,10 +2,20 @@ const Recipe = require('../models/Recipe')
 
 module.exports = {
    index(req, res) {
-      Recipe.all(recipes => {
+      let { page, limit } = req.query
+
+      page = page || 1
+      limit = limit || 4
+      let offset = (page - 1) * limit
+
+      const params = {
+         limit, offset
+      }
+      
+      Recipe.paginate(params, recipes => {
 
          return res.render('recipes/index', { recipes })
-      })      
+      })     
    },
    create(req, res) {
       Recipe.nameAndId(data => {

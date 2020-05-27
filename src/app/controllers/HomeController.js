@@ -9,7 +9,17 @@ module.exports = {
       })
    },
    recipes(req, res) {
-      Recipe.all(recipes => {
+      let { page, limit } = req.query
+
+      page = page || 1
+      limit = limit || 4
+      const offset = (page - 1) * limit
+
+      const params = {
+         limit, offset
+      }
+      
+      Recipe.paginate(params, recipes => {
 
          return res.render('home/recipes', { recipes })
       })

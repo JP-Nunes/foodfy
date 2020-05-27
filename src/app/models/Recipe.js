@@ -95,5 +95,21 @@ module.exports = {
 
          callback()
       })
+   },
+   paginate(params, callback) {
+      const { limit, offset } = params
+
+      const query = `
+         SELECT recipes.*, chefs.name as chef_name
+         FROM recipes
+         LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
+         GROUP BY recipes.id, chefs.name
+         LIMIT $1 OFFSET $2
+      `
+      db.query(query, [limit, offset], (error, results) => {
+         if(error) console.log(error)
+
+         callback(results.rows)
+      })
    }
 }
