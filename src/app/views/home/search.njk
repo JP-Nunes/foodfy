@@ -1,0 +1,26 @@
+{% extends "layout.njk" %}
+{% import "parts/search-bar.njk" as search %}
+{% import "parts/recipes-cards.njk" as cards %}
+
+{% block content %}
+
+<div class="container">
+   
+   {% include "parts/home-header.njk" %}
+
+   <form action="/search">
+      {{search.form('search-home')}}
+   </form>
+   
+   <section class="recipes-cards">
+      
+      {% if filter %}
+         <h2>Buscando por {{filter}}</h2>
+      {% endif %}
+
+      {{cards.render(recipes)}}
+   
+   </section>
+</div>
+
+{% endblock %}

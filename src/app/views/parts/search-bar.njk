@@ -1,0 +1,8 @@
+{% macro form(class, filter) %}
+
+<div class="{{class}}">
+   <input type="text" name="filter" placeholder="Buscar receitas" value="{{filter}}">
+   <button class="button" type="submit">Buscar</button>
+</div>
+
+{% endmacro %}

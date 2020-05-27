@@ -1,0 +1,17 @@
+{% macro render(recipes) %}
+
+<div class="cards">
+   <ul>
+      {% for recipe in recipes %}
+      <li class="card">
+         <a href="admin/recipes/{{recipe.id}}">
+            <img src="{{recipe.image}}" alt="{{recipe.title}}">
+         </a>
+         <a href="admin/recipes/{{recipe.id}}">{{recipe.title}}</a>
+         <p>por: {{recipe.chef_name}}</p>
+      </li>
+      {% endfor %}
+   </ul>
+</div>
+
+{% endmacro %}
