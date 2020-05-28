@@ -158,13 +158,12 @@ form .search-home button {
    height: 140px;
 
    border-radius: 15px;
-   margin-bottom: 20px;
+   margin-bottom: 15px;
 
    object-fit: cover;
-   cursor: pointer;
 }
 
-.recipes-cards .cards .card a {
+.recipes-cards .cards .card h4 {
    font-size: 18px;
    color: #111111;
 
@@ -175,4 +174,5 @@ form .search-home button {
 .recipes-cards .cards .card p {
    font-size: 14px;
    color: #777777;
+   font-weight: normal;
 }
