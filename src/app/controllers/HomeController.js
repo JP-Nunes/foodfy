@@ -26,8 +26,6 @@ module.exports = {
             total: Math.ceil(recipes[0].total / limit)
          }
 
-         console.log(pagination.total)
-
          return res.render('home/recipes', { recipes, pagination })
       })  
    },
