@@ -123,3 +123,31 @@
    height: 0;
    margin-bottom: 150px;
 }
+
+/* pagination */
+
+.pagination {
+   display: flex;
+   align-self: center;
+   margin-left: -15px;
+   margin-bottom: 15px;
+}
+
+.pagination a {
+   margin-left: 10px;
+   
+   font-size: 14px;
+   font-weight: bold;
+   color: black;
+}
+
+.pagination a:first-child {
+   margin-left: 0;
+}
+
+/* pagination active */
+
+.pagination a.active {
+   text-decoration: underline;
+   font-size: 18px;
+}
