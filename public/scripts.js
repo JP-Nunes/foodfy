@@ -1,4 +1,4 @@
-const currentPage = location.pathname
+const currentPage = location.href
 const menuItems = document.querySelectorAll('header .menu ul li a')
 
 for(item of menuItems) {
@@ -43,3 +43,24 @@ const page = +pagination.dataset.page
 const total = +pagination.dataset.total
 
 const pages = paginate(total ,page)
+
+let element = ''
+
+for(let page of pages) {
+   if(String(page).includes('...')) {
+      element += `<span>${page}</span>`
+   } else {
+      element += `<a href="?page=${page}">${page}</a>`
+   }
+}
+
+pagination.innerHTML = element
+
+const currentUrl = location.href
+const paginationItems = document.querySelectorAll('.pagination a')
+
+for(item of paginationItems) {
+   if(currentUrl.includes(item.getAttribute('href'))) {
+      item.classList.add('active')
+   }
+}
