@@ -1,55 +1,68 @@
 const Chef = require('../models/Chef')
 
 module.exports = {
-   index(req, res) {
-      Chef.all((chefs) => {
+   async index(req, res) {
+      try {
+         
+         const chefs = await Chef.all() 
          
          return res.render('chefs/index', { chefs })
-      })
-      
+
+      } catch (error) {
+         console.error(error)
+      }      
    },
    create(req, res) {
       return res.render('chefs/create')
    },
-   show(req, res) {
-      Chef.find(req.params.id, chef => {
+   async show(req, res) {
+      try {
+
+         const chef = await Chef.find(req.params.id) 
+         
          if(!chef) return res.send('Chef not found')
 
-         Chef.findChefRecipes(req.params.id, chefRecipesData => {
+         const chefRecipes = Chef.findChefRecipes(req.params.id)
 
-            return res.render(`chefs/show`, { chef, chefRecipesData })
-         })
-      })
+         return res.render(`chefs/show`, { chef, chefRecipes })
+
+      } catch (error) {
+         console.error(error)   
+      }
    },
-   edit(req, res) {
-      Chef.find(req.params.id, chef => {
+   async edit(req, res) {
+      try {
+         
+         const chef = await Chef.find(req.params.id)
 
          return res.render('chefs/edit', { chef })
-      })
-   },
-   post(req, res) {
-      const keys = Object.keys(req.body)
-
-      for(key of keys) {
-         if(req.body[key] == '') {
-            return res.send('Please, fill all fields')
-         }
+      
+      } catch (error) {
+         console.error(error)
       }
-
-      Chef.post(req.body, function(chef) {
+   },
+   async post(req, res) {
+      try {
+         
+         const chef = await Chef.post(req.body)
+            
          return res.redirect(`chefs/${chef.id}`)
-      })
+      
+      } catch (error) {
+         console.error(error)   
+      }
    },
-   put(req, res) {
-      Chef.put(req.body, () => {
+   async put(req, res) {
+      
+      await Chef.put(req.body)
+      
+      return res.redirect(`chefs/${req.body.id}`)
 
-         return res.redirect(`chefs/${req.body.id}`)
-      })
    },
-   delete(req, res) {
-      Chef.delete(req.body.id, () => {
+   async delete(req, res) {
+      
+      await Chef.delete(req.body.id)
 
-         return res.redirect('/chefs')
-      })
+      return res.redirect('/chefs')
    }
 }
