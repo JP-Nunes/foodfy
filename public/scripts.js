@@ -49,7 +49,10 @@ let element = ''
 for(let page of pages) {
    if(String(page).includes('...')) {
       element += `<span>${page}</span>`
-   } else {
+   } else if(page == 1) {
+      element += `<a href="?page=${page}" class="active" id="first-item">${page}</a>`
+   } 
+   else {
       element += `<a href="?page=${page}">${page}</a>`
    }
 }
@@ -58,9 +61,13 @@ pagination.innerHTML = element
 
 const currentUrl = location.href
 const paginationItems = document.querySelectorAll('.pagination a')
+const firstItem = document.getElementById('first-item')
 
 for(item of paginationItems) {
-   if(currentUrl.includes(item.getAttribute('href'))) {
+   if(currentUrl.includes(item.getAttribute('href')) && 
+      item.getAttribute('href') !== firstItem.getAttribute('href')) {
+      
       item.classList.add('active')
+      firstItem.classList.remove('active')
    }
 }
