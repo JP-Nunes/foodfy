@@ -1,12 +1,21 @@
 <div class="item">
    <div class="item-title">Imagem da receita</div>
    <div>
-      <input 
-         type="url"
-         name="image"
-         value="{{recipe.image}}"
-         placeholder="http://"
-      >
+      <div class="images-upload">
+         <input 
+            id="images-input"
+            type="file"
+            name="images"
+            multiple
+            accept="image/*"
+         >
+         <i class="material-icons">add</i>
+      </div>
+      <p>Máximo de 5 imagens</p>
+      
+      <div class="photos-preview">
+
+      </div>
    </div>
 </div>
 
