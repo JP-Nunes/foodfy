@@ -1,79 +1,108 @@
 const Recipe = require('../models/Recipe')
 
 module.exports = {
-   index(req, res) {
-      let { page, limit } = req.query
+   async index(req, res) {
+      try {
+         
+         let { page, limit } = req.query
 
-      page = page || 1
-      limit = limit || 4
-      let offset = (page - 1) * limit
+         page = page || 1
+         limit = limit || 4
+         let offset = (page - 1) * limit
 
-      const params = {
-         limit, offset
-      }
-      
-      Recipe.paginate(params, recipes => {
+         const params = {
+            limit, offset
+         }
+         
+         const recipes = await Recipe.paginate(params)
 
          const pagination = {
             page,
             total: Math.ceil(recipes[0].total / limit)
          }
 
-         return res.render('admin/recipes/index', { recipes, pagination })
-      })     
-   },
-   create(req, res) {
-      Recipe.nameAndId(data => {
+         return res.render('recipes/index', { recipes, pagination })
 
-         return res.render('recipes/create', { chefsNameAndId: data })
-      })
-
+      } catch (error) {
+         console.error(error)   
+      }
    },
-   show(req, res) {
-      Recipe.find(req.params.id, recipe => {
+   async create(req, res) {
+      try {
+         
+         const chefsNameAndId = await Recipe.nameAndId()
+         
+         return res.render('recipes/create', { chefsNameAndId })
+      
+      } catch (error) {
+         console.error(error)   
+      }
+   },
+   async show(req, res) {
+      try {
+         
+         const recipe = await Recipe.find(req.params.id)
 
          return res.render('recipes/show', { recipe })
-      })
-   },
-   edit(req, res) {
-      Recipe.find(req.params.id, recipe => {
-         if(!recipe) return res.send('Recipe not found')
 
-         Recipe.nameAndId(data => {
-
-            return res.render('recipes/edit', { recipe, chefsNameAndId: data })
-         })
-      })
-   },
-   post(req, res) {
-      const keys = Object.keys(req.body)
-
-      for(key of keys) {
-         if(req.body[key] == 'null') {
-            res.send('Please, fill all fields')
-         }
+      } catch (error) {
+         console.error(error)
       }
+   },
+   async edit(req, res) {
+      try {
+         
+         const recipe = await Recipe.find(req.params.id)
+         
+         if(!recipe) return res.send('Recipe not found')
+   
+         const chefsNameAndId = Recipe.nameAndId()
+   
+         return res.render('recipes/edit', { recipe, chefsNameAndId })
 
-      Recipe.post(req.body, (recipe) => { 
+      } catch (error) {
+         console.error(error)
+      }
+   },
+   async post(req, res) {
+      try {
+         
+         const keys = Object.keys(req.body)
+
+         for(key of keys) {
+            if(req.body[key] == 'null') {
+               res.send('Please, fill all fields')
+            }
+         }
+
+         const recipe = Recipe.post(req.body)
          
          return res.redirect(`/recipes/${recipe.id}`)
-      })
 
+      } catch (error) {
+         console.error(error)
+      }
    },
-   put(req, res) {
-      Recipe.put(req.body, () => {
+   async put(req, res) {
+      try {
+         
+         await Recipe.put(req.body)
 
          return res.redirect(`recipes/${req.body.id}`)
-      })
-
-
+         
+      } catch (error) {
+         console.error(error)
+      }
    },
-   delete(req, res) {
-      Recipe.delete(req.body.id, () => {
+   async delete(req, res) {
+      try {
+         
+         Recipe.delete(req.body.id)
 
          return res.redirect('recipes')
-      })
 
-      
+      } catch (error) {
+         console.error(error)
+      }
    }
 }
