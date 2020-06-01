@@ -1,3 +1,61 @@
+const PhotosUpload = {
+   preview: document.querySelector('#images-preview'),
+   limit: 5,
+   handleFilesInput(event) {
+      const { files: filesList } = event.target
+
+      if(PhotosUpload.reachedLimit(event)) return
+
+      Array.from(filesList).forEach(file => {
+         const reader = new FileReader()
+
+         reader.readAsDataURL(file)
+
+         reader.onload = () => {
+            const image = new Image()
+            image.src = String(reader.result)
+
+            const container = PhotosUpload.createContainer(image)
+
+            PhotosUpload.preview.appendChild(container)
+         }
+      })
+   },
+   reachedLimit(event) {
+      const { files: filesList } = event.target
+      const { limit } = PhotosUpload
+
+      if(filesList.length > limit) {
+         alert(`Máximo de ${limit} imagens`)
+         event.preventDefault()
+         
+         return true
+      }
+
+      return false
+   },
+   createContainer(image) {
+      const container = document.createElement('div')
+      container.classList.add('image')
+
+      container.onClick = () => alert('clicked') 
+      
+      container.appendChild(image)
+      container.appendChild(PhotosUpload.createRemoveButton())
+
+      return container
+   },
+   createRemoveButton() {
+      const button = document.createElement('i')
+      button.classList.add('material-icons')
+      button.innerHTML = 'add'
+
+      return button
+   }
+}
+
+// Header menu
+
 const currentPage = location.href
 const menuItems = document.querySelectorAll('header .menu ul li a')
 
