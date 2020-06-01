@@ -1,29 +1,41 @@
 const PhotosUpload = {
+   input: '',
    preview: document.querySelector('#images-preview'),
    limit: 5,
+   files: [],
    handleFilesInput(event) {
       const { files: filesList } = event.target
+      PhotosUpload.input = event.target
 
       if(PhotosUpload.reachedLimit(event)) return
 
       Array.from(filesList).forEach(file => {
-         const reader = new FileReader()
+         PhotosUpload.files.push(file)
 
-         reader.readAsDataURL(file)
+         const reader = new FileReader()
 
          reader.onload = () => {
             const image = new Image()
             image.src = String(reader.result)
-
-            const container = PhotosUpload.createContainer(image)
-
-            PhotosUpload.preview.appendChild(container)
+            
+            const div = PhotosUpload.createDiv(image)
+            PhotosUpload.preview.appendChild(div)
          }
+         
+         reader.readAsDataURL(file)
       })
+
+      PhotosUpload.input.files = PhotosUpload.getAllFiles()
+   },
+   getAllFiles() {
+      const dataTransfer = new ClipboardEvent('').clipboardData || new DataTransfer()
+
+      PhotosUpload.files.forEach(file => dataTransfer.items.add(file))
+   
+      return dataTransfer.files
    },
    reachedLimit(event) {
-      const { files: filesList } = event.target
-      const { limit } = PhotosUpload
+      const { limit, input: filesList } = PhotosUpload
 
       if(filesList.length > limit) {
          alert(`Máximo de ${limit} imagens`)
@@ -34,16 +46,15 @@ const PhotosUpload = {
 
       return false
    },
-   createContainer(image) {
-      const container = document.createElement('div')
-      container.classList.add('image')
+   createDiv(image) {
+      const div = document.createElement('div')
+        
+      div.classList.add('preview')
+      div.onclick = PhotosUpload.removeImage
+      div.appendChild(image)
+      div.appendChild(PhotosUpload.createRemoveButton())
 
-      container.onClick = () => alert('clicked') 
-      
-      container.appendChild(image)
-      container.appendChild(PhotosUpload.createRemoveButton())
-
-      return container
+      return div
    },
    createRemoveButton() {
       const button = document.createElement('i')
@@ -51,6 +62,16 @@ const PhotosUpload = {
       button.innerHTML = 'add'
 
       return button
+   },
+   removeImage(event) {
+      const imageDiv = event.target.parentNode
+      const imagesArray = Array.from(PhotosUpload.preview.children)
+      const imageIndex = imagesArray.indexOf(imageDiv)
+
+      PhotosUpload.files.splice(imageIndex, 1)
+      PhotosUpload.input.files = PhotosUpload.getAllFiles()
+
+      imageDiv.remove()
    }
 }
 
