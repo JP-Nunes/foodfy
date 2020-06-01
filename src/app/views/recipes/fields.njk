@@ -1,6 +1,6 @@
 <div class="item">
    <div class="item-title">Imagem da receita</div>
-   <div>
+   <div class="images">
       <div class="images-upload">
          <input 
             id="images-input"
@@ -8,14 +8,13 @@
             name="images"
             multiple
             accept="image/*"
+            onchange="PhotosUpload.handleFilesInput(event)"
          >
          <i class="material-icons">add</i>
+         <p>Máximo de 5 imagens</p>
       </div>
-      <p>Máximo de 5 imagens</p>
       
-      <div class="photos-preview">
-
-      </div>
+      <div id="images-preview"></div>
    </div>
 </div>
 
