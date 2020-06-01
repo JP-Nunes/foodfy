@@ -35,12 +35,29 @@ const PhotosUpload = {
       return dataTransfer.files
    },
    reachedLimit(event) {
-      const { limit, input: filesList } = PhotosUpload
+      const { limit, input, preview } = PhotosUpload
+      const { files: filesList} = input
 
       if(filesList.length > limit) {
          alert(`Máximo de ${limit} imagens`)
          event.preventDefault()
          
+         return true
+      }
+
+      const imagesDiv = []
+      preview.childNodes.forEach(item => {
+         if(item.classList && item.classList.value == "preview") {
+            imagesDiv.push(item)
+         }
+      })
+
+      const totalPhotos = imagesDiv.length + filesList.length
+
+      if(totalPhotos > limit) {
+         alert('Limite máximo de imagens excedido.')
+         event.preventDefault
+
          return true
       }
 
