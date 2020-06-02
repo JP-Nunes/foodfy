@@ -8,7 +8,9 @@
 
    <h2>Editando receita</h2>
 
-   <form class="card" method="POST" action="/admin/recipes?_method=PUT">
+   <form class="card" method="POST" 
+      action="/admin/recipes?_method=PUT" 
+      enctype="multipart/form-data">
       
       {% include "recipes/fields.njk" %}
 
