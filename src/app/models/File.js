@@ -1,6 +1,22 @@
 const db = require('../../config/db')
 
 module.exports ={
+   async allRecipeFiles(id) {
+      try {
+         
+         const results = await db.query(`
+            SELECT files.* 
+            FROM files
+            LEFT JOIN recipe_files ON (recipe_files.file_id = files.id) 
+            WHERE recipe_files.recipe_id = $1`, [id]
+         )
+
+         return results.rows
+         
+      } catch (error) {
+         return console.error(error)
+      }
+   },
    async post(data, recipeId) {
       try {
 

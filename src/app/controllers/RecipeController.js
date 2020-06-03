@@ -41,10 +41,17 @@ module.exports = {
    },
    async show(req, res) {
       try {
-         
-         const recipe = await Recipe.find(req.params.id)
+         const recipeId = req.params.id
 
-         return res.render('recipes/show', { recipe })
+         const recipe = await Recipe.find(recipeId)
+         
+         const recipeFiles = await File.allRecipeFiles(recipeId)
+         const files = recipeFiles.map(file => ({
+            ...file,
+            src: `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`
+         }))
+
+         return res.render('recipes/show', { recipe, files })
 
       } catch (error) {
          console.error(error)

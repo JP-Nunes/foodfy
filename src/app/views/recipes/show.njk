@@ -12,7 +12,11 @@
       </a>
    </div>
    
-   <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+   {% for file in files %}
+      <div>
+         <img src="{{file.src}}" alt="{{file.name}}" width="500px" height="500px">
+      </div>   
+   {% endfor %}
 
    <div class="presentation">
       <h1>{{recipe.title}}</h1>
