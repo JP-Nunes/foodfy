@@ -36,3 +36,15 @@ CREATE TABLE recipe_files (
 SELECT * FROM chefs
 LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
 ORDER BY chefs.id
+
+-- To delete and restart id sequence
+
+DELETE FROM chefs;
+DELETE FROM files;
+DELETE FROM recipe_files;
+DELETE FROM recipes;
+
+ALTER SEQUENCE chefs_id_seq RESTART WITH 1;
+ALTER SEQUENCE files_id_seq RESTART WITH 1;
+ALTER SEQUENCE recipe_files_id_seq RESTART WITH 1;
+ALTER SEQUENCE recipes_id_seq RESTART WITH 1;
