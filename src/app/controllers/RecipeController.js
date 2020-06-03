@@ -63,10 +63,16 @@ module.exports = {
          const recipe = await Recipe.find(req.params.id)
          
          if(!recipe) return res.send('Recipe not found')
+
+         const recipeFiles = await File.allRecipeFiles(recipe.id)
+         const files = recipeFiles.map(file => ({
+            ...file,
+            src: `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`
+         }))
    
-         const chefsNameAndId = Recipe.nameAndId()
+         const chefsNameAndId = await Recipe.nameAndId()
    
-         return res.render('recipes/edit', { recipe, chefsNameAndId })
+         return res.render('recipes/edit', { recipe, chefsNameAndId, files })
 
       } catch (error) {
          console.error(error)

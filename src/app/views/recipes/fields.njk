@@ -14,7 +14,18 @@
          <p>Máximo de 5 imagens</p>
       </div>
       
-      <div id="images-preview"></div>
+      <div id="images-preview">
+         {% if files %}
+            {% for file in files %}
+
+               <div class="preview" onclick="PhotosUpload.removeImage(event)">
+                  <img src="{{file.src}}" alt="{{file.name}}">
+                  <i class="material-icons">add</i>
+               </div>
+
+            {% endfor %}
+         {% endif %}
+      </div>
    </div>
 </div>
 
@@ -86,6 +97,6 @@
 <div class="item">
    <div class="item-title">Informações adicionais</div>
    <div>
-      <textarea name="information" cols="30" rows="10">{{recipe.aditional_info}}</textarea>
+      <textarea name="information" cols="30" rows="10">{{recipe.information}}</textarea>
    </div>
 </div>
