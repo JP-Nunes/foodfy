@@ -82,14 +82,20 @@ module.exports = {
 
          const recipe = await Recipe.post(req.body)
 
-         const filesPromise = req.files.map(file => {
-            File.post({ ...file, recipe_id: recipe.id })
-            File.postRecipeFiles({ file_id: file.id, recipe_id: recipe.id })
-         })
+         const filesPromise = req.files.map(async file => {
+            const filesId = await File.post({...file, recipe_id: recipe.id})
 
+            
+            const recipeFilesPromise = filesId.map(file => {
+               const data = { recipe_id: recipe.id, file_id: file.id }
+               
+               File.postRecipeFiles(data)
+            })
+            await Promise.all(recipeFilesPromise)
+         })         
          await Promise.all(filesPromise)
 
-         return res.redirect(`admin/recipes/${recipe.id}`)
+         return res.redirect(`/admin/recipes/${recipe.id}`)
 
       } catch (error) {
          console.error(error)
