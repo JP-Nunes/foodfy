@@ -11,12 +11,27 @@
          <button class="button">Editar</button>
       </a>
    </div>
-   
-   {% for file in files %}
-      <div>
-         <img src="{{file.src}}" alt="{{file.name}}" width="500px" height="500px">
-      </div>   
-   {% endfor %}
+
+   <div id="gallery">
+      <div id="main-image">
+         {% if not files[0] %}
+            <img src="http://placehold.it/500x500?text=Receita sem foto" alt="receita sem foto">
+         {% else %}
+          <img src="{{files[0].src}}" alt="{{files[0].name}}">
+         {% endif %}
+      </div>
+      <div id="side-images">
+         {% for file in files %}
+            <div>
+               <img 
+                  src="{{file.src}}" 
+                  alt="{{file.name}}" 
+                  {% if loop.index0 == 0 %} class="active" {% endif %}
+               >
+            </div>   
+         {% endfor %}
+      </div>
+   </div>
 
    <div class="presentation">
       <h1>{{recipe.title}}</h1>
