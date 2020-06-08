@@ -15,7 +15,7 @@ CREATE TABLE "recipes" (
 CREATE TABLE "chefs" (
   "id" SERIAL PRIMARY KEY,
   "name" text NOT NULL,""
-  "image" text NOT NULL,
+  "file_id" int,
   "created_at" timestamp DEFAULT (now())
 );
 
@@ -43,6 +43,13 @@ ADD CONSTRAINT recipe_files_file_id_fkey
 FOREIGN KEY ("file_id") 
 REFERENCES "files" ("id")
 ON DELETE CASCADE;
+
+--Creating chefs and files relation
+
+ALTER TABLE "chefs"
+ADD CONSTRAINT chefs_file_id_fkey
+FOREIGN KEY ("file_id") 
+REFERENCES "files" ("id");
 
 -- Joining tables
 
