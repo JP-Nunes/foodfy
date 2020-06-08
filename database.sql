@@ -21,15 +21,28 @@ CREATE TABLE "chefs" (
 
 CREATE TABLE files (
 	"id" SERIAL PRIMARY KEY,
-  "name" text,
-  "path" text NOT NULL
+   "name" text,
+   "path" text NOT NULL
 )
 
 CREATE TABLE recipe_files (
-	"id" SERIAL PRIMARY KEY,
-  "recipe_id" INTEGER REFERENCES recipes(id),
-  "file_id" INTEGER REFERENCES files(id)
+   "id" SERIAL PRIMARY KEY,
+   "recipe_id" int NOT NULL,
+   "file_id" int NOT NULL
 )
+
+--Creating recipe_files relations
+
+ALTER TABLE "recipe_files"
+ADD CONSTRAINT recipe_files_recipe_id_fkey
+FOREIGN KEY ("recipe_id") 
+REFERENCES "recipes" ("id");
+
+ALTER TABLE "recipe_files"
+ADD CONSTRAINT recipe_files_file_id_fkey
+FOREIGN KEY ("file_id") 
+REFERENCES "files" ("id")
+ON DELETE CASCADE;
 
 -- Joining tables
 
@@ -37,7 +50,7 @@ SELECT * FROM chefs
 LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
 ORDER BY chefs.id
 
--- To delete and restart id sequence
+-- To delete tables and restart id sequence
 
 DELETE FROM chefs;
 DELETE FROM files;
