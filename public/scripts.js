@@ -106,6 +106,19 @@ const PhotosUpload = {
    }
 }
 
+const ImageGallery = {
+   mainImage: document.querySelector('#main-image img'),
+   previews: document.querySelectorAll('#side-images img'),
+   setImage(event) {
+      const { target } = event
+
+      this.previews.forEach(preview => preview.classList.remove('active'))
+      target.classList.add('active')
+
+      this.mainImage.src = target.src
+   }
+}
+
 // Header menu
 
 const currentPage = location.href
