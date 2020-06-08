@@ -1,2 +1,4 @@
 node_modules
 bootcamp-archives
+public/images*
+!public/images/.gitkeep
