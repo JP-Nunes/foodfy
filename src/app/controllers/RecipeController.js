@@ -4,26 +4,30 @@ const File = require('../models/File')
 module.exports = {
    async index(req, res) {
       try {
-         
-         let { page, limit } = req.query
 
-         page = page || 1
-         limit = limit || 4
-         let offset = (page - 1) * limit
+            let { page, limit } = req.query
 
-         const params = {
-            limit, offset
-         }
-         
-         const recipes = await Recipe.paginate(params)
+            page = page || 1
+            limit = limit || 4
+            let offset = (page - 1) * limit
 
-         const pagination = {
-            page,
-            total: Math.ceil(recipes[0].total / limit)
-         }
+            const params = {
+               limit, offset
+            }
+            
+            const recipes = await Recipe.paginate(params)
 
-         return res.render('recipes/index', { recipes, pagination })
+            if(recipes[0]) {
+               const pagination = {
+                  page,
+                  total: Math.ceil(recipes[0].total / limit)   
+               }
+               
+               return res.render('recipes/index', { recipes, pagination })
+            } else {
 
+               return res.render('recipes/index')
+            }
       } catch (error) {
          console.error(error)   
       }
@@ -92,7 +96,7 @@ module.exports = {
          if(req.files.length < 1) {
             return res.send('É necessário ao menos 1 imagem')
          }
-
+         
          const recipe = await Recipe.post(req.body)
 
          const filesPromise = req.files.map(async file => {
@@ -123,7 +127,36 @@ module.exports = {
                res.send('Please, fill all fields')
             }
          }
-         
+
+         if(req.files != 0) {
+            const filesPromise = req.files.map(async file => {
+               const filesId = await File.post({...file, recipe_id: req.body.id})
+
+               
+               const recipeFilesPromise = filesId.map(file => {
+                  const data = { recipe_id: req.body.id, file_id: file.id }
+                  
+                  File.postRecipeFiles(data)
+               })
+               await Promise.all(recipeFilesPromise)
+            })         
+            await Promise.all(filesPromise)
+         }
+
+         let removedFilesIds = req.body.removed_files
+
+         if(removedFilesIds) {
+            removedFilesIds = removedFilesIds.split(',')
+            const lastIndex = removedFilesIds.length - 1
+            removedFilesIds.splice(lastIndex, 1)
+            
+            const removedFilesPromise = removedFilesIds.map(id => {
+               File.delete(id)
+            })
+            
+            await Promise.all(removedFilesPromise)
+         }
+
          await Recipe.put(req.body)
 
          return res.redirect(`recipes/${req.body.id}`)
@@ -135,7 +168,7 @@ module.exports = {
    async delete(req, res) {
       try {
          
-         Recipe.delete(req.body.id)
+         await Recipe.delete(req.body.id)
 
          return res.redirect('recipes')
 

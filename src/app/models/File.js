@@ -1,4 +1,5 @@
 const db = require('../../config/db')
+const fs = require('fs')
 
 module.exports ={
    async allRecipeFiles(id) {
@@ -51,21 +52,19 @@ module.exports ={
          return console.error(error)
       }
    },
-   put(data) {
-      const query = `
-         UPDATE recipes SET
+   async delete(id) {
+      
+      try {
+         
+         const result = await db.query(`SELECT * FROM files WHERE id = $1`, [id])
+         const file = result.rows[0]
 
-            image=($1), title=($2), chef_id=($3), 
-            ingredients=($4), preparation=($5), information=($6)
+         fs.unlinkSync(file.path)
 
-         WHERE id = $7
-      `
-
-      const values = [
-         data.image, data.title, data.chef_id, data.ingredients, 
-         data.preparation, data.information, data.id
-      ]
-
-      return db.query(query, values)
-   },
+         return db.query(`DELETE FROM files WHERE id = $1`, [id])
+           
+      } catch (error) {
+         console.error(error)
+      }
+   }
 }

@@ -92,25 +92,25 @@ module.exports = {
       const query = `
          UPDATE recipes SET
 
-            image=($1), title=($2), chef_id=($3), 
-            ingredients=($4), preparation=($5), information=($6)
+            title=($1), chef_id=($2), ingredients=($3), 
+            preparation=($4), information=($5)
 
-         WHERE id = $7
+         WHERE id = $6
       `
 
       const values = [
-         data.image, data.title, data.chef_id, data.ingredients, 
+         data.title, data.chef_id, data.ingredients, 
          data.preparation, data.information, data.id
       ]
    
       return db.query(query, values)
    },
-   delete(id, callback) {
+   delete(id) {
       
-      return db.query(`DELETE FROM recipes WHERE id = $1`)
+      return db.query(`DELETE FROM recipes WHERE id = $1`, [id])
 
    },
-   async paginate(params, callback) {
+   async paginate(params) {
       try {
          const { limit, offset } = params
 
