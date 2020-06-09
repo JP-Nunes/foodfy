@@ -18,8 +18,8 @@
             <input 
                id="chef_image-input"
                type="text"
-               name="image_url"
-               value=""
+               name="file_src"
+               value={{file.src}}
                readonly="true"
                multiple
             >
@@ -33,6 +33,7 @@
             name="image"
             single
             accept="image/*"
+            onchange="ChefImageUpload.handleInput(event)"
          >
       </div>
    </div>
