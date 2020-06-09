@@ -33,35 +33,36 @@ module.exports = {
          return results.rows[0]
 
       } catch (error) {
-         if(error) return console.log(error)
+         return console.log(error)
       }
    },
    async findChefRecipes(id) {
       try {
 
          const results = await db.query(`
-            SELECT title, id FROM recipes
+            SELECT title, id 
+            FROM recipes
             WHERE chef_id = $1`, [id]
-         )  
+         )
 
          return results.rows
          
       } catch (error) {
-         if(error) return console.log(error)      
+         return console.log(error)      
       }
    },
-   async post(data) {
+   async post(data, file_id) {
       try {
          
          const query = `
             INSERT INTO chefs (
-               name, image, created_at
+               name, created_at, file_id
             ) VALUES ($1, $2, $3)
             RETURNING id
          `
 
          const values = [
-            data.name, data.image, date(Date.now()).iso
+            data.name, date(Date.now()).iso, file_id
          ]
 
          const results = await db.query(query, values)
@@ -69,7 +70,7 @@ module.exports = {
          return results.rows[0]
 
       } catch (error) {
-         if(error) return res.send('Database Error!')
+         return console.error('Database Error!')
       }
    },
    put(data) {

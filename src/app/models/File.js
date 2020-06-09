@@ -2,11 +2,37 @@ const db = require('../../config/db')
 const fs = require('fs')
 
 module.exports ={
+   async all() {
+      try {
+         
+         const results = await db.query(`
+            SELECT files.*, recipe_files.recipe_id as recipe_id 
+            FROM files
+            LEFT JOIN recipe_files ON (recipe_files.file_id = files.id) 
+         `)
+
+         return results.rows
+
+      } catch (error) {
+         console.error(error)
+      }
+   },
+   async find(id) {
+      try {
+         
+         const results = await db.query(`SELECT * FROM files WHERE id = $1`, [id])
+
+         return results.rows[0]
+
+      } catch (error) {
+         return console.error(error)
+      }
+   },
    async allRecipeFiles(id) {
       try {
          
          const results = await db.query(`
-            SELECT files.* 
+            SELECT files.*, recipe_files.recipe_id as recipe_id 
             FROM files
             LEFT JOIN recipe_files ON (recipe_files.file_id = files.id) 
             WHERE recipe_files.recipe_id = $1`, [id]
@@ -18,7 +44,7 @@ module.exports ={
          return console.error(error)
       }
    },
-   async post(data, recipeId) {
+   async post(data) {
       try {
 
          const query = `
