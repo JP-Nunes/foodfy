@@ -11,9 +11,9 @@
       {% for recipe in recipes %}
       
       <li class="recipe-card">
-         <img src="{{recipe.image}}" alt="">
+         <img src="{{recipe.image_src}}" alt="Imagem da receita {{recipe.title}}">
          <div class="card-info">
-            <h3>{{ recipe.title }}</h3>
+            <h3>{{recipe.title}}</h3>
             <p>por: {{recipe.chef_name}}</p>
             <a href="/admin/recipes/{{recipe.id}}">Visualizar</a>
          </div>

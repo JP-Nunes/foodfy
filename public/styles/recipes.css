@@ -41,6 +41,7 @@
 
 #recipe-list .recipe-card .card-info a {
    font-size: 14px;
+   font-weight: bold;
    color: #6558c3;
 }
 
