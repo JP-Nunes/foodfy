@@ -11,13 +11,29 @@
 </div>
 
 <div class="item">
-   <div class="item-title">Foto</div>
-   <div>
-      <input 
-         type="url"
-         name="image"
-         value="{{chef.image}}"
-         placeholder="http://"
-      >
+   <div class="item-title">Avatar</div>
+   <div id="chef-gallery">
+      <div id="image-preview">
+         {% if file %}
+            <input 
+               id="chef_image-input"
+               type="text"
+               name="image_url"
+               value=""
+               readonly="true"
+               multiple
+            >
+         {% endif %}
+      </div>
+
+      <div id="chef-image">
+         <p>Enviar imagem</p>
+         <input 
+            type="file"
+            name="image"
+            single
+            accept="image/*"
+         >
+      </div>
    </div>
 </div>

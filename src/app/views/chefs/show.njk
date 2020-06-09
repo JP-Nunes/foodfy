@@ -12,28 +12,24 @@
       </a>
    </div>
    <div class="chef-presentation">
-      <span 
-         style="background-image: url({{chef.image}})"
-         alt="Imagem do chef {{chef.name}}">
-      </span>
+      <img src={{image.src}} alt="Imagem do chef {{chef.name}}">
       <h1>{{chef.name}}</h1>
+
       {% if chef.total_recipes > 0 %}
       <p>
          {{chef.total_recipes}} receita{% if chef.total_recipes > 1 %}s{% endif %}
       </p>
       {% endif %}
+
    </div>
    <div class="chef-recipes">
 
       <h2>Receitas</h2>
       
-      {% for recipe in chefRecipesData %}
+      {% for recipe in chefRecipes %}
       
       <div class="chef-recipe">
-         <span 
-            style="background-image: url({{recipe.image}})"
-            alt="Imagem do chef {{recipe.title}}">
-         </span>
+         <img src={{recipe.image_src}} alt="Imagem da receita {{recipe.title}}">
          <div id="chef_recipe-info">
             <h4>{{recipe.title}}</h4>
             <p>por: {{chef.name}}</p>
