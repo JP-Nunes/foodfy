@@ -63,8 +63,16 @@ module.exports = {
       try {
          
          const chef = await Chef.find(req.params.id)
+         let file = await File.find(chef.file_id)
 
-         return res.render('chefs/edit', { chef })
+         file = {
+            ...file,
+            src: `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`
+         }
+
+         file.src = file.src.replace(/\\/g, '/')
+
+         return res.render('chefs/edit', { chef, file })
       
       } catch (error) {
          console.error(error)
@@ -91,6 +99,11 @@ module.exports = {
    },
    async put(req, res) {
       
+      if(!req.file) {
+         return res.send('É necessário ao menos 1 imagem')
+      }
+
+      await File.put(req.file, req.body.file_id)
       await Chef.put(req.body)
       
       return res.redirect(`chefs/${req.body.id}`)
@@ -99,6 +112,7 @@ module.exports = {
    async delete(req, res) {
       
       await Chef.delete(req.body.id)
+      await File.delete(req.body.file_id)
 
       return res.redirect('/chefs')
    }

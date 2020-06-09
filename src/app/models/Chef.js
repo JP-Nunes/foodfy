@@ -76,11 +76,12 @@ module.exports = {
    put(data) {
 
       const query = `
-      UPDATE chefs SET name=($1), image=($2)
-      WHERE id = $3
+         UPDATE chefs 
+         SET name=($1)
+         WHERE id = $2
       `
       const values = [
-         data.name, data.image, data.id
+         data.name, data.id
       ]
       
       return db.query(query, values)

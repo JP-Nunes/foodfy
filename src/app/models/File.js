@@ -78,6 +78,24 @@ module.exports ={
          return console.error(error)
       }
    },
+   async put(data, fileId) {
+
+      const result = await db.query(`SELECT * FROM files WHERE id = $1`, [fileId])
+      const file = result.rows[0]
+
+      fs.unlinkSync(file.path)
+
+      const query = `
+         UPDATE files 
+         SET name=($1), path=($2) 
+         WHERE id = $3
+      `
+      const values = [
+         data.filename, data.path , fileId
+      ]
+      
+      return db.query(query, values)
+   },
    async delete(id) {
       
       try {
