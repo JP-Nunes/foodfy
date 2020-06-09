@@ -5,29 +5,41 @@ module.exports = {
    async index(req, res) {
       try {
 
-            let { page, limit } = req.query
+         let { page, limit } = req.query
 
-            page = page || 1
-            limit = limit || 4
-            let offset = (page - 1) * limit
+         page = page || 1
+         limit = limit || 4
+         let offset = (page - 1) * limit
 
-            const params = {
-               limit, offset
+         const params = {
+            limit, offset
+         }
+         
+         let recipes = await Recipe.paginate(params)
+
+         const recipesWithFilesPromise = recipes.map(async recipe => {
+            const files = await File.allRecipeFiles(recipe.id)
+            const firstFile = files[0]
+
+            return recipe = {
+               ...recipe,
+               image_src: `${req.protocol}://${req.headers.host}${firstFile.path.replace('public', '')}`
+            }
+         })
+
+         recipes = await Promise.all(recipesWithFilesPromise)
+
+         if(recipes[0]) {
+            const pagination = {
+               page,
+               total: Math.ceil(recipes[0].total / limit)   
             }
             
-            const recipes = await Recipe.paginate(params)
+            return res.render('recipes/index', { recipes, pagination })
+         } else {
 
-            if(recipes[0]) {
-               const pagination = {
-                  page,
-                  total: Math.ceil(recipes[0].total / limit)   
-               }
-               
-               return res.render('recipes/index', { recipes, pagination })
-            } else {
-
-               return res.render('recipes/index')
-            }
+            return res.render('recipes/index')
+         }
       } catch (error) {
          console.error(error)   
       }
@@ -100,9 +112,8 @@ module.exports = {
          const recipe = await Recipe.post(req.body)
 
          const filesPromise = req.files.map(async file => {
-            const filesId = await File.post({...file, recipe_id: recipe.id})
+            const filesId = await File.post({ ...file })
 
-            
             const recipeFilesPromise = filesId.map(file => {
                const data = { recipe_id: recipe.id, file_id: file.id }
                
