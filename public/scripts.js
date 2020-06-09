@@ -106,6 +106,16 @@ const PhotosUpload = {
    }
 }
 
+const ChefImageUpload = {
+   handleInput(event) {
+      const { files } = event.target
+      const file = files[0]
+      const preview = document.getElementById('chef_image-input')      
+      
+      preview.value = file.name
+   }
+}
+
 const ImageGallery = {
    mainImage: document.querySelector('#main-image img'),
    previews: document.querySelectorAll('#side-images img'),
