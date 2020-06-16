@@ -9,6 +9,8 @@ module.exports = {
             SELECT recipes.*, chefs.name as chef_name
             FROM recipes
             LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
+            ORDER BY recipes.updated_at DESC
+            LIMIT 6
          `)
 
          return results.rows
@@ -69,15 +71,15 @@ module.exports = {
             INSERT INTO recipes (
             
             title, chef_id, ingredients, 
-            preparation, information, created_at
+            preparation, information
 
-            ) VALUES ($1, $2, $3, $4, $5, $6)
+            ) VALUES ($1, $2, $3, $4, $5)
             RETURNING id
          `
       
          const values = [
             data.title, data.chef_id, data.ingredients, 
-            data.preparation, data.information, date(Date.now()).iso
+            data.preparation, data.information
          ]
 
          const results = await db.query(query, values)
@@ -115,11 +117,13 @@ module.exports = {
          const { limit, offset } = params
 
          const query = `
-            SELECT recipes.*, (SELECT count(*) FROM recipes) AS total, 
+            SELECT recipes.*, MAX(recipes.updated_at),
+            (SELECT count(*) FROM recipes) AS total, 
             chefs.name as chef_name
             FROM recipes
             LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
             GROUP BY recipes.id, chefs.name
+            ORDER BY recipes.updated_at DESC
             LIMIT $1 OFFSET $2
          `
          const results = await db.query(query, [limit, offset])            
