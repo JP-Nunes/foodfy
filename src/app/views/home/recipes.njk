@@ -2,7 +2,6 @@
 
 {% block content %}
 
-
 <div class="container recipes-container">
    
    {% include "parts/home-header.njk" %}
@@ -11,7 +10,7 @@
       {% for recipe in recipes %}
       
       <li class="recipe-card">
-         <img src="{{recipe.image}}" alt="">
+         <img src="{{recipe.image_src}}" alt="{{image.title}}">
          <div class="card-info">
             <h3>{{ recipe.title }}</h3>
             <p>por: {{recipe.chef_name}}</p>
@@ -20,7 +19,6 @@
       
       {% endfor %}
    </ul>
-   
 </div>
 
 <div 

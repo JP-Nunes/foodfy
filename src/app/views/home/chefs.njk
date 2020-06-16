@@ -10,7 +10,7 @@
       {% for chef in chefs %}
       
       <li class="chef">
-         <span style="background-image: url({{chef.image}})"></span>
+         <img src="{{chef.image_src}}" alt="{{chef.name}}">
          <div class="info">
             <h4>{{chef.name}}</h4>
             <p>
