@@ -85,11 +85,8 @@ module.exports = {
             return res.send('É necessário ao menos 1 imagem')
          }
 
-         const file = await File.post(req.file)
-         
-         const chef = await Chef.post(req.body, file.id)
-
-         console.log(chef)
+         const file = await File.post(req.file)         
+         const chef = await Chef.post(req.body, file[0].id)
             
          return res.redirect(`chefs/${chef.id}`)
       
