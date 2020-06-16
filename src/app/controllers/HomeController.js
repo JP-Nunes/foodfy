@@ -1,9 +1,21 @@
 const Recipe = require('../models/Recipe')
 const Chef = require('../models/Chef')
+const File = require('../models/File')
 
 module.exports = {
    async index(req, res) {
-      const recipes = await Recipe.all()
+      let recipes = await Recipe.all()
+      
+      const recipesWithFilePromise = recipes.map(async recipe => {
+         const recipeFiles = await File.allRecipeFiles(recipe.id)
+         const firstFile = recipeFiles[0]
+
+         return recipe = {
+            ...recipe,
+            image_src: `${req.protocol}://${req.headers.host}${firstFile.path.replace('public', '')}`
+         }
+      })
+      recipes = await Promise.all(recipesWithFilePromise)
 
       return res.render('home/index',  { recipes })
    },
@@ -20,7 +32,18 @@ module.exports = {
             limit, offset
          }
          
-         const recipes = await Recipe.paginate(params)
+         let recipes = await Recipe.paginate(params)
+
+         const recipesWithFilePromise = recipes.map(async recipe => {
+            const files = await File.allRecipeFiles(recipe.id)
+            const firstFile = files[0]
+
+            return recipe = {
+               ...recipe,
+               image_src: `${req.protocol}://${req.headers.host}${firstFile.path.replace('public', '')}`
+            }
+         })
+         recipes = await Promise.all(recipesWithFilePromise)
 
          const pagination = {
             page,
@@ -36,7 +59,17 @@ module.exports = {
    async chefs(req, res) {
       try {
          
-         const chefs = await Chef.all()
+         let chefs = await Chef.all()
+         
+         const chefsWithFilesPromise = chefs.map(async chef => {
+            const file = await File.find(chef.file_id)
+
+            return chef = {
+               ...chef,
+               image_src: `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`
+            }
+         })
+         chefs = await Promise.all(chefsWithFilesPromise)
          
          return res.render('home/chefs', { chefs })
       
@@ -51,7 +84,18 @@ module.exports = {
 
          if(filter) {
             
-            const recipes = await Recipe.filtered(filter)
+            let recipes = await Recipe.filtered(filter)
+
+            const recipesWithFilePromise = recipes.map(async recipe => {
+               const files = await File.allRecipeFiles(recipe.id)
+               const firstFile = files[0]
+   
+               return recipe = {
+                  ...recipe,
+                  image_src: `${req.protocol}://${req.headers.host}${firstFile.path.replace('public', '')}`
+               }
+            })
+            recipes = await Promise.all(recipesWithFilePromise)
 
             return res.render('home/search', { recipes, filter })
       
