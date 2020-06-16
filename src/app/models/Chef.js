@@ -55,15 +55,11 @@ module.exports = {
       try {
          
          const query = `
-            INSERT INTO chefs (
-               name, created_at, file_id
-            ) VALUES ($1, $2, $3)
+            INSERT INTO chefs (name, file_id) 
+            VALUES ($1, $2)
             RETURNING id
          `
-
-         const values = [
-            data.name, date(Date.now()).iso, file_id
-         ]
+         const values = [data.name, file_id]
 
          const results = await db.query(query, values)
 
