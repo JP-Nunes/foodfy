@@ -17,7 +17,7 @@ module.exports = {
          
          let recipes = await Recipe.paginate(params)
 
-         const recipesWithFilesPromise = recipes.map(async recipe => {
+         const recipesWithFilePromise = recipes.map(async recipe => {
             const files = await File.allRecipeFiles(recipe.id)
             const firstFile = files[0]
 
@@ -26,8 +26,7 @@ module.exports = {
                image_src: `${req.protocol}://${req.headers.host}${firstFile.path.replace('public', '')}`
             }
          })
-
-         recipes = await Promise.all(recipesWithFilesPromise)
+         recipes = await Promise.all(recipesWithFilePromise)
 
          if(recipes[0]) {
             const pagination = {
