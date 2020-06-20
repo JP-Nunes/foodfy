@@ -1,9 +1,22 @@
 -- Creating database and tables
 CREATE DATABASE foodfy;
 
+CREATE TABLE "users" (
+   "id" SERIAL PRIMARY KEY,
+   "name" TEXT NOT NULL,
+   "email" TEXT UNIQUE NOT NULL,
+   "password" TEXT NOT NULL,
+   "reset_token" TEXT,
+   "reset_token_expires" TEXT,
+   "is_admin" BOOLEAN DEFAULT false,
+   "created_at" TIMESTAMP DEFAULT(now()),
+   "updated_at" TIMESTAMP DEFAULT(now())
+);
+
 CREATE TABLE "recipes" (
   "id" SERIAL PRIMARY KEY,
   "chef_id" int NOT NULL,
+  "user_id" int NOT NULL,
   "title" text NOT NULL,
   "ingredients" text[] NOT NULL,
   "preparation" text[] NOT NULL,
