@@ -1,0 +1,28 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "parts/admin-header.njk" %}
+
+<div class="container fields-container">
+   <h2>Criar receita</h2>
+
+   <form 
+      class="user-form" 
+      method="POST" 
+      action="/admin/users?_method=PUT"
+   >
+      
+      {% include "users/fields.njk" %}
+      
+      <input type="hidden" name="id" value={{user.id}}>
+      <button class="button" type="submit">Salvar</button>
+   </form>
+
+   <form class="card" id="form-delete" method="POST" action="/admin/users?_method=DELETE">
+      <input type="hidden" name="id" value={{user.id}}>
+      <button class="delete-button" type="submit">Deletar</button>
+   </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+<div class="item">
+   <div class="item-title">Nome</div>
+   <div>
+      <input 
+         id="name-input"
+         type="text"
+         name="name"
+         value="{{user.name}}"
+         placeholder="Seu nome aqui"
+      >
+   </div>
+</div>
+
+<div class="item">
+   <div class="item-title">Email</div>
+   <div>
+      <input 
+         type="email"
+         name="email"
+         value="{{user.email}}"
+         placeholder="seu_email@aqui.com"
+      >
+   </div>
+</div>
+
+<div class="item">
+   <div id="admin-item">
+      <input
+         id="is_admin-input"
+         type="checkbox"
+         name="is_admin"
+         value=true
+         {% if user.is_admin == true %}
+         checked
+         {% endif %}
+      >
+      <span id="checkmark"></span>
+      <div class="item-title">Administrador</div>
+   </div>
+</div>
+
