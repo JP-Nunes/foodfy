@@ -79,11 +79,17 @@ BEFORE UPDATE ON recipes
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
--- Joining tables
+-- Creating connect-pg-simple session
 
-SELECT * FROM chefs
-LEFT JOIN recipes ON (recipes.chef_id = chefs.id)
-ORDER BY chefs.id
+CREATE TABLE "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+  "sess" json NOT NULL,
+  "expire" timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+ALTER TABLE "session" 
+ADD CONSTRAINT "session_pkey" 
+PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- To delete tables and restart id sequence
 
