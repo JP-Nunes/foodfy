@@ -1,0 +1,67 @@
+.login-container {
+   display: flex;
+   align-items: center;
+}
+
+.login-container header {
+   margin-top: 35px;
+   margin-bottom: 146px;
+}
+
+.login-container header img {
+   width: 94px;
+   height: 32px;
+}
+
+.login-container section h2 {
+   font-size: 24px;
+   font-weight: bold;
+   text-align: center;
+}
+
+.login-container section form {
+   margin-bottom: 50px;
+}
+
+.login-container section form label {
+   display: block;
+
+   font-size: 16px;
+   font-weight: bold;
+
+   margin-top: 35px;
+   margin-bottom: 10px;
+}
+
+.login-container section form input {
+   width: 500px;
+   height: 49px;
+   display: block;
+
+   border: 1px solid #DDDDDD;
+   border-radius: 4px;
+
+   font-size: 16px;
+   padding-left: 10px;
+   color: rgb(39, 38, 38) ;
+}
+
+.login-container section form .button {
+   position: initial;
+   display: block;
+
+   margin-top: 35px;
+   float: right;
+}
+
+.login-container section a {
+   font-size: 16px;
+   color: #969696;
+
+   transition: 0.1s;
+}
+
+.login-container section a:hover {
+   color: #3b3b3b;
+   text-decoration: underline;
+}
