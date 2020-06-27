@@ -1,0 +1,60 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "parts/admin-header.njk" %}
+
+<div class="container fields-container">
+   <h2>Criar receita</h2>
+
+   <form 
+      class="user-form" 
+      method="POST" 
+      action="/admin/users/profile?_method=PUT"
+   >
+      <input type="hidden" name="id" value={{user.id}}>
+      <button class="button" type="submit">Salvar</button>
+      
+      <div id="user-info">
+         <div class="item">
+            <div class="item-title">Nome</div>
+            <div>
+               <input 
+                  id="name-input"
+                  type="text"
+                  name="name"
+                  value="{{user.name}}"
+                  placeholder="Seu nome aqui"
+               >
+            </div>
+         </div>
+
+         <div class="item">
+            <div class="item-title">Email</div>
+               <div>
+                  <input 
+                     type="email"
+                     name="email"
+                     value="{{user.email}}"
+                     placeholder="seu_email@aqui.com"
+                  >
+               </div>
+            </div>
+         </div>
+
+         <div class="item">
+            <div class="item-title">Senha</div>
+               <div>
+                  <input 
+                     type="password"
+                     name="password"
+                     placeholder="Digite sua senha"
+                  >
+               </div>
+            </div>
+         </div>
+      </div>
+   </form>
+</div>
+
+{% endblock %}

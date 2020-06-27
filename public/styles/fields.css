@@ -25,7 +25,7 @@
 
    font-size: 16px;
    padding-left: 10px;
-   color: rgb(39, 38, 38) ;
+   color: rgb(39, 38, 38);
 }
 
 .item select {
@@ -248,9 +248,9 @@
 
 /** USER'S FIELDS **/
 
-.user-form {
-   display: grid;
-   grid-template-columns: 1fr 1fr;
+#user-info {
+   display: flex;
+   justify-content: space-between;
 }
 
 .user-form .item input {

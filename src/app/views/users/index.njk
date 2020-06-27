@@ -1,0 +1,35 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "parts/admin-header.njk" %}
+
+<div class="container users-container">
+   <h1>Usuários</h1>
+   <a href="/admin/users/register">
+      <button class="button">Novo</button>
+   </a>
+
+   <ul id="users">
+      {% for user in users %}
+      
+         <li class="user">
+            <div class="info">
+               <h4>{{user.name}}</h4>
+               <p>{{user.email}}</p>
+               <div id="user-options">
+                  <a href="/admin/users/{{user.id}}/edit">Editar</a>
+                  <form method="POST" action="/admin/users?_method=DELETE">
+                     <input type="hidden" name="id" value={{user.id}}>
+                     <button type="submit">Deletar</button>
+                  </form>
+               </div>
+            </div>
+         </li>
+
+      {% endfor %}
+   </ul>
+
+</div>
+
+{% endblock %}

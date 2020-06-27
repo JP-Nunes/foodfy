@@ -1,0 +1,50 @@
+.users-container h1 {
+   font-size: 24px;
+   margin-bottom: 72px;
+}
+
+#users {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   grid-column-gap: 120px;
+}
+
+#users li {
+   margin-bottom: 52px;
+}
+
+#users li h4 {
+   font-size: 18px;
+   font-weight: normal;
+
+   margin-bottom: 4px;
+}
+
+#users li p {
+   font-size: 14px;
+   color: #777777;
+
+   margin-bottom: 16px;
+}
+
+#users li #user-options {
+   display: flex;
+}
+
+#users li #user-options a {
+   font-size: 14px;
+   font-weight: bold;
+   color: #6558C3;
+
+   margin-top: 2.5px;
+   margin-right: 16px;
+}
+
+#users li #user-options button {
+   font-size: 14px;
+   font-weight: bold;
+   color: #F55A5A;
+   cursor: pointer;
+
+   background-color: #f9f9f9;
+}
