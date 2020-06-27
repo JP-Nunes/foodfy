@@ -80,15 +80,80 @@
    color: #999999;
 }
 
-#admin-header .links ul li a:hover {
+#admin-header .links ul li .main-links:hover {
    filter: brightness(150%);
 }
 
-/** headers menu active **/
+/* header's menu active */
 
 header .menu ul li a.active {
    font-weight: bold;
    filter: brightness(150%);
+}
+
+/* header menu dropdown */
+
+#admin-header ul #users {
+   position: relative;
+}
+
+#admin-header ul #users .submenu {
+   position: absolute;
+   left: 7px;
+   width: 120px;
+   display: block;
+   text-align: center;
+
+   background-color: white;
+   border-radius: 4px;
+   box-shadow: 2px 2px 5px -1px #555555;
+
+   visibility: hidden;
+   opacity: 0;
+   top: -5px;
+   transition: all 300ms;
+}
+
+#admin-header ul #users:hover .submenu {
+   visibility: visible;
+   opacity: 1;
+   top: 18px;
+}
+
+#admin-header ul #users .submenu li {
+   max-width: 120px;
+   padding: 0;
+   border-radius: 4px;
+}
+
+#admin-header ul #users .submenu li a,
+#admin-header ul #users .submenu li button {
+   font-size: 13px;
+   color:rgb(26, 26, 26);
+   font-weight: normal;
+   text-transform: capitalize;
+   background-color: white;
+
+   display: inline-block;
+   width: 100%;
+   
+   border-bottom: 1px solid #eee;
+   border-radius: 4px;
+   padding: 8px;
+
+   cursor: pointer;
+   transition: 200ms;
+}
+
+#admin-header ul #users .submenu li a.active {
+   font-weight: normal;
+   filter: none;
+}
+
+#admin-header ul #users .submenu li:hover a,
+#admin-header ul #users .submenu li:hover button {
+   background-color: #eee;
+   font-weight: bold;
 }
 
 /** FOOTER **/

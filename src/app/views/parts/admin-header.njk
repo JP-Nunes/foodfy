@@ -1,15 +1,36 @@
 <header id="admin-header">
    <div class="logo">
-      <img src="/images/logo.png" alt="">
+      <img src="/images/logo.png" alt="logo foodfy">
    </div>
 
    <div class="menu links">
       <ul>
          <li>
-            <a href="/admin/recipes">Receitas</a>
+            <a class="main-links" href="/admin/recipes">Receitas</a>
          </li>
          <li>
-            <a href="/admin/chefs">Chefs</a>
+            <a class="main-links" href="/admin/chefs">Chefs</a>
+         </li>
+         <li id="users">
+            <a class="main-links" href="/admin/users">Usuários</a>
+            <ul class="submenu">
+               <li>
+                  <a href="/admin/users/profile">Configurações</a>
+               </li>
+               <li>
+                  <a href="/admin/users/recipes">Minhas Receitas</a>
+               </li>
+               <li>
+                  <form  
+                     method="POST" 
+                     action="/admin/users/logout" 
+                  >
+                     <button class="dropdown-button" type="submit">
+                        Sair
+                     </button>
+                  </form>
+               </li>
+            </ul>
          </li>
       </ul> 
    </div>
