@@ -27,21 +27,23 @@
                placeholder="Digite seu email para recuperar a senha"
             >
             
-            <label for="password">Nova senha</label>
+            <label for="newPassword">Nova senha</label>
             <input 
                type="password" 
                id="password" 
-               name="password" 
+               name="newPassword" 
                placeholder="Digite sua nova senha"
             >
             
-            <label for="password-confirm">Nova senha</label>
+            <label for="newPassword-confirm">Nova senha</label>
             <input 
                type="password" 
                id="password-confirm" 
-               name="password-confirm" 
+               name="newPassword_confirm" 
                placeholder="Repita sua nova senha"
             >
+
+            <input type="hidden" name="token" value="{{token}}">
             
             <button class="button" type="submit">Recuperar</button>
          </form>

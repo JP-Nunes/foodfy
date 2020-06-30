@@ -69,15 +69,21 @@ module.exports = {
          const query = `
             UPDATE users SET
                name=($1), 
-               email=($2), 
-               is_admin=($3)
-            WHERE id = $4
+               email=($2),
+               password=($3), 
+               is_admin=($4),
+               reset_token=($5),
+               reset_token_expires=($6)
+            WHERE id = $7
          `
          
          const values = [
             data.name,
             data.email,
+            data.password,
             data.is_admin,
+            data.token,
+            data.token_expires,
             data.id
          ]
 

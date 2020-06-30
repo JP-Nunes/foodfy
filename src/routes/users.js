@@ -13,8 +13,8 @@ routes.post('/login', SessionController.login)
 routes.post('/logout', SessionController.logout)
 
 // Session Password
-routes.get('/forgot-password', redirectNotUsers, SessionController.forgotPasswordForm)
-routes.get('/reset-password', redirectNotUsers, SessionController.resetPasswordForm)
+routes.get('/forgot-password', SessionController.forgotPasswordForm)
+routes.get('/reset-password', SessionController.resetPasswordForm)
 routes.post('/forgot', SessionController.forgotPassword)
 routes.post('/reset', SessionController.resetPassword)
 
