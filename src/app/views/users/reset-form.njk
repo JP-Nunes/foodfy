@@ -7,47 +7,56 @@
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <link rel="stylesheet" href="/styles/login.css">
       <link rel="stylesheet" href="/styles/styles.css">
+      <link rel="stylesheet" href="/styles/message.css">
    </head>
 
    <body class="container login-container">
-      <header>
-         <a href="/home/index">
-            <img src="/images/logo-home.png" alt="Logo foodfy">
-         </a>
-      </header>
 
-      <section>
-         <h2>Esqueceu a senha?</h2>
-         <form method="POST" action="/admin/users/reset">
-            <label for="email">Email</label>
-            <input 
-               type="text" 
-               id="email" 
-               name="email" 
-               placeholder="Digite seu email para recuperar a senha"
-            >
-            
-            <label for="newPassword">Nova senha</label>
-            <input 
-               type="password" 
-               id="password" 
-               name="newPassword" 
-               placeholder="Digite sua nova senha"
-            >
-            
-            <label for="newPassword-confirm">Nova senha</label>
-            <input 
-               type="password" 
-               id="password-confirm" 
-               name="newPassword_confirm" 
-               placeholder="Repita sua nova senha"
-            >
+      {% include "parts/messages.njk" %}
 
-            <input type="hidden" name="token" value="{{token}}">
-            
-            <button class="button" type="submit">Recuperar</button>
-         </form>
-      </section>
+      <div class="container login-container">
+         <header>
+            <a href="/home/index">
+               <img src="/images/logo-home.png" alt="Logo foodfy">
+            </a>
+         </header>
 
+         <section>
+            <h2>Esqueceu a senha?</h2>
+            <form method="POST" action="/admin/users/reset">
+               <label for="email">Email</label>
+               <input 
+                  type="text" 
+                  {% if error %} class="error-input" {% endif %}
+                  id="email" 
+                  name="email" 
+                  placeholder="Digite seu email para recuperar a senha"
+                  value="{{user.email}}"
+               >
+               
+               <label for="newPassword">Nova senha</label>
+               <input 
+                  type="password" 
+                  {% if error %} class="error-input" {% endif %}
+                  id="password" 
+                  name="newPassword" 
+                  placeholder="Digite sua nova senha"
+               >
+               
+               <label for="newPassword-confirm">Repetir senha</label>
+               <input 
+                  type="password"
+                  {% if error %} class="error-input" {% endif %} 
+                  id="password-confirm" 
+                  name="newPassword_confirm" 
+                  placeholder="Repita sua nova senha"
+               >
+
+               <input type="hidden" name="token" value="{{token}}">
+               
+               <button class="button" type="submit">Recuperar</button>
+            </form>
+         </section>
+      </div>
    </body>
 </html>

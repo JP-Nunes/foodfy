@@ -1,6 +1,7 @@
 .login-container {
    display: flex;
    align-items: center;
+   flex-direction: column;
 }
 
 .login-container header {
@@ -43,7 +44,24 @@
 
    font-size: 16px;
    padding-left: 10px;
-   color: rgb(39, 38, 38) ;
+   color: rgb(39, 38, 38);
+}
+
+.login-container section form .error-input {
+   border-color: #DDDDDD;
+   
+   animation: fadeaway 7s;
+   animation-timing-function: ease-in;   
+}
+
+@keyframes fadeaway {
+   from {
+      border-color: #DC4747;
+   }
+   
+   to {
+      border-color: #DDDDDD;
+   }
 }
 
 .login-container section form .button {

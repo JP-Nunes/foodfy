@@ -3,6 +3,7 @@
    <div>
       <input 
          type="text"
+         {% if error %} class="error-input" {% endif %}
          name="name"
          value="{{chef.name}}"
          placeholder="Fulano da Silva"
@@ -18,6 +19,7 @@
             <input 
                id="chef_image-input"
                type="text"
+               {% if error %} class="error-input" {% endif %}
                name="file_src"
                value={{file.src}}
                readonly="true"

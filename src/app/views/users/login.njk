@@ -7,38 +7,48 @@
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <link rel="stylesheet" href="/styles/login.css">
       <link rel="stylesheet" href="/styles/styles.css">
+      <link rel="stylesheet" href="/styles/message.css">
    </head>
 
-   <body class="container login-container">
-      <header>
-         <a href="/home/index">
-            <img src="/images/logo-home.png" alt="Logo foodfy">
-         </a>
-      </header>
+   {% include "parts/messages.njk" %}
 
-      <section>
-         <h2>Iniciar Sessão</h2>
-         <form method="POST" action="/admin/users/login">
-            <label for="email">Email</label>
-            <input 
-               type="text" 
-               id="email" 
-               name="email" 
-               placeholder="Digite seu email"
-            >
-            
-            <label for="password">Senha</label>
-            <input 
-               type="password" 
-               id="password" 
-               name="password" 
-               placeholder="Digite sua senha"
-            >
-            
-            <button class="button" type="submit">Acessar</button>
-         </form>
-         <a href="/admin/users/forgot-password">Perdeu a senha?</a>
-      </section>
+   <body>
 
+      {% include "parts/messages.njk" %}
+
+      <div class="container login-container">
+         <header>
+            <a href="/home/index">
+               <img src="/images/logo-home.png" alt="Logo foodfy">
+            </a>
+         </header>
+
+         <section>
+            <h2>Iniciar Sessão</h2>
+            <form method="POST" action="/admin/users/login">
+               <label for="email">Email</label>
+               <input 
+                  type="text" 
+                  {% if error %} class="error-input" {% endif %}
+                  id="email" 
+                  name="email" 
+                  placeholder="Digite seu email"
+                  value="{{user.email}}"
+               >
+               
+               <label for="password">Senha</label>
+               <input 
+                  type="password"
+                  {% if error %} class="error-input" {% endif %} 
+                  id="password" 
+                  name="password" 
+                  placeholder="Digite sua senha"
+               >
+               
+               <button class="button" type="submit">Acessar</button>
+            </form>
+            <a href="/admin/users/forgot-password">Perdeu a senha?</a>
+         </section>
+      </div>
    </body>
 </html>

@@ -1,7 +1,11 @@
 <div class="item">
    <div class="item-title">Imagem da receita</div>
    <div class="images">
-      <div class="images-upload">
+            
+      <div 
+         {% if error %} class="error-input" {% endif %}
+         id="images-upload"
+      >
          <input 
             id="images-input"
             type="file"
@@ -37,6 +41,7 @@
    <div>
       <input 
          id="title-input"
+         {% if error %} class="error-input" {% endif %}
          type="text"
          name="title"
          value="{{recipe.title}}"
@@ -48,7 +53,10 @@
 <div class="item">
    <div class="item-title">Chef</div>
    <div>
-      <select name="chef_id">
+      <select 
+         {% if error %} class="error-input" {% endif %}
+         name="chef_id"
+      >
          
          <option style="display:none">
 
@@ -73,6 +81,7 @@
       <div class="ingredient">
          <input 
             type="text"
+            {% if error %} class="error-input" {% endif %}
             name="ingredients[]"
             value="{{recipe.ingredients}}"
             placeholder="200g de mussarela"
@@ -88,6 +97,7 @@
       <div class="step">
          <input 
             type="text"
+            {% if error %} class="error-input" {% endif %}
             name="preparation[]"
             value="{{recipe.preparation}}"
             placeholder="Primeiro, corte a mussarela em cubinhos..."

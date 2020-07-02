@@ -4,6 +4,7 @@
       <div>
          <input 
             id="name-input"
+            {% if error %} class="error-input" {% endif %}
             type="text"
             name="name"
             value="{{user.name}}"
@@ -17,6 +18,7 @@
       <div>
          <input 
             type="email"
+            {% if error %} class="error-input" {% endif %}
             name="email"
             value="{{user.email}}"
             placeholder="seu_email@aqui.com"
