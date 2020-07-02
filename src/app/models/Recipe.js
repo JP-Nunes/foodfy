@@ -53,17 +53,6 @@ module.exports = {
          return console.error(error)
       }      
    },
-   async nameAndId() {
-      try {
-
-         const results = await db.query(`SELECT name, id FROM chefs`)
-         
-         return results.rows
-
-      } catch (error) {
-         return console.error(error)
-      }
-   },
    async post(data) {
       try {
 

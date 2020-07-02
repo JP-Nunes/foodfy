@@ -29,10 +29,8 @@ module.exports = {
    async show(req, res) {
       try {
 
-         const chef = await Chef.find(req.params.id)
+         const { chef } = req
 
-         if(!chef) return res.send('Chef not found')
-         
          let chefImage = await File.find(chef.file_id)
          
          chefImage = {
@@ -80,37 +78,35 @@ module.exports = {
    },
    async post(req, res) {
       try {
-
-         if(!req.file) {
-            return res.send('É necessário ao menos 1 imagem')
-         }
-
          const file = await File.post(req.file)         
          const chef = await Chef.post(req.body, file[0].id)
             
          return res.redirect(`chefs/${chef.id}`)
-      
       } catch (error) {
          console.error(error)   
       }
    },
    async put(req, res) {
-      
-      if(!req.file) {
-         return res.send('É necessário ao menos 1 imagem')
+      try {
+         if(req.file) {
+            await File.put(req.file, req.body.file_id)
+         }
+         
+         await Chef.put(req.body)
+         
+         return res.redirect(`chefs/${req.body.id}`)
+      } catch (error) {
+         console.error(error)
       }
-
-      await File.put(req.file, req.body.file_id)
-      await Chef.put(req.body)
-      
-      return res.redirect(`chefs/${req.body.id}`)
-
    },
    async delete(req, res) {
-      
-      await Chef.delete(req.body.id)
-      await File.delete(req.body.file_id)
+      try {
+         await Chef.delete(req.body.id)
+         await File.delete(req.body.file_id)
 
-      return res.redirect('/chefs')
+         return res.redirect('/chefs')   
+      } catch (error) {
+         console.error(error)
+      }
    }
 }

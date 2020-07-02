@@ -6,55 +6,26 @@ const User = require('../models/User')
 
 module.exports = {
    loginForm(req, res) {
-
       return res.render('users/login')
    },
    async login(req, res) {
       try {
-
-         const { email, password } = req.body
-
-         let user = await User.findOne({ where: { email } })
-         
-         if(!user) {
-            return res.send('Usuário não cadastrado')
-         }
-
-         const verified = await compare(password, user.password)
-
-         if(!verified) {
-            return res.send('Senha incorreta')
-         }
-
-         req.session.userId = user.id
+         req.session.userId = req.user.id
 
          if(req.session.userId) {
             return res.redirect('/admin/users/profile')
          }
-
-         const passwordHash = await hash(password, 8)
-
-         user = {
-            ...user,
-            password: passwordHash
-         }
-
-         await User.update(user)
-
-         return res.send('Ok')
-
       } catch (error) {
          console.error(error)
       }
    },
    logout(req, res) {
+      console.log(req.session)
       req.session.destroy()
 
       return res.redirect('/admin/users/login')
-
    },
    forgotPasswordForm(req, res) {
-
       return res.render('users/forgot-form')
    },
    async forgotPassword(req, res) {
@@ -64,11 +35,8 @@ module.exports = {
          let now = new Date()
          now = now.setHours(now.getHours() + 1)
          
-         const { email } = req.body
-
-         let user = await User.findOne({ where: { email }})
-         user = {
-            ...user,
+         const user = {
+            ...req.user,
             token,
             token_expires: now
          }
@@ -93,8 +61,10 @@ module.exports = {
             `
          })
 
-         return res.send('Cheque seu email')
-
+         return res.render('users/forgot-form', {
+            success: 'Verifique seu e-mail para recuperar sua senha',
+            user: req.body
+         })
       } catch (error) {
          console.error(error)
       }
@@ -104,41 +74,18 @@ module.exports = {
    },
    async resetPassword(req, res) {
       try {
-         const { email, newPassword, newPassword_confirm, token } = req.body
+         const passwordHash = await hash(req.body.newPassword, 8)
 
-
-         if(newPassword !== newPassword_confirm) {
-            return res.send('Senha e confirmação não batem')
-         }
-
-         let user = await User.findOne({ where: { email } })
-         
-         if(user.reset_token !== token) {
-            return res.send('Token inválido')
-         }
-
-         if(!user) {
-            return res.send('Usuário não encontrado')
-         }
-
-         let now = new Date()
-         now = now.setHours(now.getHours())
-
-         if(user.reset_token_expires < now) {
-            return res.send('Seu token expirou')
-         }
-
-         const passwordHash = await hash(newPassword, 8)
-
-         user = {
-            ...user,
+         const user = {
+            ...req.user,
             password: passwordHash
          }
 
          await User.update(user)
 
-         return res.send('Ok')
-         
+         return res.render('users/login', {
+            success: 'Senha alterada com sucesso!'
+         })
       } catch (error) {
          console.error(error)
       }

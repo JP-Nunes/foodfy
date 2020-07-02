@@ -11,18 +11,15 @@ module.exports = {
    },
    async list(req, res) {
       try {
-         
          const users = await User.all()
 
          return res.render('users/index', { users })
-
       } catch (error) {
          console.error(error)
       }
    },
    async post(req, res) {
       try {
-
          const password = crypto.randomBytes(3).toString('hex')
 
          await mailer.sendMail({
@@ -42,11 +39,13 @@ module.exports = {
             password: passwordHash
          }
          
-         const user = await User.create(req.body)
+         const userId = await User.create(req.body)
 
-         req.session.userId = user.id
+         console.log(userId)
 
-         return res.redirect(`/admin/users/${user.id}/edit`)
+         req.session.userId = userId
+
+         return res.redirect(`/users/${userId}/edit`)
 
       } catch (error) {
          console.error(error)
@@ -54,40 +53,29 @@ module.exports = {
    },
    async edit(req, res) {
       try {
-
-         const user = await User.findOne(req.params.id)
+         const user = await User.findOne({ 
+            where: { id: req.params.id } 
+         })
 
          return res.render('users/edit', { user })
-         
       } catch (error) {
          console.error(error)
       }
    },
    async put(req, res) {
       try {
-         
-         if(!req.body.is_admin) {
-            req.body = {
-               ...req.body,
-               is_admin: false
-            }
-         }
-
          await User.update(req.body)
 
          return res.redirect(`/admin/users/${req.body.id}/edit`)
-
       } catch (error) {
          console.error(error)
       }
    },
    async delete(req, res) {
       try {
-         
          await User.delete(req.body.id)
 
          return res.redirect('/home/index')
-
       } catch (error) {
          console.error(error)
       }

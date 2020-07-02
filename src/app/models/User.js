@@ -57,7 +57,9 @@ module.exports = {
          
          const results = await db.query(query, values)
 
-         return results.rows[0]
+         console.log(`results = ${results}`)
+
+         return results.rows[0].id
 
       } catch (error) {
          console.error(error)
@@ -97,21 +99,19 @@ module.exports = {
       try {
 
          const query = `
-            UPDATE users SET (
-               name, 
-               email, 
-            ) VALUES ($1, $2, $3)
-            WHERE id = $4
+            UPDATE users SET
+               name=($1), 
+               email=($2)
+            WHERE id = $3
          `
          
          const values = [
             data.name,
             data.email,
+            data.id
          ]
 
-         const results = await db.query(query, values)
-
-         return results.rows[0]
+         return db.query(query, values)
 
       } catch (error) {
          console.error(error)
