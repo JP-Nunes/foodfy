@@ -54,13 +54,13 @@
 
 /** CHEF'S SHOW **/
 
-.top-content h2 {
+#top-content div h2 {
    font-size: 24px;
 
    margin-bottom: 51px;
 }
 
-.chef-presentation img {
+#chef-presentation div img {
    display: block;
 
    width: 200px;
@@ -73,7 +73,7 @@
    margin: 0 auto;
 }
 
-.chef-presentation h1 {
+#chef-presentation div h1 {
    margin-top: 30px;
    margin-bottom: 4px;
 
@@ -81,7 +81,7 @@
    text-align: center;
 }
 
-.chef-presentation p {
+#chef-presentation div p {
    font-size: 20px;
    color: #777777;
    text-align: center;
@@ -89,19 +89,30 @@
 
 /* chef recipes */
 
-.chef-recipes {
-   display: grid;
-   grid-template-columns: repeat(2);
-}
-
-.chef-recipes .chef-recipe {
-   display: grid;
-   grid-template-columns: 172px 1fr;
-
+#chef-recipes {
    margin-bottom: 150px;
 }
 
-.chef-recipes .chef-recipe div {
+#chef-recipes h2 {
+   font-size: 24px;
+
+   margin-top: 50px;
+   margin-bottom: 30px;
+}
+
+#chef-recipes #recipes {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+}
+
+#chef-recipes .recipe {
+   display: grid;
+   grid-template-columns: 172px 1fr;
+
+   margin-bottom: 20px;
+}
+
+#chef-recipes .recipe div {
    margin-left: 20px;
    
    max-height: 80px;
@@ -110,14 +121,7 @@
    grid-template-rows: auto;
 }
 
-.chef-recipes h2 {
-   font-size: 24px;
-
-   margin-top: 50px;
-   margin-bottom: 30px;
-}
-
-.chef-recipes img {
+#chef-recipes .recipe img {
    width: 172px;
    height: 80px;
 
@@ -127,17 +131,17 @@
    border-radius: 8px;
 }
 
-.chef-recipes h4 {
+#chef-recipes .recipe h4 {
    font-size: 18px;
    font-weight: normal;
 }
 
-.chef-recipes p {
+#chef-recipes .recipe p {
    font-size: 14px;
    color: #777777;
 }
 
-.chef-recipes a {
+#chef-recipes .recipe a {
    font-size: 14px;
    font-weight: bold;
    color: #6558C3;

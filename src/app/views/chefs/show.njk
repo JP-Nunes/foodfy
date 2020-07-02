@@ -5,41 +5,42 @@
 {% include "parts/admin-header.njk" %}
 
 <div class="container chef-container">
-   <div class="top-content">
-      <h2>Chef: {{chef.name}}</h2>
-      <a href="/admin/chefs/{{chef.id}}/edit">
-         <button class="button">Editar</button>
-      </a>
-   </div>
-   <div class="chef-presentation">
-      <img src={{image.src}} alt="Imagem do chef {{chef.name}}">
-      <h1>{{chef.name}}</h1>
-
-      {% if chef.total_recipes > 0 %}
-      <p>
-         {{chef.total_recipes}} receita{% if chef.total_recipes > 1 %}s{% endif %}
-      </p>
-      {% endif %}
-
-   </div>
-   <div class="chef-recipes">
-
-      <h2>Receitas</h2>
-      
-      {% for recipe in chefRecipes %}
-      
-      <div class="chef-recipe">
-         <img src={{recipe.image_src}} alt="Imagem da receita {{recipe.title}}">
-         <div id="chef_recipe-info">
-            <h4>{{recipe.title}}</h4>
-            <p>por: {{chef.name}}</p>
-            <a href="/admin/recipes/{{recipe.id}}">Visualizar</a>
-         </div>
+   <section id="top-content">
+      <div>
+         <h2>Chef: {{chef.name}}</h2>
+         <a href="/admin/chefs/{{chef.id}}/edit">
+            <button class="button">Editar</button>
+         </a>
       </div>
-      
-      {% endfor %}
-   
-   </div>
+   </section>
+
+   <section id="chef-presentation">
+      <div>
+         <img src={{image.src}} alt="Imagem do chef {{chef.name}}">
+         <h1>{{chef.name}}</h1>
+         {% if chef.total_recipes > 0 %}
+            <p>
+               {{chef.total_recipes}} receita{% if chef.total_recipes > 1 %}s{% endif %}
+            </p>
+         {% endif %}
+      </div>
+   </section>
+
+   <section id="chef-recipes">
+      <h2>Receitas</h2>
+      <ul id="recipes">
+         {% for recipe in chefRecipes %}
+            <li class="recipe">
+               <img src={{recipe.image_src}} alt="Imagem da receita {{recipe.title}}">
+               <div>
+                  <h4>{{recipe.title}}</h4>
+                  <p>por: {{chef.name}}</p>
+                  <a href="/admin/recipes/{{recipe.id}}">Visualizar</a>
+               </div>
+            </li>
+         {% endfor %}
+      </ul>
+   </section>
 </div>
 
 {% endblock %}
