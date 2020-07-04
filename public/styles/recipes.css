@@ -25,6 +25,9 @@
    height: 80px;
 
    border-radius: 8.5px;
+
+   object-fit: cover;
+   object-position: center;
 }
 
 #recipe-list .recipe-card .card-info h3 {
