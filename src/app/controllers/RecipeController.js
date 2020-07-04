@@ -1,46 +1,23 @@
 const fs = require('fs')
 
+const LoadRecipeService = require('../services/LoadRecipesService')
+const LoadFileService = require('../services/LoadFilesService')
+
 const Recipe = require('../models/Recipe')
 const Chef = require('../models/Chef')
-const User = require('../models/User')
 const File = require('../models/File')
 
 module.exports = {
    async index(req, res) {
       try {
-         let { page, limit } = req.query
+         const { page } = req.query
 
-         page = page || 1
-         limit = limit || 4
-         let offset = (page - 1) * limit
-
-         const params = {
-            limit, offset
-         }
+         const { 
+            recipes, 
+            pagination 
+         } = await LoadRecipeService.loadPaginatedRecipes(page)
          
-         let recipes = await Recipe.paginate(params)
-
-         const recipesWithFilePromise = recipes.map(async recipe => {
-            const files = await File.allRecipeFiles(recipe.id)
-            const firstFile = files[0]
-
-            return recipe = {
-               ...recipe,
-               image_src: `${req.protocol}://${req.headers.host}${firstFile.path.replace('public', '')}`
-            }
-         })
-         recipes = await Promise.all(recipesWithFilePromise)
-
-         if(recipes[0]) {
-            const pagination = {
-               page,
-               total: Math.ceil(recipes[0].total / limit)   
-            }
-            
-            return res.render('recipes/index', { recipes, pagination })
-         } else {
-            return res.render('recipes/index')
-         }
+         return res.render('recipes/index', { recipes, pagination })
       } catch (error) {
          console.error(error)   
       }
@@ -58,32 +35,33 @@ module.exports = {
       try {
          const { recipe } = req
 
-         const recipeFiles = await File.allRecipeFiles(recipe.id)
-         const files = recipeFiles.map(file => ({
-            ...file,
-            src: `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`
-         }))
+         const recipeFiles = 
+            await LoadFileService.loadRecipeFiles(recipe.id)
 
-         return res.render('recipes/show', { recipe, files })
+         return res.render('recipes/show', { 
+            recipe, 
+            files: recipeFiles 
+         })
       } catch (error) {
          console.error(error)
       }
    },
    async edit(req, res) {
       try {  
-         const recipe = await Recipe.findOne({
-            where: { id: req.params.id}
+         const {
+            recipe,
+            recipeFiles
+         } = await LoadRecipeService.loadRecipe({ 
+            where: { id: req.params.id }
          })
-         
-         const recipeFiles = await File.allRecipeFiles(recipe.id)
-         const files = recipeFiles.map(file => ({
-            ...file,
-            src: `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`
-         }))
    
          const chefsNameAndId = await Chef.nameAndId()
    
-         return res.render('recipes/edit', { recipe, chefsNameAndId, files })
+         return res.render('recipes/edit', { 
+            recipe, 
+            chefsNameAndId, 
+            files: recipeFiles 
+         })
       } catch (error) {
          console.error(error)
       }
@@ -118,7 +96,14 @@ module.exports = {
          })
          await Promise.all(recipeFilesPromise)
 
+         const {
+            recipes,
+            pagination
+         } = await LoadRecipeService.loadPaginatedRecipes()
+
          return res.render('recipes/index', {
+            recipes,
+            pagination,
             success: 'Receita criada com sucesso!'
          })
       } catch (error) {
@@ -161,15 +146,19 @@ module.exports = {
             await Promise.all(removedFilesPromise)
          }
 
-         const data = {
+         const recipe = {
             ...req.body,
             user_id: req.session.userId
          }
 
-         await Recipe.put(data)
+         await Recipe.put(recipe)
+
+         const recipeFiles = 
+            await LoadFileService.loadRecipeFiles(recipe.id)
 
          return res.render('recipes/show', {
-            recipe: data,
+            recipe,
+            files: recipeFiles,
             success: 'Receita atualizada com sucesso!'
          })
       } catch (error) {
@@ -193,8 +182,15 @@ module.exports = {
          
          await Recipe.delete(req.body.id)
 
+         const {
+            recipes,
+            pagination
+         } = await LoadRecipeService.loadPaginatedRecipes()
+
          return res.render('recipes/index', {
-            success: 'receita deletada com sucesso!'
+            recipes,
+            pagination,
+            success: 'Receita deletada com sucesso!'
          })
       } catch (error) {
          console.error(error)
