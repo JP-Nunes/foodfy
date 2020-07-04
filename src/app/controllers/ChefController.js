@@ -1,21 +1,24 @@
+const fs = require('fs')
+
 const Chef = require('../models/Chef')
 const File = require('../models/File')
 
 module.exports = {
    async index(req, res) {
       try {
-         
-         let chefs = await Chef.all() 
+         let chefs = await Chef.finAllAndCountRecipes() 
 
-         const chefsWithFilesPromise = chefs.map(async chef => {
-            const file = await File.find(chef.file_id)
+         const chefsWithFilePromise = chefs.map(async chef => {
+            const file = await File.findOne({
+               where: { id: chef.file_id }
+            })
 
             return chef = {
                ...chef,
                image_src: `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`
             }
          })
-         chefs = await Promise.all(chefsWithFilesPromise)
+         chefs = await Promise.all(chefsWithFilePromise)
          
          return res.render('chefs/index', { chefs })
 
@@ -28,10 +31,11 @@ module.exports = {
    },
    async show(req, res) {
       try {
-
          const { chef } = req
 
-         let chefImage = await File.find(chef.file_id)
+         let chefImage = await File.findOne({
+            where: { id: chef.file_id }
+         })
          
          chefImage = {
             ...chefImage,
@@ -59,9 +63,12 @@ module.exports = {
    },
    async edit(req, res) {
       try {
-         
-         const chef = await Chef.find(req.params.id)
-         let file = await File.find(chef.file_id)
+         const chef = await Chef.findOne({ 
+            where: { id: req.params.id }
+         })
+         let file = await File.findOne({ 
+            where: { id: chef.file_id }
+         })
 
          file = {
             ...file,
@@ -71,30 +78,66 @@ module.exports = {
          file.src = file.src.replace(/\\/g, '/')
 
          return res.render('chefs/edit', { chef, file })
-      
       } catch (error) {
          console.error(error)
       }
    },
    async post(req, res) {
       try {
-         const file = await File.post(req.file)         
-         const chef = await Chef.post(req.body, file[0].id)
+         const { filename, path } = req.file
+
+         const fileId = await File.create({
+            name: filename,
+            path
+         })
+         
+         const chef = {
+            ...req.body,
+            file_id: fileId
+         }
+         await Chef.create(chef)
+
+         const chefs = await Chef.findAll()
             
-         return res.redirect(`chefs/${chef.id}`)
+         return res.render('chefs/index',{
+            chefs,
+            success: 'Chef criado com sucesso!'
+         })
       } catch (error) {
          console.error(error)   
       }
    },
    async put(req, res) {
       try {
+         const { id, name, file_id} = req.body
+
          if(req.file) {
-            await File.put(req.file, req.body.file_id)
+            const oldFile = await File.findOne({
+               where: { id: file_id }
+            })
+
+            fs.unlinkSync(oldFile.path)
+
+            const { filename, path } = req.file
+
+            await File.update(file_id, {
+               name: filename,
+               path
+            })
          }
          
-         await Chef.put(req.body)
-         
-         return res.redirect(`chefs/${req.body.id}`)
+         await Chef.update(id, {
+            name,
+         })
+
+         const chef = await Chef.findOne({
+            where: { id }
+         })
+
+         return res.render('chefs/show', {
+            chef,
+            success: 'Chef atualizado com sucesso!'
+         })
       } catch (error) {
          console.error(error)
       }
@@ -102,9 +145,21 @@ module.exports = {
    async delete(req, res) {
       try {
          await Chef.delete(req.body.id)
+         
+         const file = await File.findOne({
+            where: { id: req.body.file_id } 
+         })
+
+         fs.unlinkSync(file.path)
+         
          await File.delete(req.body.file_id)
 
-         return res.redirect('/chefs')   
+         const chefs = await Chef.findAll()
+
+         return res.render('chefs/index', {
+            chefs,
+            success: 'Chef deletado com sucesso!'
+         })   
       } catch (error) {
          console.error(error)
       }

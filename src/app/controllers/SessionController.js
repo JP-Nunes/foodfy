@@ -10,38 +10,41 @@ module.exports = {
    },
    async login(req, res) {
       try {
-         req.session.userId = req.user.id
+         const { user } = req
 
-         if(req.session.userId) {
-            return res.redirect('/admin/users/profile')
-         }
+         req.session.userId = user.id
+
+         return res.render('users/profile', {
+            user,
+            success: `Bem-vindo, ${user.name}`
+         })
       } catch (error) {
          console.error(error)
       }
    },
    logout(req, res) {
-      console.log(req.session)
       req.session.destroy()
 
-      return res.redirect('/admin/users/login')
+      return res.render('users/login', {
+         success: 'Até a próxima!'
+      })
    },
    forgotPasswordForm(req, res) {
       return res.render('users/forgot-form')
    },
    async forgotPassword(req, res) {
       try {
+         const { user } = req
+
          const token = crypto.randomBytes(20).toString('hex')
 
          let now = new Date()
-         now = now.setHours(now.getHours() + 1)
+         const expireHour = now.setHours(now.getHours() + 1)
          
-         const user = {
-            ...req.user,
-            token,
-            token_expires: now
-         }
-         
-         await User.update(user)
+         await User.update(user.id, {
+            reset_token: token,
+            reset_token_expires: expireHour
+         })
 
          await mailer.sendMail({
             to: user.email,
@@ -74,14 +77,13 @@ module.exports = {
    },
    async resetPassword(req, res) {
       try {
+         const { user } = req
+
          const passwordHash = await hash(req.body.newPassword, 8)
 
-         const user = {
-            ...req.user,
+         await User.update(user.id, {
             password: passwordHash
-         }
-
-         await User.update(user)
+         })
 
          return res.render('users/login', {
             success: 'Senha alterada com sucesso!'

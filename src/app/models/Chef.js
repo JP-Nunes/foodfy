@@ -1,8 +1,13 @@
 const db = require('../../config/db')
 const { date } = require('../../lib/utils')
 
+const Base = require('./Base')
+
+Base.init({ table: 'chefs' })
+
 module.exports = {
-   async all() {
+   ...Base,
+   async finAllAndCountRecipes() {
       try {
          
          const results = await db.query(`
@@ -19,9 +24,8 @@ module.exports = {
          return console.error(error)
       }
    },
-   async find(id) {
-      try {
-         
+   async findOneAndCountRecipes(id) {
+      try {  
          const results = await db.query(`
             SELECT chefs.*, count(recipes) AS total_recipes 
             FROM chefs
@@ -31,14 +35,12 @@ module.exports = {
          )
          
          return results.rows[0]
-
       } catch (error) {
          return console.log(error)
       }
    },
    async findChefRecipes(id) {
       try {
-
          const results = await db.query(`
             SELECT title, id 
             FROM recipes
@@ -46,7 +48,6 @@ module.exports = {
          )
 
          return results.rows
-         
       } catch (error) {
          return console.log(error)      
       }
@@ -59,40 +60,5 @@ module.exports = {
       } catch (error) {
          return console.error(error)
       }
-   },
-   async post(data, file_id) {
-      try {
-         
-         const query = `
-            INSERT INTO chefs (name, file_id) 
-            VALUES ($1, $2)
-            RETURNING id
-         `
-         const values = [data.name, file_id]
-
-         const results = await db.query(query, values)
-
-         return results.rows[0]
-
-      } catch (error) {
-         return console.error('Database Error!')
-      }
-   },
-   put(data) {
-
-      const query = `
-         UPDATE chefs 
-         SET name=($1)
-         WHERE id = $2
-      `
-      const values = [
-         data.name, data.id
-      ]
-      
-      return db.query(query, values)
-
-   },
-   delete(id) {
-      return db.query(`DELETE FROM chefs WHERE id = $1`, [id])
    }
 }

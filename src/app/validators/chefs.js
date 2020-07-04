@@ -2,17 +2,23 @@ const Chef = require('../models/Chef')
 
 module.exports = {
    async show(req, res, next) {
-      const chef = await Chef.find(req.params.id)
-
-      if(!chef) {
-         return res.render('chefs/index', {
-            error: 'Usuário não encontrado'
+      try {
+         const chef = await Chef.findOne({ where: 
+            { id: req.params.id}
          })
-      }
-
-      req.chef = chef
-
-      next()
+   
+         if(!chef) {
+            return res.render('chefs/index', {
+               error: 'Usuário não encontrado'
+            })
+         }
+   
+         req.chef = chef
+   
+         next()
+      } catch (error) {
+         console.error(error)
+      }  
    },
    post(req, res, next) {
       if(req.body.name == "") {

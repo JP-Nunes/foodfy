@@ -11,7 +11,7 @@ module.exports = {
    },
    async list(req, res) {
       try {
-         const users = await User.all()
+         const users = await User.findAll()
 
          return res.render('users/index', { users })
       } catch (error) {
@@ -34,19 +34,19 @@ module.exports = {
 
          const passwordHash = await hash(password, 8)
 
-         req.body = {
+         const user = {
             ...req.body,
             password: passwordHash
          }
          
-         const userId = await User.create(req.body)
+         await User.create(user)
 
-         console.log(userId)
+         const users = await User.findAll()
 
-         req.session.userId = userId
-
-         return res.redirect(`/users/${userId}/edit`)
-
+         return res.render('users/index', {
+            users,
+            success: 'Usuário registrado com sucesso!'
+         })
       } catch (error) {
          console.error(error)
       }
@@ -64,9 +64,18 @@ module.exports = {
    },
    async put(req, res) {
       try {
-         await User.update(req.body)
+         const { id, name, email, is_admin } = req.body
 
-         return res.redirect(`/admin/users/${req.body.id}/edit`)
+         await User.update(id, {
+            name,
+            email,
+            is_admin
+         })
+
+         return res.render('users/edit', {
+            user: req.body,
+            success: 'Usuário atualizado com sucesso!'
+         })
       } catch (error) {
          console.error(error)
       }
@@ -75,7 +84,12 @@ module.exports = {
       try {
          await User.delete(req.body.id)
 
-         return res.redirect('/home/index')
+         const users = await User.findAll()
+
+         return res.render('users/index', {
+            users,
+            success: 'Usuário deletado com sucesso!'
+         })
       } catch (error) {
          console.error(error)
       }

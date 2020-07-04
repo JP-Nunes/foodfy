@@ -1,10 +1,14 @@
 const db = require('../../config/db')
 const { date } = require('../../lib/utils')
 
+const Base = require('./Base')
+
+Base.init({ table: 'recipes' })
+
 module.exports = {
-   async all() {
+   ...Base,
+   async allRecipesWithChefsNames() {
       try {
-         
          const results = await db.query(`
             SELECT recipes.*, chefs.name as chef_name
             FROM recipes
@@ -19,9 +23,8 @@ module.exports = {
          console.error(error)
       }
    },
-   async find(id) {
+   async findOneWithChefName(id) {
       try {
-         
          const results = await db.query(`
             SELECT recipes.*, chefs.name as chef_name 
             FROM recipes
@@ -30,14 +33,12 @@ module.exports = {
          )
 
          return results.rows[0]
-
       } catch (error) {
          return console.error(error)
       }
    },
    async filtered(filter) {
       try {
-
          const results = await db.query(`
             SELECT recipes.*, chefs.name as chef_name
             FROM recipes
@@ -48,14 +49,12 @@ module.exports = {
          `)
             
          return results.rows
-
       } catch (error) {
          return console.error(error)
       }      
    },
    async post(data) {
       try {
-
          const query = `
             INSERT INTO recipes (
             
@@ -73,8 +72,7 @@ module.exports = {
 
          const results = await db.query(query, values)
 
-         return results.rows[0]
-         
+         return results.rows[0].id
       } catch (error) {
          return console.error(error)
       }
@@ -82,24 +80,26 @@ module.exports = {
    put(data) {
       const query = `
          UPDATE recipes SET
-
-            title=($1), chef_id=($2), ingredients=($3), 
-            preparation=($4), information=($5)
-
-         WHERE id = $6
+            title=($1), 
+            chef_id=($2), 
+            ingredients=($3), 
+            preparation=($4), 
+            information=($5),
+            user_id=($6)
+         WHERE id = $7
       `
-
+      
       const values = [
-         data.title, data.chef_id, data.ingredients, 
-         data.preparation, data.information, data.id
+         data.title, 
+         data.chef_id, 
+         data.ingredients, 
+         data.preparation, 
+         data.information,
+         data.user_id,
+         data.id
       ]
    
       return db.query(query, values)
-   },
-   delete(id) {
-      
-      return db.query(`DELETE FROM recipes WHERE id = $1`, [id])
-
    },
    async paginate(params) {
       try {

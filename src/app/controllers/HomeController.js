@@ -4,7 +4,7 @@ const File = require('../models/File')
 
 module.exports = {
    async index(req, res) {
-      let recipes = await Recipe.all()
+      let recipes = await Recipe.allRecipesWithChefsNames()
       
       const recipesWithFilePromise = recipes.map(async recipe => {
          const recipeFiles = await File.allRecipeFiles(recipe.id)
@@ -21,11 +21,10 @@ module.exports = {
    },
    async recipes(req, res) {
       try {
-         
-         let { page, limit } = req.query
+         let { page } = req.query
 
          page = page || 1
-         limit = limit || 4
+         const limit = 6
          let offset = (page - 1) * limit
 
          const params = {
@@ -58,11 +57,12 @@ module.exports = {
    },
    async chefs(req, res) {
       try {
-         
-         let chefs = await Chef.all()
+         let chefs = await Chef.finAllAndCountRecipes()
          
          const chefsWithFilesPromise = chefs.map(async chef => {
-            const file = await File.find(chef.file_id)
+            const file = await File.findOne({ 
+               where: { id: chef.file_id}
+            })
 
             return chef = {
                ...chef,
@@ -72,18 +72,15 @@ module.exports = {
          chefs = await Promise.all(chefsWithFilesPromise)
          
          return res.render('home/chefs', { chefs })
-      
       } catch (error) {
          console.error(error)
       }
    },
    async searchRecipes(req, res) {
       try {
-         
          const { filter } = req.query
 
          if(filter) {
-            
             let recipes = await Recipe.filtered(filter)
 
             const recipesWithFilePromise = recipes.map(async recipe => {
@@ -98,10 +95,8 @@ module.exports = {
             recipes = await Promise.all(recipesWithFilePromise)
 
             return res.render('home/search', { recipes, filter })
-      
          } else {
-            
-            const recipes = await Recipe.all()
+            const recipes = await Recipe.findAll()
             
             return res.render('home/search', { recipes })
          }    
