@@ -35,6 +35,14 @@ module.exports = {
          console.error(error)
       }
    },
+   async loadFilteredRecipes(filter) {
+      const recipes = await Recipe.filtered(filter)
+
+      const recipesWithFiles = 
+         await FileLoader.loadRecipesFiles(recipes)
+      
+      return recipesWithFiles
+   },
    async loadChefRecipes(chefId) {
       try {
          const chefRecipes = await Recipe.findChefRecipes(chefId)
