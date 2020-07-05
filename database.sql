@@ -27,7 +27,7 @@ CREATE TABLE "recipes" (
 
 CREATE TABLE "chefs" (
   "id" SERIAL PRIMARY KEY,
-  "name" text NOT NULL,""
+  "name" text NOT NULL,
   "file_id" int,
   "created_at" timestamp DEFAULT (now())
 );
@@ -57,6 +57,14 @@ FOREIGN KEY ("file_id")
 REFERENCES "files" ("id")
 ON DELETE CASCADE;
 
+--Creating recipes and chef relation
+
+ALTER TABLE "recipes"
+ADD CONSTRAINT recipes_chef_id_fkey
+FOREIGN KEY ("chef_id") 
+REFERENCES "chefs" ("id")
+ON DELETE CASCADE;
+
 --Creating chefs and files relation
 
 ALTER TABLE "chefs"
@@ -64,7 +72,7 @@ ADD CONSTRAINT chefs_file_id_fkey
 FOREIGN KEY ("file_id") 
 REFERENCES "files" ("id");
 
--- Creating Procedure and Trigger to auto update date
+-- Creating Procedure and Trigger to auto update users' and recipes' date
 
 CREATE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $$
@@ -76,6 +84,12 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON recipes
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
+
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON users
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
@@ -97,8 +111,14 @@ DELETE FROM chefs;
 DELETE FROM files;
 DELETE FROM recipe_files;
 DELETE FROM recipes;
+DELETE FROM users;
 
 ALTER SEQUENCE chefs_id_seq RESTART WITH 1;
 ALTER SEQUENCE files_id_seq RESTART WITH 1;
 ALTER SEQUENCE recipe_files_id_seq RESTART WITH 1;
 ALTER SEQUENCE recipes_id_seq RESTART WITH 1;
+ALTER SEQUENCE users_id_seq RESTART WITH 1;
+
+--To drop table
+
+DROP DATABASE IF EXISTS foodfy;
