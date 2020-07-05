@@ -1,7 +1,7 @@
 const fs = require('fs')
 
-const LoadRecipeService = require('../services/LoadRecipesService')
-const LoadFileService = require('../services/LoadFilesService')
+const RecipeLoader = require('../services/LoadRecipesService')
+const FileLoader = require('../services/LoadFilesService')
 
 const Recipe = require('../models/Recipe')
 const Chef = require('../models/Chef')
@@ -15,7 +15,7 @@ module.exports = {
          const { 
             recipes, 
             pagination 
-         } = await LoadRecipeService.loadPaginatedRecipes(page)
+         } = await RecipeLoader.loadPaginatedRecipes(page)
          
          return res.render('recipes/index', { recipes, pagination })
       } catch (error) {
@@ -33,10 +33,7 @@ module.exports = {
    },
    async show(req, res) {
       try {
-         const { recipe } = req
-
-         const recipeFiles = 
-            await LoadFileService.loadRecipeFiles(recipe.id)
+         const { recipe, recipeFiles } = req
 
          return res.render('recipes/show', { 
             recipe, 
@@ -51,7 +48,7 @@ module.exports = {
          const {
             recipe,
             recipeFiles
-         } = await LoadRecipeService.loadRecipe({ 
+         } = await RecipeLoader.loadRecipe({ 
             where: { id: req.params.id }
          })
    
@@ -99,7 +96,7 @@ module.exports = {
          const {
             recipes,
             pagination
-         } = await LoadRecipeService.loadPaginatedRecipes()
+         } = await RecipeLoader.loadPaginatedRecipes()
 
          return res.render('recipes/index', {
             recipes,
@@ -153,8 +150,7 @@ module.exports = {
 
          await Recipe.put(recipe)
 
-         const recipeFiles = 
-            await LoadFileService.loadRecipeFiles(recipe.id)
+         const { recipeFiles } = req
 
          return res.render('recipes/show', {
             recipe,
@@ -167,7 +163,8 @@ module.exports = {
    },
    async delete(req, res) {
       try {
-         const files = await File.allRecipeFiles(req.body.id)
+         const files = 
+            await FileLoader.loadRecipeFiles(req.body.id)
 
          const removeFilesPromise = files.map(async file => {
             const dataBaseFile = await File.findOne({
@@ -185,7 +182,7 @@ module.exports = {
          const {
             recipes,
             pagination
-         } = await LoadRecipeService.loadPaginatedRecipes()
+         } = await RecipeLoader.loadPaginatedRecipes()
 
          return res.render('recipes/index', {
             recipes,

@@ -1,11 +1,15 @@
-const Recipe = require("../models/Recipe")
+const RecipeLoader = require('../services/LoadRecipesService')
+const FileLoader = require('../services/LoadFilesService')
+
 const Chef = require("../models/Chef")
-const File = require("../models/File")
 
 module.exports = {
    async show(req, res, next) {
       try {
-         const recipe = await Recipe.findOne({
+         const {
+            recipe,
+            recipeFiles
+         } = await RecipeLoader.loadRecipe({
             where: { id: req.params.id }
          })
 
@@ -16,6 +20,7 @@ module.exports = {
          }
          
          req.recipe = recipe
+         req.recipeFiles = recipeFiles
 
          next()   
       } catch (error) {
@@ -68,13 +73,13 @@ module.exports = {
                })
             }
          }
+         
+         const recipeFiles = await FileLoader.loadRecipeFiles(id)         
    
          if(removed_files) {
             removed_files = removed_files.split(',')
             const lastIndex = removed_files.length - 1
             removed_files.splice(lastIndex, 1)
-            
-            const recipeFiles = await File.allRecipeFiles(id)         
    
             if(req.files == 0 && recipeFiles.length == removed_files.length) {
                return res.render(`recipes/edit`, {
@@ -84,6 +89,8 @@ module.exports = {
                })
             }
          }
+
+         req.recipeFiles = recipeFiles
    
          next()   
       } catch (error) {
