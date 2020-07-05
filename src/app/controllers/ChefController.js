@@ -1,24 +1,15 @@
 const fs = require('fs')
 
+const ChefLoader = require('../services/LoadChefsService')
+const RecipeLoader = require('../services/LoadRecipesService')
+
 const Chef = require('../models/Chef')
 const File = require('../models/File')
 
 module.exports = {
    async index(req, res) {
       try {
-         let chefs = await Chef.finAllAndCountRecipes() 
-
-         const chefsWithFilePromise = chefs.map(async chef => {
-            const file = await File.findOne({
-               where: { id: chef.file_id }
-            })
-
-            return chef = {
-               ...chef,
-               image_src: `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`
-            }
-         })
-         chefs = await Promise.all(chefsWithFilePromise)
+         const chefs = await ChefLoader.loadChefs()
          
          return res.render('chefs/index', { chefs })
 
@@ -31,53 +22,30 @@ module.exports = {
    },
    async show(req, res) {
       try {
-         const { chef } = req
+         const { chef, chefImage } = req
 
-         let chefImage = await File.findOne({
-            where: { id: chef.file_id }
-         })
+         const chefRecipes = 
+            await RecipeLoader.loadChefRecipes(chef.id)
          
-         chefImage = {
-            ...chefImage,
-            src: `${req.protocol}://${req.headers.host}${chefImage.path.replace('public', '')}`
-         }
-
-         let chefRecipes = await Chef.findChefRecipes(req.params.id)
-
-         const chefRecipesPromise = chefRecipes.map(async recipe => {
-            const recipeFiles = await File.allRecipeFiles(recipe.id)
-            const recipeFirstFile = recipeFiles[0]
-
-            return recipe = {
-               ...recipe,
-               image_src: `${req.protocol}://${req.headers.host}${recipeFirstFile.path.replace('public', '')}`
-            }
+         return res.render(`chefs/show`, { 
+            chef, 
+            image: chefImage, 
+            chefRecipes 
          })
-         chefRecipes = await Promise.all(chefRecipesPromise)
-         
-         return res.render(`chefs/show`, { chef, chefRecipes, image: chefImage })
-
       } catch (error) {
          console.error(error)   
       }
    },
    async edit(req, res) {
       try {
-         const chef = await Chef.findOne({ 
-            where: { id: req.params.id }
-         })
-         let file = await File.findOne({ 
-            where: { id: chef.file_id }
-         })
+         const { chef, chefImage } =
+            await ChefLoader.loadChef({
+               where: { id: req.params.id }
+            })
 
-         file = {
-            ...file,
-            src: `${req.protocol}://${req.headers.host}${file.path.replace('public', '')}`
-         }
+         console.log(chefImage)
 
-         file.src = file.src.replace(/\\/g, '/')
-
-         return res.render('chefs/edit', { chef, file })
+         return res.render('chefs/edit', { chef, image: chefImage })
       } catch (error) {
          console.error(error)
       }
@@ -91,13 +59,12 @@ module.exports = {
             path
          })
          
-         const chef = {
+         await Chef.create({
             ...req.body,
             file_id: fileId
-         }
-         await Chef.create(chef)
+         })
 
-         const chefs = await Chef.findAll()
+         const chefs = await ChefLoader.loadChefs()
             
          return res.render('chefs/index',{
             chefs,
@@ -130,12 +97,18 @@ module.exports = {
             name,
          })
 
-         const chef = await Chef.findOne({
-            where: { id }
-         })
+         const { chef, chefImage } = 
+            await ChefLoader.loadChef({
+               where: { id }
+            })
+
+         const chefRecipes = 
+            await RecipeLoader.loadChefRecipes(id)
 
          return res.render('chefs/show', {
             chef,
+            image: chefImage,
+            chefRecipes,
             success: 'Chef atualizado com sucesso!'
          })
       } catch (error) {
@@ -154,12 +127,12 @@ module.exports = {
          
          await File.delete(req.body.file_id)
 
-         const chefs = await Chef.findAll()
+         const chefs = await ChefLoader.loadChefs()
 
          return res.render('chefs/index', {
             chefs,
             success: 'Chef deletado com sucesso!'
-         })   
+         })
       } catch (error) {
          console.error(error)
       }

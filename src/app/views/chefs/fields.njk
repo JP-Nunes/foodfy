@@ -15,13 +15,13 @@
    <div class="item-title">Avatar</div>
    <div id="chef-gallery">
       <div id="image-preview">
-         {% if file %}
+         {% if image %}
             <input 
                id="chef_image-input"
                type="text"
                {% if error %} class="error-input" {% endif %}
-               name="file_src"
-               value={{file.src}}
+               name="image_src"
+               value={{image.src}}
                readonly="true"
                multiple
             >

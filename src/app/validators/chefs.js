@@ -1,11 +1,12 @@
-const Chef = require('../models/Chef')
+const ChefLoader = require('../services/LoadChefsService')
 
 module.exports = {
    async show(req, res, next) {
       try {
-         const chef = await Chef.findOne({ where: 
-            { id: req.params.id}
-         })
+         const { chef, chefImage } = 
+            await ChefLoader.loadChef({ where: 
+               { id: req.params.id}
+            })
    
          if(!chef) {
             return res.render('chefs/index', {
@@ -14,6 +15,7 @@ module.exports = {
          }
    
          req.chef = chef
+         req.chefImage = chefImage
    
          next()
       } catch (error) {

@@ -7,7 +7,7 @@ Base.init({ table: 'chefs' })
 
 module.exports = {
    ...Base,
-   async finAllAndCountRecipes() {
+   async findAllAndCountRecipes() {
       try {
          
          const results = await db.query(`
@@ -37,19 +37,6 @@ module.exports = {
          return results.rows[0]
       } catch (error) {
          return console.log(error)
-      }
-   },
-   async findChefRecipes(id) {
-      try {
-         const results = await db.query(`
-            SELECT title, id 
-            FROM recipes
-            WHERE chef_id = $1`, [id]
-         )
-
-         return results.rows
-      } catch (error) {
-         return console.log(error)      
       }
    },
    async nameAndId() {
