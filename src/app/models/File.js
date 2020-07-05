@@ -22,13 +22,15 @@ module.exports ={
       }
    },
    postRecipeFiles(data) {
+      const { recipe_id, file_id } = data
+      
       try {
          const query = `
             INSERT INTO recipe_files (recipe_id, file_id) 
             VALUES ($1, $2)
             RETURNING id
          `
-         const values = [data.recipe_id, data.file_id]
+         const values = [recipe_id, file_id]
 
          return db.query(query, values)
       } catch (error) {
