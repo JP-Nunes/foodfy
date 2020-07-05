@@ -1,5 +1,4 @@
 const db = require('../../config/db')
-const { create } = require('browser-sync')
 
 function find(table, filters) {
    try {
@@ -68,10 +67,8 @@ const Base = {
       try {
          let update = []
 
-         //ingredients=([kosakoa, oaksoak])
          Object.keys(fields).map(key => {
             const line = `${key}='${fields[key]}'`
-            console.log(line)
             update.push(line)
          })
 
