@@ -33,8 +33,5 @@ module.exports = {
       }
 
       next()
-   },
-   async recipes(req, res, next) {
-      
    }
 }
