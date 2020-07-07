@@ -9,6 +9,7 @@
 #chefs {
    display: grid;
    grid-template-columns: repeat(4, 1fr);
+   grid-column-gap: 24px;
 }
 
 #chefs .chef{
@@ -35,14 +36,14 @@
 #chefs .chef  h4 {
    font-size: 18px;
    font-weight: normal;
+
+   margin-bottom: 10px;
 }
 
 #chefs .chef  a {
    font-size: 14px;
    font-weight: bold;
    color: #6558C3;
-   
-   margin-top: 10px;
 }
 
 #chefs .chef  p {
@@ -103,6 +104,7 @@
 #chef-recipes #recipes {
    display: grid;
    grid-template-columns: repeat(2, 1fr);
+   grid-gap: 15px;
 }
 
 #chef-recipes .recipe {
