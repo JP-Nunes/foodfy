@@ -6,21 +6,24 @@
 
 <div class="container chefs-container">
    <h1>Gerenciar Chefs</h1>
+
+   {% if user.is_admin %}
+      <a href="/admin/chefs/create">
+         <button class="button">Adicionar</button>
+      </a>
+   {% endif %}
    
    <ul id="chefs">
       {% for chef in chefs %}
-      
-      <li class="chef">
-         <img src={{chef.image_src}} alt="Imagem do chef {{chef.name}}">
-         <div class="info">
-            <h4>{{chef.name}}</h4>
-            <a href="/admin/chefs/{{chef.id}}">Visualizar</a>
-         </div>
-      </li>
-
+         <li class="chef">
+            <img src={{chef.image_src}} alt="Imagem do chef {{chef.name}}">
+            <div class="info">
+               <h4>{{chef.name}}</h4>
+               <a href="/admin/chefs/{{chef.id}}">Visualizar</a>
+            </div>
+         </li>
       {% endfor %}
    </ul>
-
 </div>
 
 {% endblock %}

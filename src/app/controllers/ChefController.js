@@ -5,13 +5,23 @@ const RecipeLoader = require('../services/LoadRecipesService')
 
 const Chef = require('../models/Chef')
 const File = require('../models/File')
+const User = require('../models/User')
 
 module.exports = {
    async index(req, res) {
       try {
          const chefs = await ChefLoader.loadChefs()
+
+         const user = await User.findOne({
+            where: { id: req.session.userId }
+         })
          
-         return res.render('chefs/index', { chefs })
+         return res.render('chefs/index', { 
+            chefs,
+            user: {
+               is_admin: user.is_admin
+            }
+         })
 
       } catch (error) {
          console.error(error)
@@ -27,8 +37,15 @@ module.exports = {
          const chefRecipes = 
             await RecipeLoader.loadChefRecipes(chef.id)
          
+         const user = await User.findOne({
+            where: { id: req.session.userId }
+         })
+         
          return res.render(`chefs/show`, { 
-            chef, 
+            chef,
+            user: {
+               is_admin: user.is_admin
+            }, 
             image: chefImage, 
             chefRecipes 
          })
@@ -65,9 +82,16 @@ module.exports = {
          })
 
          const chefs = await ChefLoader.loadChefs()
+
+         const user = await User.findOne({
+            where: { id: req.session.userId }
+         })
             
          return res.render('chefs/index',{
             chefs,
+            user: {
+               is_admin: user.is_admin
+            },
             success: 'Chef criado com sucesso!'
          })
       } catch (error) {
@@ -105,8 +129,15 @@ module.exports = {
          const chefRecipes = 
             await RecipeLoader.loadChefRecipes(id)
 
+         const user = await User.findOne({
+            where: { id: req.session.userId }
+         })
+
          return res.render('chefs/show', {
             chef,
+            user: {
+               is_admin: user.is_admin
+            },
             image: chefImage,
             chefRecipes,
             success: 'Chef atualizado com sucesso!'
@@ -129,8 +160,15 @@ module.exports = {
 
          const chefs = await ChefLoader.loadChefs()
 
+         const user = await User.findOne({
+            where: { id: req.session.userId }
+         })
+
          return res.render('chefs/index', {
             chefs,
+            user: {
+               is_admin: user.is_admin
+            },
             success: 'Chef deletado com sucesso!'
          })
       } catch (error) {
