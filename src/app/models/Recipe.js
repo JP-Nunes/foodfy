@@ -70,17 +70,23 @@ module.exports = {
       try {
          const query = `
             INSERT INTO recipes (
-            
-            title, chef_id, ingredients, 
-            preparation, information
-
-            ) VALUES ($1, $2, $3, $4, $5)
+               title, 
+               chef_id, 
+               user_id, 
+               ingredients, 
+               preparation, 
+               information
+            ) VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING id
          `
       
          const values = [
-            data.title, data.chef_id, data.ingredients, 
-            data.preparation, data.information
+            data.title, 
+            data.chef_id, 
+            data.user_id,
+            data.ingredients, 
+            data.preparation, 
+            data.information
          ]
 
          const results = await db.query(query, values)
