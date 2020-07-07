@@ -22,6 +22,23 @@ module.exports = {
          console.error(error)   
       }
    },
+   async user(req, res) {
+      try {
+         const { page } = req.query
+
+         const { 
+            recipes, 
+            pagination 
+         } = await RecipeLoader.loadPaginatedRecipes(
+            page,
+            req.session.userId
+         )
+         
+         return res.render('recipes/index', { recipes, pagination })
+      } catch (error) {
+         console.error(error)   
+      }
+   },
    async create(req, res) {
       try {
          const chefsNameAndId = await Chef.nameAndId()

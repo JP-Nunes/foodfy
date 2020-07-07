@@ -14,21 +14,33 @@ module.exports = {
          console.error(error)
       }
    },
-   async loadPaginatedRecipes(page) {
+   async loadPaginatedRecipes(page, userId) {
       try {
          const currentPage = page || 1
          const limit = 6
          const offset = (currentPage - 1) * limit
    
-         const recipes = await Recipe.paginate({ limit, offset })
+         const recipes = await Recipe.paginate(
+            { limit, offset },
+            userId
+         )
+         
+         let total = Math.ceil(recipes[0].total / limit)
+         
+         if(currentPage == 1 
+            && recipes.length < limit 
+            || recipes.length == recipes[0].total
+            ) {
+            total = 1
+         }
+
+         const pagination = {
+            page: currentPage,
+            total
+         }
          
          const recipesWithFiles = 
             await FileLoader.loadRecipesFiles(recipes)
-   
-         const pagination = {
-            page: currentPage,
-            total: Math.ceil(recipes[0].total / limit)   
-         }      
          
          return { recipes: recipesWithFiles, pagination }   
       } catch (error) {

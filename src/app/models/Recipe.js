@@ -120,20 +120,30 @@ module.exports = {
    
       return db.query(query, values)
    },
-   async paginate(params) {
+   async paginate(params, userId) {
       try {
          const { limit, offset } = params
 
-         const query = `
+         let query = `
             SELECT recipes.*, MAX(recipes.updated_at),
             (SELECT count(*) FROM recipes) AS total, 
             chefs.name as chef_name
             FROM recipes
             LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
+         `
+
+         if(userId) {
+            query += `
+               WHERE recipes.user_id = '${userId}'
+            `
+         }
+
+         query += `
             GROUP BY recipes.id, chefs.name
             ORDER BY recipes.updated_at DESC
             LIMIT $1 OFFSET $2
          `
+
          const results = await db.query(query, [limit, offset])            
 
          return results.rows
