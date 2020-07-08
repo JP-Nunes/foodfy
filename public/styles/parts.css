@@ -125,7 +125,7 @@ header .menu ul li a.active {
 #admin-header ul li:hover .submenu {
    visibility: visible;
    opacity: 1;
-   top: 16px;
+   top: 20px;
 }
 
 #admin-header ul li .submenu li {

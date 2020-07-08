@@ -1,7 +1,6 @@
 <div class="item">
    <div class="item-title">Imagem da receita</div>
-   <div class="images">
-            
+   <div class="images">   
       <div 
          {% if error %} class="error-input" {% endif %}
          id="images-upload"
@@ -57,20 +56,16 @@
          {% if error %} class="error-input" {% endif %}
          name="chef_id"
       >
-         
          <option style="display:none">
-
+         
          {% for chef in chefsNameAndId %}
-            
             <option
                value={{chef.id}} 
                {% if recipes.chef_id == chefs.id %} selected {% endif %}
             >
             {{chef.name}}
             </option>
-         
          {% endfor %}
-
       </select>
    </div>
 </div>
