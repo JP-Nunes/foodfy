@@ -8,7 +8,9 @@
    <div class="top-content">
       <h2>Receita: {{recipe.title}}</h2>
       <a href="/admin/recipes/{{recipe.id}}/edit">
-         <button class="button">Editar</button>
+         {% if recipe.user_id === session.userId %}
+            <button class="button">Editar</button>
+         {% endif %}
       </a>
    </div>
 
@@ -112,7 +114,6 @@
          informationClickable.innerHTML = 'Mostrar'
          content.classList.add('hide')
       }
-
    }
 </script>
 
