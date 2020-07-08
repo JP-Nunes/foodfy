@@ -15,7 +15,9 @@
       {% include "recipes/fields.njk" %}
 
       <input type="hidden" name="id" value={{recipe.id}}>
-      <button class="button" type="submit">Salvar</button>
+      <button class="button" type="submit">
+      Salvar
+      </button>
       
    </form>
 
@@ -43,7 +45,7 @@
 
       if(newField.children[0].value == '') return false
 
-      newField.children[0].value == ''
+      newField.children[0].value = ''
       ingredients.appendChild(newField)
    }
 
@@ -56,9 +58,54 @@
 
       if(newField.children[0].value == '') return false
 
-      newField.children[0].value == ''
+      newField.children[0].value = ''
       steps.appendChild(newField)
    }
+
+   function createBackendIngredientsInput() {
+      const ingredients = document.querySelector('#ingredients')
+      const fieldContainer = document.querySelectorAll('.ingredient')
+      const firstInput = document.querySelector('.ingredient input')
+      
+      const values = firstInput.value.split(',')
+
+      if(values.length > 1) {
+         values.forEach(value => {
+            const newField = 
+               fieldContainer[fieldContainer.length - 1].cloneNode(true);
+            
+            newField.children[0].value = value
+            ingredients.appendChild(newField)
+
+         })
+         firstInput.parentNode.removeChild(firstInput)
+      }
+   }
+
+   function createBackendPreparationStepsInput() {
+      const steps = document.querySelector('#steps');
+      const fieldContainer = document.querySelectorAll('.step');
+      const firstInput = document.querySelector('.step input')
+      
+      const values = firstInput.value.split(',')
+
+      console.log(values)
+
+      if(values.length > 1) {
+         values.forEach(value => {
+            const newField = 
+               fieldContainer[fieldContainer.length - 1].cloneNode(true);
+            
+            newField.children[0].value = value
+            steps.appendChild(newField)
+
+         })
+         firstInput.parentNode.removeChild(firstInput)
+      }
+   }
+
+   createBackendIngredientsInput()
+   createBackendPreparationStepsInput()
 
 </script>
 
