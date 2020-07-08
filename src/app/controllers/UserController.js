@@ -41,11 +41,16 @@ module.exports = {
          
          await User.create(user)
 
-         const users = await User.findAll()
-
-         return res.render('users/index', {
-            users,
-            success: 'Usuário registrado com sucesso!'
+         return res.render('animations/success',{
+            message: {
+               title: 'Usuário criado com sucesso!',
+               message: 'Confira aqui o novo',
+               subject: 'usuário'
+            },
+            entity: {
+               id: recipeId,
+               group: 'recipes'
+            }
          })
       } catch (error) {
          console.error(error)
@@ -72,9 +77,16 @@ module.exports = {
             is_admin
          })
 
-         return res.render('users/edit', {
-            user: req.body,
-            success: 'Usuário atualizado com sucesso!'
+         return res.render('animations/success',{
+            message: {
+               title: 'Usuário atualizado com sucesso!',
+               message: 'Confira aqui a atualização do',
+               subject: 'usuário'
+            },
+            entity: {
+               id,
+               group: 'users'
+            }
          })
       } catch (error) {
          console.error(error)
@@ -84,11 +96,10 @@ module.exports = {
       try {
          await User.delete(req.body.id)
 
-         const users = await User.findAll()
-
-         return res.render('users/index', {
-            users,
-            success: 'Usuário deletado com sucesso!'
+         return res.render('animations/done', {
+            message: {
+               title: 'Usuário deletado com sucesso.',
+            }
          })
       } catch (error) {
          console.error(error)

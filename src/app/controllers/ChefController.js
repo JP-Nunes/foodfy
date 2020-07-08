@@ -76,23 +76,21 @@ module.exports = {
             path
          })
          
-         await Chef.create({
+         const chefId = await Chef.create({
             ...req.body,
             file_id: fileId
          })
 
-         const chefs = await ChefLoader.loadChefs()
-
-         const user = await User.findOne({
-            where: { id: req.session.userId }
-         })
-            
-         return res.render('chefs/index',{
-            chefs,
-            user: {
-               is_admin: user.is_admin
+         return res.render('animations/success',{
+            message: {
+               title: 'Chef criado com sucesso!',
+               message: 'Confira aqui o novo',
+               subject: 'chef'
             },
-            success: 'Chef criado com sucesso!'
+            entity: {
+               id: chefId,
+               group: 'chefs'
+            }
          })
       } catch (error) {
          console.error(error)   
@@ -121,26 +119,21 @@ module.exports = {
             name,
          })
 
-         const { chef, chefImage } = 
+         const { chef } = 
             await ChefLoader.loadChef({
                where: { id }
             })
 
-         const chefRecipes = 
-            await RecipeLoader.loadChefRecipes(id)
-
-         const user = await User.findOne({
-            where: { id: req.session.userId }
-         })
-
-         return res.render('chefs/show', {
-            chef,
-            user: {
-               is_admin: user.is_admin
+         return res.render('animations/success', {
+            message: {
+               title: 'Chef atualizado com sucesso!',
+               message: 'Confira aqui a atualização do',
+               subject: 'chef'
             },
-            image: chefImage,
-            chefRecipes,
-            success: 'Chef atualizado com sucesso!'
+            entity: {
+               id: chef.id,
+               group: 'chefs'
+            }
          })
       } catch (error) {
          console.error(error)
@@ -158,18 +151,10 @@ module.exports = {
          
          await File.delete(req.body.file_id)
 
-         const chefs = await ChefLoader.loadChefs()
-
-         const user = await User.findOne({
-            where: { id: req.session.userId }
-         })
-
-         return res.render('chefs/index', {
-            chefs,
-            user: {
-               is_admin: user.is_admin
-            },
-            success: 'Chef deletado com sucesso!'
+         return res.render('animations/done', {
+            message: {
+               title: 'Chef deletado com sucesso.',
+            }
          })
       } catch (error) {
          console.error(error)

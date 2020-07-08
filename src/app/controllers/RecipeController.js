@@ -95,6 +95,8 @@ module.exports = {
             user_id: req.session.userId
          }
 
+         console.log(`Ingredients controller ${recipe.ingredients}`)
+
          const recipeId = await Recipe.post(recipe)
 
          const filesPromise = req.files.map(file => {
@@ -118,15 +120,16 @@ module.exports = {
          })
          await Promise.all(recipeFilesPromise)
 
-         const {
-            recipes,
-            pagination
-         } = await RecipeLoader.loadPaginatedRecipes()
-
-         return res.render('recipes/index', {
-            recipes,
-            pagination,
-            success: 'Receita criada com sucesso!'
+         return res.render('animations/success',{
+            message: {
+               title: 'Receita criada com sucesso!',
+               message: 'Confira aqui a nova',
+               subject: 'receita'
+            },
+            entity: {
+               id: recipeId,
+               group: 'recipes'
+            }
          })
       } catch (error) {
          console.error(error)
@@ -175,19 +178,16 @@ module.exports = {
 
          await Recipe.put(recipe)
 
-         const { recipeFiles } = req
-
-         const user = await User.findOne({
-            where: { id: req.session.userId }
-         })
-
-         return res.render('recipes/show', {
-            recipe,
-            user: {
-               is_admin: user.is_admin
+         return res.render('animations/success',{
+            message: {
+               title: 'Receita atualizada com sucesso!',
+               message: 'Confira aqui a atualização da',
+               subject: 'receita'
             },
-            files: recipeFiles,
-            success: 'Receita atualizada com sucesso!'
+            entity: {
+               id: recipe.id,
+               group: 'recipes'
+            }
          })
       } catch (error) {
          console.error(error)
@@ -211,15 +211,10 @@ module.exports = {
          
          await Recipe.delete(req.body.id)
 
-         const {
-            recipes,
-            pagination
-         } = await RecipeLoader.loadPaginatedRecipes()
-
-         return res.render('recipes/index', {
-            recipes,
-            pagination,
-            success: 'Receita deletada com sucesso!'
+         return res.render('animations/done', {
+            message: {
+               title: 'Receita deletada com sucesso.',
+            }
          })
       } catch (error) {
          console.error(error)
