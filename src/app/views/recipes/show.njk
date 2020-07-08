@@ -8,7 +8,11 @@
    <div class="top-content">
       <h2>Receita: {{recipe.title}}</h2>
       <a href="/admin/recipes/{{recipe.id}}/edit">
-         {% if recipe.user_id === session.userId %}
+         {% if 
+            (recipe.user_id === session.userId)
+            or 
+            (user.is_admin)
+         %}
             <button class="button">Editar</button>
          {% endif %}
       </a>

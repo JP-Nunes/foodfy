@@ -6,6 +6,7 @@ const FileLoader = require('../services/LoadFilesService')
 const Recipe = require('../models/Recipe')
 const Chef = require('../models/Chef')
 const File = require('../models/File')
+const User = require('../models/User')
 
 module.exports = {
    async index(req, res) {
@@ -36,7 +37,7 @@ module.exports = {
          
          return res.render('recipes/index', { recipes, pagination })
       } catch (error) {
-         console.error(error)   
+         console.error(error)
       }
    },
    async create(req, res) {
@@ -52,8 +53,15 @@ module.exports = {
       try {
          const { recipe, recipeFiles } = req
 
+         const user = await User.findOne({
+            where: { id: req.session.userId }
+         })
+
          return res.render('recipes/show', { 
-            recipe, 
+            recipe,
+            user: {
+               is_admin: user.is_admin
+            },
             files: recipeFiles 
          })
       } catch (error) {
@@ -169,8 +177,15 @@ module.exports = {
 
          const { recipeFiles } = req
 
+         const user = await User.findOne({
+            where: { id: req.session.userId }
+         })
+
          return res.render('recipes/show', {
             recipe,
+            user: {
+               is_admin: user.is_admin
+            },
             files: recipeFiles,
             success: 'Receita atualizada com sucesso!'
          })

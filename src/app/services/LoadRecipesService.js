@@ -25,24 +25,26 @@ module.exports = {
             userId
          )
          
-         let total = Math.ceil(recipes[0].total / limit)
-         
-         if(currentPage == 1 
-            && recipes.length < limit 
-            || recipes.length == recipes[0].total
-            ) {
-            total = 1
-         }
+         if(recipes.length > 0) {
+            let total = Math.ceil(recipes[0].total / limit)
+            
+            if(currentPage == 1 
+               && recipes.length < limit 
+               || recipes.length == recipes[0].total
+               ) {
+               total = 1
+            }
 
-         const pagination = {
-            page: currentPage,
-            total
+            const pagination = {
+               page: currentPage,
+               total
+            }
+            
+            const recipesWithFiles = 
+               await FileLoader.loadRecipesFiles(recipes)
+            
+            return { recipes: recipesWithFiles, pagination }
          }
-         
-         const recipesWithFiles = 
-            await FileLoader.loadRecipesFiles(recipes)
-         
-         return { recipes: recipesWithFiles, pagination }   
       } catch (error) {
          console.error(error)
       }
