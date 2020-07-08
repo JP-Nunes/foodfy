@@ -4,7 +4,6 @@ const routes = express.Router()
 const multer = require('../app/middlewares/multer')
 const { 
    redirectNotUsers,
-   redirectNotAdmin,
    redirectNotRecipeCreator 
 } = require('../app/middlewares/redirect')
 
@@ -13,7 +12,12 @@ const RecipeController = require('../app/controllers/RecipeController')
 const Validator = require('../app/validators/recipes')
 
 routes.get('/', redirectNotUsers, RecipeController.index)
-routes.get('/user', redirectNotUsers, RecipeController.user)
+routes.get(
+   '/user',
+   redirectNotUsers,
+   Validator.user,
+   RecipeController.user
+)
 routes.get(
    '/create', 
    redirectNotUsers, 
