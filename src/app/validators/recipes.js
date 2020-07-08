@@ -1,7 +1,9 @@
 const RecipeLoader = require('../services/LoadRecipesService')
 const FileLoader = require('../services/LoadFilesService')
 
+const Recipe = require("../models/Recipe")
 const Chef = require("../models/Chef")
+const { user } = require('../controllers/RecipeController')
 
 module.exports = {
    async show(req, res, next) {
@@ -26,6 +28,21 @@ module.exports = {
       } catch (error) {
          console.error(error)
       }
+   },
+   async user(req, res, next) {      
+      let recipes = await Recipe.findAll()
+
+      recipes = recipes.filter(recipe => {
+         return recipe.user_id == req.session.userId
+      })
+            
+      if(recipes.length < 1) {
+         return res.render('users/index', {
+            error: 'Nenhuma receita criada'
+         })
+      }
+
+      next()
    },
    async post(req, res, next) {
       try {
