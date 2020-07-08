@@ -1,0 +1,32 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "parts/admin-header.njk" %}
+
+<div class="container animation-container">
+   <h2>{{message.title}}</h2>
+   <div class="success-lottie"></div>
+   <div>
+      <p>{{message.message}}  
+         <a href="/admin/{{entity.group}}/{{entity.id}}">
+            {{message.subject}}
+         </a>
+      </p>
+   </div>
+</div>
+
+<script src="/lottie.min.js"></script>
+<script>
+   const element = document.querySelector('.success-lottie')
+
+   lottie.loadAnimation({
+      container: element,
+      renderer: 'svg',
+      loop: false,
+      autoplay: true,
+      path: '/7276-success-tick.json'
+   });
+</script>
+
+{% endblock %}

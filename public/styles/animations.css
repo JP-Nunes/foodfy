@@ -1,0 +1,35 @@
+.animation-container {
+   text-align: center;
+}
+
+.animation-container h2 {
+   font-size: 28px;
+}
+
+.animation-container p {
+   font-size: 18px;
+   font-weight: bold;
+   
+   margin-top: 15px;
+}
+
+.animation-container a {
+   text-decoration: none;
+   color: green;
+
+   transition: 200ms;
+}
+
+.animation-container a:hover {
+   text-decoration: underline;
+   color: rgb(6, 196, 6);
+}
+
+.success-lottie,
+.done-lottie {
+   height: 250px;
+}
+
+.done-lottie {
+   margin-top: 65px;
+}

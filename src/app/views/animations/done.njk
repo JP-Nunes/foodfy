@@ -1,0 +1,25 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "parts/admin-header.njk" %}
+
+<div class="container animation-container">
+   <h2>Chef deletado com sucesso</h2>
+   <div class="done-lottie"></div>
+</div>
+
+<script src="/lottie.min.js"></script>
+<script>
+   const element = document.querySelector('.done-lottie')
+
+   lottie.loadAnimation({
+      container: element,
+      renderer: 'svg',
+      loop: false,
+      autoplay: true,
+      path: '/18052-ok-done-complete.json'
+   });
+</script>
+
+{% endblock %}
