@@ -167,6 +167,23 @@ const Validate = {
          value
       }
    },
+   allFields(event) {
+      const items = 
+         document.querySelectorAll('.item input, .item select, .item textarea')
+      
+      for(item of items) {
+         if(item.value == '') {
+            const message = document.createElement('div')
+            message.classList.add('board')
+            message.classList.add('message-error')
+            message.style.color = 'white'
+            message.innerHTML = 'Todos os campos são obrigatórios.'
+            document.querySelector('body').append(message)
+
+            event.preventDefault()
+         }
+      }
+   }
 }
 
 
