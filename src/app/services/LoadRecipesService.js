@@ -2,14 +2,49 @@ const FileLoader = require('./LoadFilesService')
 
 const Recipe = require('../models/Recipe')
 
+function format(recipe) {
+   const formattedIngredients = 
+      recipe.ingredients.map(ingredient => {
+
+         ingredient = ingredient.replace(/^{"/, '')
+         ingredient = ingredient.replace(/"}$/, '')
+
+         return ingredient
+      })
+   
+   const formattedPreparation = 
+      recipe.preparation.map(step => {
+
+         step = step.replace(/^{"/, '')
+         step = step.replace(/"}$/, '')
+
+         return step
+      })
+      
+
+   const formattedRecipe = {
+      ...recipe,
+      ingredients: formattedIngredients,
+      preparation: formattedPreparation
+   }
+   
+   return formattedRecipe
+}
+
 module.exports = {
    async loadRecipe(filter) {
       try {
          const recipe = await Recipe.findOne(filter)
+
+         const formattedRecipe = format(recipe)
+         
          const recipeFiles = 
             await FileLoader.loadRecipeFiles(recipe.id)
-   
-         return { recipe, recipeFiles }   
+         
+         return { 
+            recipe: formattedRecipe, 
+            recipeFiles 
+         }   
       } catch (error) {
          console.error(error)
       }

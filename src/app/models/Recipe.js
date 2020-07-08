@@ -76,7 +76,7 @@ module.exports = {
                ingredients, 
                preparation, 
                information
-            ) VALUES ($1, $2, $3, $4, $5, $6)
+            ) VALUES ($1, $2, $3, ARRAY [$4], ARRAY [$5], $6)
             RETURNING id
          `
       
