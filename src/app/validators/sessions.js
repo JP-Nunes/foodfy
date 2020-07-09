@@ -3,6 +3,18 @@ const { compare } = require('bcryptjs')
 const User = require('../models/User')
 
 module.exports = {
+   async loginForm(req, res, next) {
+      if(req.session.userId) {
+         const user = await User.findOne({ 
+            where: { id: req.session.userId } 
+         })
+
+         return res.render('users/profile', {
+            user,
+            success: `Bem-vindo, ${user.name}`
+         })
+      }
+   },
    async login(req, res, next) {
       try {
          const { email, password } = req.body

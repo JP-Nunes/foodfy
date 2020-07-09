@@ -15,7 +15,11 @@ const UserValidator = require('../app/validators/users')
 const ProfileValidator = require('../app/validators/profiles')
 
 // Session Login
-routes.get('/login', SessionController.loginForm)
+routes.get(
+   '/login', 
+   SessionValidator.loginForm, 
+   SessionController.loginForm
+)
 routes.post('/login', SessionValidator.login, SessionController.login)
 routes.post('/logout', SessionController.logout)
 
