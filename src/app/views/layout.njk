@@ -12,7 +12,13 @@
    
    {% endblock %}
 </head>
-<body>
+<body 
+   onload="
+      Paginate.createPages(),
+      Highlight.highlightHeader()
+      Highlight.highlightPagination()
+   "
+>
    
    {% include "parts/messages.njk" %}
 
