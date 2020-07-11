@@ -20,16 +20,18 @@
       <div id="images-preview">
          {% if files %}
             {% for file in files %}
-
                <div class="preview" id="{{file.id}}">
                   <img src="{{file.src}}" alt="{{file.name}}">
                   <i class="material-icons" 
                      onclick="PhotosUpload.removeOldImage(event)"
                   >add</i>
                </div>
-
             {% endfor %}
-            <input type="hidden" name="removed_files" value={{file.id}}>
+            <input 
+               type="hidden" 
+               name="removed_files" 
+               value={{file.id}}
+            >
          {% endif %}
       </div>
    </div>
@@ -63,7 +65,7 @@
                value={{chef.id}} 
                {% if recipes.chef_id == chefs.id %} selected {% endif %}
             >
-            {{chef.name}}
+               {{chef.name}}
             </option>
          {% endfor %}
       </select>
@@ -83,7 +85,13 @@
          >
       </div>
    </div>
-   <div class="add" id="add-ingredient">Adicionar ingrediente</div>
+   <div 
+      class="add" 
+      id="add-ingredient"
+      onclick="newInputHandler.addIngredient(event)"
+   >
+      Adicionar ingrediente
+   </div>
 </div>
 
 <div class="item">
@@ -99,7 +107,13 @@
          >
       </div>
    </div>
-   <div class="add" id="add-step">Adicionar passo</div>
+   <div 
+      class="add" 
+      id="add-step"
+      onclick="newInputHandler.addStep(event)"
+   >
+      Adicionar passo
+   </div>
 </div>
 
 <div class="item">

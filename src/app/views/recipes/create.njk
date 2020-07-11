@@ -11,53 +11,18 @@
       class="card" 
       method="POST" 
       action="/admin/recipes" 
-      enctype="multipart/form-data">
-      
+      enctype="multipart/form-data"
+   >
       {% include "recipes/fields.njk" %}
 
       <button 
          class="button" 
          type="submit"
          onclick="Validate.allFields(event)"
-      >Salvar</button>
-      
+      >
+         Salvar
+      </button>
    </form>
 </div>
-
-
-<script>
-   const ingredientClicker = document.querySelector('#add-ingredient')
-   const stepClicker = document.querySelector('#add-step')
-   
-   ingredientClicker.addEventListener('click', addIngredient)
-   stepClicker.addEventListener('click', addStep)
-
-   function addIngredient() {
-
-      const ingredients = document.querySelector('#ingredients');
-      const fieldContainer = document.querySelectorAll('.ingredient');
-
-      const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
-
-      if(newField.children[0].value == '') return false
-
-      newField.children[0].value == ''
-      ingredients.appendChild(newField)
-   }
-
-   function addStep() {
-
-      const steps = document.querySelector('#steps');
-      const fieldContainer = document.querySelectorAll('.step');
-
-      const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
-
-      if(newField.children[0].value == '') return false
-
-      newField.children[0].value == ''
-      steps.appendChild(newField)
-   }
-
-</script>
 
 {% endblock %}

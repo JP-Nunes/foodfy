@@ -190,8 +190,8 @@ const Paginate = {
    pagination: document.querySelector('.pagination'),
    createPages() {
       if(this.pagination) {
-         const page = this.pagination.dataset.page
-         const total = this.pagination.dataset.total
+         const page = +this.pagination.dataset.page
+         const total = +this.pagination.dataset.total
 
          const pages = this.paginate(
             total, 
@@ -227,22 +227,28 @@ const Paginate = {
          this.pagination.innerHTML = element
       }
    },
-   paginate(totalPages, selectedPage) {
+   paginate(totalPages, selectedPages) {
       let pages = []
       let oldPage
    
       for(let currentPage = 1; currentPage <= totalPages; currentPage++) {
-   
+                  
          const firstAndLastPages = currentPage == 1 || currentPage == totalPages
-         const pagesAfterCurrentPage = currentPage <= selectedPage + 2
-         const pagesBeforeCurrentPage = currentPage >= selectedPage - 2
+         const pagesAfterSelectedPage = currentPage <= (selectedPages + 2)
+         const pagesBeforeSelectedPage = currentPage >= (selectedPages - 2)
          
-         if(firstAndLastPages || pagesAfterCurrentPage && pagesBeforeCurrentPage) {
-            
-            if(oldPage && currentPage - oldPage > 2) {
+
+         console.log(selectedPages - 2)
+         console.log(currentPage)
+         console.log(pagesAfterSelectedPage)
+
+         if(firstAndLastPages || 
+            pagesAfterSelectedPage && 
+            pagesBeforeSelectedPage) {
+            if(oldPage && (currentPage - oldPage) > 2) {
                pages.push('...')
             }
-            if(oldPage && currentPage - oldPage == 2) {
+            if(oldPage && (currentPage - oldPage) == 2) {
                pages.push(oldPage + 1)
             }
             
@@ -252,8 +258,7 @@ const Paginate = {
          }
       }
       return pages 
-   },
-
+   }
 }
 
 const Highlight = {
@@ -280,5 +285,43 @@ const Highlight = {
             firstItem.classList.remove('active')
          }
       }
+   }
+}
+
+const newInputHandler = {
+   addIngredient() {   
+      const ingredients = document.querySelector('#ingredients');
+      const fieldContainer = document.querySelectorAll('.ingredient');
+
+      const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
+
+      if(newField.children[0].value == '') return false
+
+      newField.children[0].value = ''
+      newField.appendChild(this.createRemoveButton())
+      ingredients.appendChild(newField)
+   },
+   addStep() {
+      const steps = document.querySelector('#steps');
+      const fieldContainer = document.querySelectorAll('.step');
+
+      const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
+
+      if(newField.children[0].value == '') return false
+
+      newField.children[0].value = ''
+      newField.appendChild(this.createRemoveButton())
+      steps.appendChild(newField)
+   },
+   createRemoveButton() {
+      const button = document.createElement('i')
+      button.classList.add('material-icons')
+      button.onclick = () => newInputHandler.removeInput(event)
+      button.innerHTML = 'clear'
+
+      return button
+   },
+   removeInput(event) {
+      event.target.parentNode.remove()
    }
 }

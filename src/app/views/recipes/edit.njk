@@ -5,63 +5,32 @@
 {% include "parts/admin-header.njk" %}
 
 <div class="container fields-container">
-
    <h2>Editando receita</h2>
 
    <form class="card" method="POST" 
       action="/admin/recipes?_method=PUT" 
-      enctype="multipart/form-data">
-      
+      enctype="multipart/form-data"
+   >
       {% include "recipes/fields.njk" %}
 
       <input type="hidden" name="id" value={{recipe.id}}>
       <button class="button" type="submit">
-      Salvar
+         Salvar
       </button>
-      
    </form>
 
-   <form class="card" id="form-delete" method="POST" action="/admin/recipes?_method=DELETE">
+   <form 
+      class="card" 
+      id="form-delete" 
+      method="POST" 
+      action="/admin/recipes?_method=DELETE"
+   >
       <input type="hidden" name="id" value={{recipe.id}}>
       <button class="delete-button" type="submit">Deletar</button>
    </form>
-
 </div>
 
-
 <script>
-   const ingredientClicker = document.querySelector('#add-ingredient')
-   const stepClicker = document.querySelector('#add-step')
-   
-   ingredientClicker.addEventListener('click', addIngredient)
-   stepClicker.addEventListener('click', addStep)
-
-   function addIngredient() {
-
-      const ingredients = document.querySelector('#ingredients');
-      const fieldContainer = document.querySelectorAll('.ingredient');
-
-      const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
-
-      if(newField.children[0].value == '') return false
-
-      newField.children[0].value = ''
-      ingredients.appendChild(newField)
-   }
-
-   function addStep() {
-
-      const steps = document.querySelector('#steps');
-      const fieldContainer = document.querySelectorAll('.step');
-
-      const newField = fieldContainer[fieldContainer.length - 1].cloneNode(true);
-
-      if(newField.children[0].value == '') return false
-
-      newField.children[0].value = ''
-      steps.appendChild(newField)
-   }
-
    function createBackendIngredientsInput() {
       const ingredients = document.querySelector('#ingredients')
       const fieldContainer = document.querySelectorAll('.ingredient')
@@ -106,7 +75,6 @@
 
    createBackendIngredientsInput()
    createBackendPreparationStepsInput()
-
 </script>
 
 {% endblock %}

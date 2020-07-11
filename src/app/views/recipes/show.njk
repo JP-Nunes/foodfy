@@ -48,7 +48,12 @@
    <div class="recipe">
       <div class="ingredients">
          <h3>Ingredientes:</h3>
-         <a id="ingredient-clickable" class="clickable">Esconder</a>
+         <a 
+            onclick="HideElement.hideIngredients(event)" 
+            class="clickable"
+         >
+         Esconder
+         </a>
          <ul id="ingredient-content">
             {% for ingredient in recipe.ingredients %}
             <li>{{ingredient}}</li>
@@ -58,7 +63,12 @@
 
       <div class="preparation">
          <h3>Modo de preparo:</h3>
-         <a id="preparation-clickable" class="clickable">Esconder</a>
+         <a 
+            onclick="HideElement.hidePreparation(event)" 
+            class="clickable"
+         >
+            Esconder
+         </a>
          <ul id="preparation-content">
             {% for step in recipe.preparation %}
             <li>{{step}}</li>
@@ -68,54 +78,52 @@
 
       <div class="information">
          <h3>Informações adicionais:</h3>
-         <a id="information-clickable" class="clickable">Esconder</a>
+         <a 
+            onclick="HideElement.hideInformation(event)" 
+            class="clickable"
+         >
+            Esconder
+         </a>
          <p id="information-content">{{ recipe.information }}</p>
       </div>
    </div>
 </div>
 
 <script>
-   const ingredientClickable = document.getElementById('ingredient-clickable')
-   const preparationClickable = document.getElementById('preparation-clickable')
-   const informationClickable = document.getElementById('information-clickable')
+   const HideElement = {
+      hideIngredients(event) {
+         const content = document.getElementById('ingredient-content')
 
-   ingredientClickable.addEventListener('click', hideIngredient, false)
-   preparationClickable.addEventListener('click', hidePreparation, false)
-   informationClickable.addEventListener('click', hideInformation, false)
+         if(content.classList.value == 'hide') {
+            this.hide(event, content)
+         } else {
+            this.show(event, content)
+         }
+      },
+      hidePreparation(event) {
+         const content = document.getElementById('preparation-content')
 
-   function hideIngredient() {
-      const content = document.getElementById('ingredient-content')
+         if(content.classList.value == 'hide') {
+            this.hide(event, content)
+         } else {
+            this.show(event, content)
+         }
+      },
+      hideInformation(event) {
+         const content = document.getElementById('information-content')
 
-
-      if(content.classList.value == 'hide') {
-         ingredientClickable.innerHTML = 'Esconder'
+         if(content.classList.value == 'hide') {
+            this.hide(event, content)
+         } else {
+            this.show(event, content)
+         }
+      },
+      hide(event, content) {
+         event.target.innerHTML = 'Esconder'
          content.classList.remove('hide')
-      } else {
-         ingredientClickable.innerHTML = 'Mostrar'
-         content.classList.add('hide')
-      }
-   }
-
-   function hidePreparation() {
-      const content = document.getElementById('preparation-content')
-
-      if(content.classList.value == 'hide') {
-         preparationClickable.innerHTML = 'Esconder'
-         content.classList.remove('hide')
-      } else {
-         preparationClickable.innerHTML = 'Mostrar'
-         content.classList.add('hide')
-      }
-   }
-
-   function hideInformation() {
-      const content = document.getElementById('information-content')
-
-      if(content.classList.value == 'hide') {
-         informationClickable.innerHTML = 'Esconder'
-         content.classList.remove('hide')
-      } else {
-         informationClickable.innerHTML = 'Mostrar'
+      },
+      show(event, content) {
+         event.target.innerHTML = 'Mostrar'
          content.classList.add('hide')
       }
    }
