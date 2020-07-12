@@ -45,7 +45,6 @@ routes.get(
 )
 routes.put(
    '/profile', 
-   redirectNotUsers, 
    ProfileValidator.put, 
    ProfileController.put
 )
