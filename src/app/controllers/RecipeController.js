@@ -11,14 +11,15 @@ const User = require('../models/User')
 module.exports = {
    async index(req, res) {
       try {
-         const { page } = req.query
-
          const { 
+            recipes,
+            pagination
+         } = req
+         
+         return res.render('recipes/index', { 
             recipes, 
             pagination 
-         } = await RecipeLoader.loadPaginatedRecipes(page)
-         
-         return res.render('recipes/index', { recipes, pagination })
+         })
       } catch (error) {
          console.error(error)   
       }
@@ -73,9 +74,7 @@ module.exports = {
          const {
             recipe,
             recipeFiles
-         } = await RecipeLoader.loadRecipe({ 
-            where: { id: req.params.id }
-         })
+         } = await RecipeLoader.loadRecipe(req.params.id)
    
          const chefsNameAndId = await Chef.nameAndId()
    
@@ -90,12 +89,12 @@ module.exports = {
    },
    async post(req, res) {
       try {
+         const { newRecipe } = req
+
          const recipe = {
-            ...req.body,
+            ...newRecipe,
             user_id: req.session.userId
          }
-
-         console.log(`Ingredients controller ${recipe.ingredients}`)
 
          const recipeId = await Recipe.post(recipe)
 
@@ -128,7 +127,7 @@ module.exports = {
             },
             entity: {
                id: recipeId,
-               group: 'recipes'
+               path: `recipes/${recipeId}`
             }
          })
       } catch (error) {
@@ -136,7 +135,9 @@ module.exports = {
       }
    },
    async put(req, res) {
-      try {      
+      try {
+         let { recipe } = req
+
          if(req.files) {
             const filesPromise = req.files.map(async file => {
                await File.create({
@@ -153,26 +154,35 @@ module.exports = {
                })
                
                File.postRecipeFiles({
-                  recipe_id: req.body.id,
+                  recipe_id: recipe.id,
                   file_id: dataBaseFile.id
                })
             })
             await Promise.all(recipeFilesPromise)
          }
 
-         if(req.body.removed_files) {
-            const removedFilesIds = req.body.removed_files.split(',')
+         if(recipe.removed_files) {
+            const removedFilesIds = recipe.removed_files.split(',')
             const lastIndex = removedFilesIds.length - 1
             removedFilesIds.splice(lastIndex, 1)
             
-            const removedFilesPromise = removedFilesIds.map(id => {
-               File.delete(id)
-            })
+            const removedFilesPromise = 
+               removedFilesIds.map(async id => {
+                  const file = await File.findOne({
+                     where: { id }
+                  })
+
+                  if(file.path != 'public/images/placeholder.png') {
+                     fs.unlinkSync(file.path)
+                  }
+                  
+                  File.delete(id)
+               })
             await Promise.all(removedFilesPromise)
          }
 
-         const recipe = {
-            ...req.body,
+         recipe = {
+            ...recipe,
             user_id: req.session.userId
          }
 
@@ -186,7 +196,7 @@ module.exports = {
             },
             entity: {
                id: recipe.id,
-               group: 'recipes'
+               path: `recipes/${recipe.id}`
             }
          })
       } catch (error) {
@@ -198,12 +208,10 @@ module.exports = {
          const files = 
             await FileLoader.loadRecipeFiles(req.body.id)
 
-         const removeFilesPromise = files.map(async file => {
-            const dataBaseFile = await File.findOne({
-               where: { id: file.id } 
-            })
-
-            fs.unlinkSync(dataBaseFile.path)
+         const removeFilesPromise = files.map(file => {            
+            if(file.path != 'public/images/placeholder.png') {
+               fs.unlinkSync(file.path)
+            }
             
             File.delete(file.id)
          })

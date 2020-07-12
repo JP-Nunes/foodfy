@@ -39,7 +39,7 @@ module.exports = {
             password: passwordHash
          }
          
-         await User.create(user)
+         const userId = await User.create(user)
 
          return res.render('animations/success',{
             message: {
@@ -49,7 +49,7 @@ module.exports = {
             },
             entity: {
                id: recipeId,
-               group: 'recipes'
+               path: `users/${userId}/edit`
             }
          })
       } catch (error) {
@@ -85,7 +85,7 @@ module.exports = {
             },
             entity: {
                id,
-               group: 'users'
+               path: `users/${id}/edit`
             }
          })
       } catch (error) {
