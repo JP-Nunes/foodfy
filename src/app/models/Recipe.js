@@ -37,19 +37,6 @@ module.exports = {
          return console.error(error)
       }
    },
-   async findChefRecipes(chefId) {
-      try {
-         const results = await db.query(`
-            SELECT title, id 
-            FROM recipes
-            WHERE chef_id = $1`, [chefId]
-         )
-
-         return results.rows
-      } catch (error) {
-         return console.error(error)      
-      }
-   },
    async filtered(filter) {
       try {
          const results = await db.query(`

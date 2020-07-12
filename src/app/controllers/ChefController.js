@@ -149,7 +149,9 @@ module.exports = {
    async delete(req, res) {   
       try {
          const chefRecipes = 
-            await Recipe.findChefRecipes(req.body.id)
+            await Recipe.findAll({
+               where: { chef_id: req.body.id }
+            })
 
          if(chefRecipes) {
             const deleteChefRecipesPromise = 
@@ -163,13 +165,11 @@ module.exports = {
                      if(file.path != 'public/images/placeholder.png') {
                         fs.unlinkSync(file.path)
                      }
-                     console.log(`FileId = ${file.id}`)
 
                      File.delete(file.id)
                   })
                   Promise.all(deleteRecipesFilesPromise)
                   
-               console.log(`RecipeId = ${recipe.id}`)
                Recipe.delete(recipe.id)
 
                return recipe
@@ -178,7 +178,16 @@ module.exports = {
          }
          
          await Chef.delete(req.body.id)
-         await File.delete(req.body.file_id)
+
+         const userFile = await File.findOne({
+            where: { id: req.body.file_id }
+         })
+
+         if(userFile.path != 'public/images/placeholder.png') {
+            fs.unlinkSync(userFile.path)
+         }
+
+         await File.delete(userFile.id)
          
          return res.render('animations/done', {
             message: {
