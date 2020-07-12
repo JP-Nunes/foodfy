@@ -64,7 +64,9 @@ module.exports = {
    },
    async loadChefRecipes(chefId) {
       try {
-         const chefRecipes = await Recipe.findChefRecipes(chefId)
+         const chefRecipes = await Recipe.findAll({
+            where: { chef_id: chefId }
+         })
          
          const chefRecipesWithFiles = 
             await FileLoader.loadRecipesFiles(chefRecipes)
