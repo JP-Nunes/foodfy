@@ -14,7 +14,7 @@ module.exports = {
          }
    
          const user = await User.findOne({ 
-            where: { email }
+            where: { id: req.session.userId }
          })
    
          const validated = await compare(password, user.password)

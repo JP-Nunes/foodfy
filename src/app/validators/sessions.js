@@ -14,6 +14,8 @@ module.exports = {
             success: `Bem-vindo, ${user.name}`
          })
       }
+
+      next()
    },
    async login(req, res, next) {
       try {
