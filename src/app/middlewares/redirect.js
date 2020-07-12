@@ -15,7 +15,10 @@ module.exports = {
       })
       
       if(user.is_admin === false) {
-         return res.redirect('/admin/users/profile')
+         return res.render('users/profile', {
+            error: 'Acesso negado',
+            user
+         })
       }
 
       next()
@@ -33,7 +36,10 @@ module.exports = {
          user.is_admin === false && 
          recipe.user_id != user.id
          ) {
-         return res.redirect('/admin/users/profile')
+         return res.render('users/profile', {
+            error: 'Acesso negado',
+            user
+         })
       }
 
       next()
