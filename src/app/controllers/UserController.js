@@ -1,9 +1,12 @@
 const crypto = require('crypto')
-const { hash } = require('bcryptjs')
 
 const mailer = require('../../lib/mailer')
+const { hash } = require('bcryptjs')
+const FileLoader = require('../services/LoadFilesService')
 
 const User = require('../models/User')
+const Recipe = require('../models/Recipe')
+const File = require('../models/File')
 
 module.exports = {
    register(req, res) {
@@ -48,7 +51,6 @@ module.exports = {
                subject: 'usuário'
             },
             entity: {
-               id: recipeId,
                path: `users/${userId}/edit`
             }
          })
@@ -94,6 +96,35 @@ module.exports = {
    },
    async delete(req, res) {
       try {
+         const userRecipes = 
+            await Recipe.findAll({
+               where: { user_id: req.body.id }
+            })
+
+         if(userRecipes) {
+            const deleteUserRecipesPromise = 
+               userRecipes.map(async recipe => {
+               
+               const chefRecipesFiles = 
+                  await FileLoader.loadRecipeFiles(recipe.id)
+
+               const deleteRecipesFilesPromise =
+                  chefRecipesFiles.map(file => { 
+                     if(file.path != 'public/images/placeholder.png') {
+                        fs.unlinkSync(file.path)
+                     }
+
+                     File.delete(file.id)
+                  })
+                  Promise.all(deleteRecipesFilesPromise)
+                  
+               Recipe.delete(recipe.id)
+
+               return recipe
+            })
+            await Promise.all(deleteUserRecipesPromise)  
+         }
+
          await User.delete(req.body.id)
 
          return res.render('animations/done', {
