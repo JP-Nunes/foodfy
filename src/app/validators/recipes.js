@@ -27,19 +27,11 @@ function format(recipe) {
 
 module.exports = {
    async index(req, res, next) {
-      const { page } = req.query
+      const recipes = await Recipe.findAll()
 
-      const { 
-         recipes, 
-         pagination 
-      } = await RecipeLoader.loadPaginatedRecipes(page)
-
-      if(!recipes) {
+      if(!recipes[0]) {
          return res.render('recipes/index')
       }
-
-      req.recipes = recipes
-      req.pagination = pagination
 
       next()
    },
@@ -72,7 +64,7 @@ module.exports = {
       })
             
       if(recipes.length < 1) {
-         return res.render('users/index', {
+         return res.render('recipes/index', {
             error: 'Nenhuma receita criada'
          })
       }

@@ -11,10 +11,12 @@ const User = require('../models/User')
 module.exports = {
    async index(req, res) {
       try {
+         const { page } = req.query
+
          const { 
-            recipes,
-            pagination
-         } = req
+            recipes, 
+            pagination 
+         } = await RecipeLoader.loadPaginatedRecipes(page)
          
          return res.render('recipes/index', { 
             recipes, 
