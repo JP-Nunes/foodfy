@@ -38,6 +38,32 @@
    color: rgb(39, 38, 38);
 }
 
+.item .ingredient,
+.item .step {
+   position: relative;
+}
+
+.item .ingredient i,
+.item .step i {
+   position: absolute;
+   top: 50%;
+   right: 12px;
+   font-weight: bold;
+   font-size: 18px;
+   color: #DDD;
+   
+   cursor: pointer;
+
+   margin-top: -12px;
+
+   transition: color 300ms;
+}
+
+.item .ingredient i:hover,
+.item .step i:hover {
+   color: #DC4747;
+}
+
 .item .error-input {
    border-color: #DDDDDD;
    

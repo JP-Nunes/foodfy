@@ -133,6 +133,10 @@
    margin-left: 8px;
 }
 
+.clickable:hover {
+   font-weight: bold;
+}
+
 .recipe li {
    list-style-type: disc;
    list-style-position: inside;
