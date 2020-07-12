@@ -36,7 +36,7 @@ module.exports = {
          
          return results.rows[0]
       } catch (error) {
-         return console.log(error)
+         return console.error(error)
       }
    },
    async nameAndId() {

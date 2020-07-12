@@ -26,10 +26,10 @@ module.exports = {
    async findOneWithChefName(id) {
       try {
          const results = await db.query(`
-            SELECT recipes.*, chefs.name as chef_name 
-            FROM recipes
-            LEFT JOIN chefs ON (recipes.chef_id = chefs.id) 
-            WHERE recipes.id = $1`, [id]
+         SELECT recipes.*, chefs.name as chef_name 
+         FROM recipes
+         LEFT JOIN chefs ON (recipes.chef_id = chefs.id) 
+         WHERE recipes.id = $1`, [id]
          )
 
          return results.rows[0]
@@ -47,7 +47,7 @@ module.exports = {
 
          return results.rows
       } catch (error) {
-         return console.log(error)      
+         return console.error(error)      
       }
    },
    async filtered(filter) {
@@ -76,7 +76,7 @@ module.exports = {
                ingredients, 
                preparation, 
                information
-            ) VALUES ($1, $2, $3, ARRAY [$4], ARRAY [$5], $6)
+            ) VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING id
          `
       
