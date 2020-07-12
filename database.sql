@@ -49,7 +49,8 @@ CREATE TABLE recipe_files (
 ALTER TABLE "recipe_files"
 ADD CONSTRAINT recipe_files_recipe_id_fkey
 FOREIGN KEY ("recipe_id") 
-REFERENCES "recipes" ("id");
+REFERENCES "recipes" ("id")
+ON DELETE CASCADE;
 
 ALTER TABLE "recipe_files"
 ADD CONSTRAINT recipe_files_file_id_fkey
@@ -63,6 +64,14 @@ ALTER TABLE "recipes"
 ADD CONSTRAINT recipes_chef_id_fkey
 FOREIGN KEY ("chef_id") 
 REFERENCES "chefs" ("id")
+ON DELETE CASCADE;
+
+--Creating recipes and user relation
+
+ALTER TABLE "recipes"
+ADD CONSTRAINT recipes_chef_id_fkey
+FOREIGN KEY ("user_id") 
+REFERENCES "users" ("id")
 ON DELETE CASCADE;
 
 --Creating chefs and files relation
