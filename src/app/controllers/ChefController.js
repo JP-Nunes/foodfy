@@ -2,10 +2,14 @@ const fs = require('fs')
 
 const ChefLoader = require('../services/LoadChefsService')
 const RecipeLoader = require('../services/LoadRecipesService')
+const FileLoader = require('../services/LoadFilesService')
 
 const Chef = require('../models/Chef')
 const File = require('../models/File')
 const User = require('../models/User')
+const Recipe = require('../models/Recipe')
+const { findChefRecipes } = require('../models/Recipe')
+const { FileSystemLoader } = require('nunjucks')
 
 module.exports = {
    async index(req, res) {
@@ -59,10 +63,11 @@ module.exports = {
             await ChefLoader.loadChef({
                where: { id: req.params.id }
             })
-
-         console.log(chefImage)
-
-         return res.render('chefs/edit', { chef, image: chefImage })
+         
+         return res.render('chefs/edit', { 
+            chef, 
+            image: chefImage 
+         })
       } catch (error) {
          console.error(error)
       }
@@ -88,7 +93,7 @@ module.exports = {
                subject: 'chef'
             },
             entity: {
-               id: chefId,
+               path: `chefs/${chefId}`,
                group: 'chefs'
             }
          })
@@ -98,14 +103,16 @@ module.exports = {
    },
    async put(req, res) {
       try {
-         const { id, name, file_id} = req.body
+         const { id, name, file_id } = req.body
 
          if(req.file) {
             const oldFile = await File.findOne({
                where: { id: file_id }
             })
 
-            fs.unlinkSync(oldFile.path)
+            if(oldFile.path != 'public/images/placeholder.png') {
+               fs.unlinkSync(oldFile.path)
+            }
 
             const { filename, path } = req.file
 
@@ -132,25 +139,47 @@ module.exports = {
             },
             entity: {
                id: chef.id,
-               group: 'chefs'
+               path: `chefs/${id}`
             }
          })
       } catch (error) {
          console.error(error)
       }
    },
-   async delete(req, res) {
+   async delete(req, res) {   
       try {
+         const chefRecipes = 
+            await Recipe.findChefRecipes(req.body.id)
+
+         if(chefRecipes) {
+            const deleteChefRecipesPromise = 
+               chefRecipes.map(async recipe => {
+               
+               const chefRecipesFiles = 
+                  await FileLoader.loadRecipeFiles(recipe.id)
+
+               const deleteRecipesFilesPromise =
+                  chefRecipesFiles.map(file => { 
+                     if(file.path != 'public/images/placeholder.png') {
+                        fs.unlinkSync(file.path)
+                     }
+                     console.log(`FileId = ${file.id}`)
+
+                     File.delete(file.id)
+                  })
+                  Promise.all(deleteRecipesFilesPromise)
+                  
+               console.log(`RecipeId = ${recipe.id}`)
+               Recipe.delete(recipe.id)
+
+               return recipe
+            })
+            await Promise.all(deleteChefRecipesPromise)  
+         }
+         
          await Chef.delete(req.body.id)
-         
-         const file = await File.findOne({
-            where: { id: req.body.file_id } 
-         })
-
-         fs.unlinkSync(file.path)
-         
          await File.delete(req.body.file_id)
-
+         
          return res.render('animations/done', {
             message: {
                title: 'Chef deletado com sucesso.',
