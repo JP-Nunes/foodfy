@@ -11,7 +11,11 @@ const RecipeController = require('../app/controllers/RecipeController')
 
 const Validator = require('../app/validators/recipes')
 
-routes.get('/', redirectNotUsers, RecipeController.index)
+routes.get(
+   '/', 
+   redirectNotUsers, 
+   Validator.index,
+   RecipeController.index)
 routes.get(
    '/user',
    redirectNotUsers,
